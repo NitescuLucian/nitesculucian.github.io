@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <generator uri="http://jekyllrb.com" version="3.8.3">Jekyll</generator>
+  
+  
+  <link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" />
+  <link href="http://localhost:4000/" rel="alternate" type="text/html" />
+  <updated>2018-07-13T02:13:52+03:00</updated>
+  <id>http://localhost:4000//</id>
+
+  
+    <title type="html">Lucian Nitescu</title>
+  
+
+  
+    <subtitle>Security Blog</subtitle>
+  
+
+  
+
+  
+  
+    <entry>
+      
+      <title type="html">New beginnings!</title>
+      
+      
+      <link href="http://localhost:4000/2018/07/12/welcome-to-jekyll/" rel="alternate" type="text/html" title="New beginnings!" />
+      
+      <published>2018-07-12T23:16:45+03:00</published>
+      <updated>2018-07-12T23:16:45+03:00</updated>
+      <id>http://localhost:4000/2018/07/12/welcome-to-jekyll</id>
+      <content type="html" xml:base="http://localhost:4000/2018/07/12/welcome-to-jekyll/">&lt;p&gt;Jekyll is my new black.&lt;/p&gt;</content>
+
+      
+      
+      
+      
+      
+
+      
+
+      
+        <category term="jekyll" />
+      
+        <category term="update" />
+      
+
+      
+
+      
+        <summary type="html">Jekyll is my new black.</summary>
+      
+
+      
+      
+    </entry>
+  
+  
+</feed>
