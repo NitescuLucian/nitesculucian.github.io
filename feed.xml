@@ -5,7 +5,7 @@
   
   <link href="https://nitesculucian.github.io/feed.xml" rel="self" type="application/atom+xml" />
   <link href="https://nitesculucian.github.io/" rel="alternate" type="text/html" hreflang="en" />
-  <updated>2018-07-15T20:43:39-03:00</updated>
+  <updated>2018-07-15T20:46:29-03:00</updated>
   <id>https://nitesculucian.github.io//</id>
 
   
@@ -148,7 +148,7 @@ drwxr-xr-x 1 root   root      80 Aug 27  2012 ..
       <published>2018-07-15T18:21:00-03:00</published>
       <updated>2018-07-15T18:21:00-03:00</updated>
       <id>https://nitesculucian.github.io/2018/07/15/exploit-exercises-nebula-level-00</id>
-      <content type="html" xml:base="https://nitesculucian.github.io/2018/07/15/exploit-exercises-nebula-level-00/">&lt;p&gt;&lt;img src=&quot;http://127.0.0.1:4000/uploads/Screenshot%20from%202018-07-16%2000-20-16.png&quot; alt=&quot;Image of Nebula Terminal&quot; /&gt;&lt;/p&gt;
+      <content type="html" xml:base="https://nitesculucian.github.io/2018/07/15/exploit-exercises-nebula-level-00/">&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot%20from%202018-07-16%2000-20-16.png&quot; alt=&quot;Image of Nebula Terminal&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;This level requires you to find a Set User ID program that will run as the “flag00” account. You could also find this by carefully looking in top level directories in / for suspicious looking directories.
 Alternatively, look at the find man page.&lt;/p&gt;
