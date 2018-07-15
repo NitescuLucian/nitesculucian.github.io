@@ -5,7 +5,24 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
+  <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.2/cookieconsent.min.css" />
+<script async defer src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.2/cookieconsent.min.js"></script>
+<script>
+window.addEventListener("load", function(){
+window.cookieconsent.initialise({
+  "palette": {
+    "popup": {
+      "background": "#424242"
+    },
+    "button": {
+      "background": "#2a7ae2"
+    }
+  },
+  "content": {
+    "href": "/privacy-policy"
+  }
+})});
+</script>
   
   
   
@@ -14,10 +31,10 @@
   
 
   <link rel="stylesheet" href="/assets/main.css">
-  <link rel="canonical" href="https://nitesculucian.github.io/2018/07/15/dctf-2017-security-cctv-writeup/">
+  <link rel="canonical" href="http://localhost:4000/2018/07/15/dctf-2017-security-cctv-writeup/">
   
   
-  <link rel="alternate" type="application/rss+xml" title="Lucian Nitescu" href="https://nitesculucian.github.io/feed.xml">
+  <link rel="alternate" type="application/rss+xml" title="Lucian Nitescu" href="http://localhost:4000/feed.xml">
 
   
 
@@ -103,6 +120,8 @@
     
       
     
+      
+    
   
     
     
@@ -118,6 +137,8 @@
     
       
         <a href="/categories/ctf/">ctf</a>,
+      
+    
       
     
       
@@ -139,6 +160,8 @@
     
       
         <a href="/categories/writeups/">writeups</a>
+      
+    
       
     
   
@@ -172,175 +195,175 @@
 
 <p>Using the following python script we can extract the QR code from the image and retrive the token.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import pyqrcode
-import string
-import random
-import png 
-import ImageOps
-import ImageDraw
-import numpy
-from PIL import Image, ImageEnhance
-import urllib
-import qrtools
-from qrtools import QR
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pyqrcode</span>
+<span class="kn">import</span> <span class="nn">string</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">png</span> 
+<span class="kn">import</span> <span class="nn">ImageOps</span>
+<span class="kn">import</span> <span class="nn">ImageDraw</span>
+<span class="kn">import</span> <span class="nn">numpy</span>
+<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span><span class="p">,</span> <span class="n">ImageEnhance</span>
+<span class="kn">import</span> <span class="nn">urllib</span>
+<span class="kn">import</span> <span class="nn">qrtools</span>
+<span class="kn">from</span> <span class="nn">qrtools</span> <span class="kn">import</span> <span class="n">QR</span>
 
 
-def transformblit(src_tri, dst_tri, src_img, dst_img):
-    ((x11,x12), (x21,x22), (x31,x32)) = src_tri
-    ((y11,y12), (y21,y22), (y31,y32)) = dst_tri
+<span class="k">def</span> <span class="nf">transformblit</span><span class="p">(</span><span class="n">src_tri</span><span class="p">,</span> <span class="n">dst_tri</span><span class="p">,</span> <span class="n">src_img</span><span class="p">,</span> <span class="n">dst_img</span><span class="p">):</span>
+    <span class="p">((</span><span class="n">x11</span><span class="p">,</span><span class="n">x12</span><span class="p">),</span> <span class="p">(</span><span class="n">x21</span><span class="p">,</span><span class="n">x22</span><span class="p">),</span> <span class="p">(</span><span class="n">x31</span><span class="p">,</span><span class="n">x32</span><span class="p">))</span> <span class="o">=</span> <span class="n">src_tri</span>
+    <span class="p">((</span><span class="n">y11</span><span class="p">,</span><span class="n">y12</span><span class="p">),</span> <span class="p">(</span><span class="n">y21</span><span class="p">,</span><span class="n">y22</span><span class="p">),</span> <span class="p">(</span><span class="n">y31</span><span class="p">,</span><span class="n">y32</span><span class="p">))</span> <span class="o">=</span> <span class="n">dst_tri</span>
 
-    M = numpy.array([
-                     [y11, y12, 1, 0, 0, 0],
-                     [y21, y22, 1, 0, 0, 0],
-                     [y31, y32, 1, 0, 0, 0],
-                     [0, 0, 0, y11, y12, 1],
-                     [0, 0, 0, y21, y22, 1],
-                     [0, 0, 0, y31, y32, 1]
-                ])
+    <span class="n">M</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+                     <span class="p">[</span><span class="n">y11</span><span class="p">,</span> <span class="n">y12</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                     <span class="p">[</span><span class="n">y21</span><span class="p">,</span> <span class="n">y22</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                     <span class="p">[</span><span class="n">y31</span><span class="p">,</span> <span class="n">y32</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                     <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">y11</span><span class="p">,</span> <span class="n">y12</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+                     <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">y21</span><span class="p">,</span> <span class="n">y22</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+                     <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">y31</span><span class="p">,</span> <span class="n">y32</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+                <span class="p">])</span>
 
-    y = numpy.array([x11, x21, x31, x12, x22, x32])
+    <span class="n">y</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x11</span><span class="p">,</span> <span class="n">x21</span><span class="p">,</span> <span class="n">x31</span><span class="p">,</span> <span class="n">x12</span><span class="p">,</span> <span class="n">x22</span><span class="p">,</span> <span class="n">x32</span><span class="p">])</span>
 
-    A = numpy.linalg.solve(M, y)
+    <span class="n">A</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
 
-    src_copy = src_img.copy()
-    srcdraw = ImageDraw.Draw(src_copy)
-    srcdraw.polygon(src_tri)
-    transformed = src_img.transform(dst_img.size, Image.AFFINE, A)
+    <span class="n">src_copy</span> <span class="o">=</span> <span class="n">src_img</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">srcdraw</span> <span class="o">=</span> <span class="n">ImageDraw</span><span class="o">.</span><span class="n">Draw</span><span class="p">(</span><span class="n">src_copy</span><span class="p">)</span>
+    <span class="n">srcdraw</span><span class="o">.</span><span class="n">polygon</span><span class="p">(</span><span class="n">src_tri</span><span class="p">)</span>
+    <span class="n">transformed</span> <span class="o">=</span> <span class="n">src_img</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">dst_img</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">Image</span><span class="o">.</span><span class="n">AFFINE</span><span class="p">,</span> <span class="n">A</span><span class="p">)</span>
 
-    mask = Image.new('1', dst_img.size)
-    maskdraw = ImageDraw.Draw(mask)
-    maskdraw.polygon(dst_tri, fill=0)
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s">'1'</span><span class="p">,</span> <span class="n">dst_img</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+    <span class="n">maskdraw</span> <span class="o">=</span> <span class="n">ImageDraw</span><span class="o">.</span><span class="n">Draw</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span>
+    <span class="n">maskdraw</span><span class="o">.</span><span class="n">polygon</span><span class="p">(</span><span class="n">dst_tri</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
-    dstdraw = ImageDraw.Draw(dst_img)
-    dstdraw.polygon(dst_tri, fill=(0,0,0,0))
-    dst_img.paste(transformed, mask=mask)
+    <span class="n">dstdraw</span> <span class="o">=</span> <span class="n">ImageDraw</span><span class="o">.</span><span class="n">Draw</span><span class="p">(</span><span class="n">dst_img</span><span class="p">)</span>
+    <span class="n">dstdraw</span><span class="o">.</span><span class="n">polygon</span><span class="p">(</span><span class="n">dst_tri</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">))</span>
+    <span class="n">dst_img</span><span class="o">.</span><span class="n">paste</span><span class="p">(</span><span class="n">transformed</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">)</span>
 
-def randomg(size=6, chars=string.ascii_uppercase + string.digits):
-    return ''.join(random.choice(chars) for x in range(size))
-# hell gose lose here
-# http://13.81.248.25/qr/img/streamframe.png
-urllib.urlretrieve("http://13.81.248.25/qr/img/streamframe.png", "streamframe.png" )
-qr = Image.open("streamframe.png").convert("RGBA")
-blank = Image.new("RGBA", (4608, 2529), (0,0,0,0))
+<span class="k">def</span> <span class="nf">randomg</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">chars</span><span class="o">=</span><span class="n">string</span><span class="o">.</span><span class="n">ascii_uppercase</span> <span class="o">+</span> <span class="n">string</span><span class="o">.</span><span class="n">digits</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s">''</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">chars</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">))</span>
+<span class="c"># hell gose lose here</span>
+<span class="c"># http://13.81.248.25/qr/img/streamframe.png</span>
+<span class="n">urllib</span><span class="o">.</span><span class="n">urlretrieve</span><span class="p">(</span><span class="s">"http://13.81.248.25/qr/img/streamframe.png"</span><span class="p">,</span> <span class="s">"streamframe.png"</span> <span class="p">)</span>
+<span class="n">qr</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="nb">open</span><span class="p">(</span><span class="s">"streamframe.png"</span><span class="p">)</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="s">"RGBA"</span><span class="p">)</span>
+<span class="n">blank</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s">"RGBA"</span><span class="p">,</span> <span class="p">(</span><span class="mi">4608</span><span class="p">,</span> <span class="mi">2529</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">))</span>
 
-#Start: Part 1 of the QR code
-part1 = qr.crop((2089, 1558, 2358, 1723))
-contrast = ImageEnhance.Contrast(part1)
-part1 = contrast.enhance(1.6)
+<span class="c">#Start: Part 1 of the QR code</span>
+<span class="n">part1</span> <span class="o">=</span> <span class="n">qr</span><span class="o">.</span><span class="n">crop</span><span class="p">((</span><span class="mi">2089</span><span class="p">,</span> <span class="mi">1558</span><span class="p">,</span> <span class="mi">2358</span><span class="p">,</span> <span class="mi">1723</span><span class="p">))</span>
+<span class="n">contrast</span> <span class="o">=</span> <span class="n">ImageEnhance</span><span class="o">.</span><span class="n">Contrast</span><span class="p">(</span><span class="n">part1</span><span class="p">)</span>
+<span class="n">part1</span> <span class="o">=</span> <span class="n">contrast</span><span class="o">.</span><span class="n">enhance</span><span class="p">(</span><span class="mf">1.6</span><span class="p">)</span>
 
-part1 = part1.rotate(22, resample=Image.BICUBIC, expand=True)
-width, height = part1.size
-m = -0.62
-xshift = abs(m) * width
-new_width = width + int(round(xshift))
-part1 = part1.transform((new_width, height), Image.AFFINE,
-        (1, m, -xshift if m &gt; 0 else 0, 0, 1.43, 0), Image.BILINEAR)
+<span class="n">part1</span> <span class="o">=</span> <span class="n">part1</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="mi">22</span><span class="p">,</span> <span class="n">resample</span><span class="o">=</span><span class="n">Image</span><span class="o">.</span><span class="n">BICUBIC</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">width</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="n">part1</span><span class="o">.</span><span class="n">size</span>
+<span class="n">m</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.62</span>
+<span class="n">xshift</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="o">*</span> <span class="n">width</span>
+<span class="n">new_width</span> <span class="o">=</span> <span class="n">width</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">xshift</span><span class="p">))</span>
+<span class="n">part1</span> <span class="o">=</span> <span class="n">part1</span><span class="o">.</span><span class="n">transform</span><span class="p">((</span><span class="n">new_width</span><span class="p">,</span> <span class="n">height</span><span class="p">),</span> <span class="n">Image</span><span class="o">.</span><span class="n">AFFINE</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="o">-</span><span class="n">xshift</span> <span class="k">if</span> <span class="n">m</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">1.43</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">Image</span><span class="o">.</span><span class="n">BILINEAR</span><span class="p">)</span>
 
-part1 = part1.resize((285, 285), Image.ANTIALIAS)
-part1 = part1.resize((800, 800), Image.ANTIALIAS)
-
-
-# junk trimming
-tri1 = [(10,10), (20,20), (10,20)]
-tri2 = [(10,10), (212,100), (208,800)]
-transformblit(tri1, tri2, blank, part1)
-tri2 = [(150,500), (211,280), (600,800)]
-transformblit(tri1, tri2, blank, part1)
-tri2 = [(300,420), (470,420), (600,800)]
-transformblit(tri1, tri2, blank, part1)
-tri2 = [(470,420), (470,100), (900,600)]
-transformblit(tri1, tri2, blank, part1)
-tri2 = [(100,140), (470,140), (800,10)]
-transformblit(tri1, tri2, blank, part1)
-tri2 = [(344,218), (365,0), (800,670)]
-transformblit(tri1, tri2, blank, part1)
-# final trim
-part1 = part1.crop((213, 141, 469, 419))
-
-contrast = ImageEnhance.Contrast(part1)
-part1 = contrast.enhance(1.5)
-
-#Start: Part 2 of the QR code
-part2 = qr.crop((2031, 1584, 2287, 1742))
-contrast = ImageEnhance.Contrast(part2)
-part2 = contrast.enhance(2.7)
-
-part2 = ImageOps.mirror(part2)
+<span class="n">part1</span> <span class="o">=</span> <span class="n">part1</span><span class="o">.</span><span class="n">resize</span><span class="p">((</span><span class="mi">285</span><span class="p">,</span> <span class="mi">285</span><span class="p">),</span> <span class="n">Image</span><span class="o">.</span><span class="n">ANTIALIAS</span><span class="p">)</span>
+<span class="n">part1</span> <span class="o">=</span> <span class="n">part1</span><span class="o">.</span><span class="n">resize</span><span class="p">((</span><span class="mi">800</span><span class="p">,</span> <span class="mi">800</span><span class="p">),</span> <span class="n">Image</span><span class="o">.</span><span class="n">ANTIALIAS</span><span class="p">)</span>
 
 
-part2 = part2.rotate(0+20-4, resample=Image.BICUBIC, expand=True)
+<span class="c"># junk trimming</span>
+<span class="n">tri1</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">),</span> <span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">20</span><span class="p">),</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">20</span><span class="p">)]</span>
+<span class="n">tri2</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">),</span> <span class="p">(</span><span class="mi">212</span><span class="p">,</span><span class="mi">100</span><span class="p">),</span> <span class="p">(</span><span class="mi">208</span><span class="p">,</span><span class="mi">800</span><span class="p">)]</span>
+<span class="n">transformblit</span><span class="p">(</span><span class="n">tri1</span><span class="p">,</span> <span class="n">tri2</span><span class="p">,</span> <span class="n">blank</span><span class="p">,</span> <span class="n">part1</span><span class="p">)</span>
+<span class="n">tri2</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">150</span><span class="p">,</span><span class="mi">500</span><span class="p">),</span> <span class="p">(</span><span class="mi">211</span><span class="p">,</span><span class="mi">280</span><span class="p">),</span> <span class="p">(</span><span class="mi">600</span><span class="p">,</span><span class="mi">800</span><span class="p">)]</span>
+<span class="n">transformblit</span><span class="p">(</span><span class="n">tri1</span><span class="p">,</span> <span class="n">tri2</span><span class="p">,</span> <span class="n">blank</span><span class="p">,</span> <span class="n">part1</span><span class="p">)</span>
+<span class="n">tri2</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">300</span><span class="p">,</span><span class="mi">420</span><span class="p">),</span> <span class="p">(</span><span class="mi">470</span><span class="p">,</span><span class="mi">420</span><span class="p">),</span> <span class="p">(</span><span class="mi">600</span><span class="p">,</span><span class="mi">800</span><span class="p">)]</span>
+<span class="n">transformblit</span><span class="p">(</span><span class="n">tri1</span><span class="p">,</span> <span class="n">tri2</span><span class="p">,</span> <span class="n">blank</span><span class="p">,</span> <span class="n">part1</span><span class="p">)</span>
+<span class="n">tri2</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">470</span><span class="p">,</span><span class="mi">420</span><span class="p">),</span> <span class="p">(</span><span class="mi">470</span><span class="p">,</span><span class="mi">100</span><span class="p">),</span> <span class="p">(</span><span class="mi">900</span><span class="p">,</span><span class="mi">600</span><span class="p">)]</span>
+<span class="n">transformblit</span><span class="p">(</span><span class="n">tri1</span><span class="p">,</span> <span class="n">tri2</span><span class="p">,</span> <span class="n">blank</span><span class="p">,</span> <span class="n">part1</span><span class="p">)</span>
+<span class="n">tri2</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">100</span><span class="p">,</span><span class="mi">140</span><span class="p">),</span> <span class="p">(</span><span class="mi">470</span><span class="p">,</span><span class="mi">140</span><span class="p">),</span> <span class="p">(</span><span class="mi">800</span><span class="p">,</span><span class="mi">10</span><span class="p">)]</span>
+<span class="n">transformblit</span><span class="p">(</span><span class="n">tri1</span><span class="p">,</span> <span class="n">tri2</span><span class="p">,</span> <span class="n">blank</span><span class="p">,</span> <span class="n">part1</span><span class="p">)</span>
+<span class="n">tri2</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">344</span><span class="p">,</span><span class="mi">218</span><span class="p">),</span> <span class="p">(</span><span class="mi">365</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">800</span><span class="p">,</span><span class="mi">670</span><span class="p">)]</span>
+<span class="n">transformblit</span><span class="p">(</span><span class="n">tri1</span><span class="p">,</span> <span class="n">tri2</span><span class="p">,</span> <span class="n">blank</span><span class="p">,</span> <span class="n">part1</span><span class="p">)</span>
+<span class="c"># final trim</span>
+<span class="n">part1</span> <span class="o">=</span> <span class="n">part1</span><span class="o">.</span><span class="n">crop</span><span class="p">((</span><span class="mi">213</span><span class="p">,</span> <span class="mi">141</span><span class="p">,</span> <span class="mi">469</span><span class="p">,</span> <span class="mi">419</span><span class="p">))</span>
 
-width, height = part2.size
-m = -0.49
-xshift = abs(m) * width
-new_width = width + int(round(xshift))
-part2 = part2.transform((new_width, height), Image.AFFINE,
-        (1.1, m, -xshift if m &gt; 0 else 0, 0, 1.605, 0), Image.BILINEAR)
-part2 = part2.resize((800, 700), Image.ANTIALIAS)
-contrast = ImageEnhance.Contrast(part2)
-part2 = contrast.enhance(1.2)
+<span class="n">contrast</span> <span class="o">=</span> <span class="n">ImageEnhance</span><span class="o">.</span><span class="n">Contrast</span><span class="p">(</span><span class="n">part1</span><span class="p">)</span>
+<span class="n">part1</span> <span class="o">=</span> <span class="n">contrast</span><span class="o">.</span><span class="n">enhance</span><span class="p">(</span><span class="mf">1.5</span><span class="p">)</span>
 
-part2 = part2.crop((245, 80, 393, 301))
-tri1 = [(10,10), (20,20), (10,20)]
-tri2 = [(0,0), (0,220), (100,220)]
-transformblit(tri1, tri2, blank, part2)
-part2 = part2.resize((240, 278), Image.ANTIALIAS)
+<span class="c">#Start: Part 2 of the QR code</span>
+<span class="n">part2</span> <span class="o">=</span> <span class="n">qr</span><span class="o">.</span><span class="n">crop</span><span class="p">((</span><span class="mi">2031</span><span class="p">,</span> <span class="mi">1584</span><span class="p">,</span> <span class="mi">2287</span><span class="p">,</span> <span class="mi">1742</span><span class="p">))</span>
+<span class="n">contrast</span> <span class="o">=</span> <span class="n">ImageEnhance</span><span class="o">.</span><span class="n">Contrast</span><span class="p">(</span><span class="n">part2</span><span class="p">)</span>
+<span class="n">part2</span> <span class="o">=</span> <span class="n">contrast</span><span class="o">.</span><span class="n">enhance</span><span class="p">(</span><span class="mf">2.7</span><span class="p">)</span>
 
-
-blank2 = Image.new("RGBA", (278, 278), (0,0,0,0))
-
-contrast = ImageEnhance.Contrast(part2)
-part2 = contrast.enhance(1.6)
-
-blank2.paste(part2, (12, 4), part2)
-blank2.paste(part1, (0, 0), part1)
-blank2.save("./sol.png", "PNG")
-part1.save("./part1.png", "PNG")
-part2.save("./part2.png", "PNG")
+<span class="n">part2</span> <span class="o">=</span> <span class="n">ImageOps</span><span class="o">.</span><span class="n">mirror</span><span class="p">(</span><span class="n">part2</span><span class="p">)</span>
 
 
-myCode = QR(filename=u"./sol.png")
-if myCode.decode():
-  print myCode.data_to_string()
+<span class="n">part2</span> <span class="o">=</span> <span class="n">part2</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="mi">0</span><span class="o">+</span><span class="mi">20</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="n">resample</span><span class="o">=</span><span class="n">Image</span><span class="o">.</span><span class="n">BICUBIC</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="n">width</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="n">part2</span><span class="o">.</span><span class="n">size</span>
+<span class="n">m</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.49</span>
+<span class="n">xshift</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="o">*</span> <span class="n">width</span>
+<span class="n">new_width</span> <span class="o">=</span> <span class="n">width</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">xshift</span><span class="p">))</span>
+<span class="n">part2</span> <span class="o">=</span> <span class="n">part2</span><span class="o">.</span><span class="n">transform</span><span class="p">((</span><span class="n">new_width</span><span class="p">,</span> <span class="n">height</span><span class="p">),</span> <span class="n">Image</span><span class="o">.</span><span class="n">AFFINE</span><span class="p">,</span>
+        <span class="p">(</span><span class="mf">1.1</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="o">-</span><span class="n">xshift</span> <span class="k">if</span> <span class="n">m</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">1.605</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">Image</span><span class="o">.</span><span class="n">BILINEAR</span><span class="p">)</span>
+<span class="n">part2</span> <span class="o">=</span> <span class="n">part2</span><span class="o">.</span><span class="n">resize</span><span class="p">((</span><span class="mi">800</span><span class="p">,</span> <span class="mi">700</span><span class="p">),</span> <span class="n">Image</span><span class="o">.</span><span class="n">ANTIALIAS</span><span class="p">)</span>
+<span class="n">contrast</span> <span class="o">=</span> <span class="n">ImageEnhance</span><span class="o">.</span><span class="n">Contrast</span><span class="p">(</span><span class="n">part2</span><span class="p">)</span>
+<span class="n">part2</span> <span class="o">=</span> <span class="n">contrast</span><span class="o">.</span><span class="n">enhance</span><span class="p">(</span><span class="mf">1.2</span><span class="p">)</span>
+
+<span class="n">part2</span> <span class="o">=</span> <span class="n">part2</span><span class="o">.</span><span class="n">crop</span><span class="p">((</span><span class="mi">245</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mi">393</span><span class="p">,</span> <span class="mi">301</span><span class="p">))</span>
+<span class="n">tri1</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">),</span> <span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">20</span><span class="p">),</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">20</span><span class="p">)]</span>
+<span class="n">tri2</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">220</span><span class="p">),</span> <span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="mi">220</span><span class="p">)]</span>
+<span class="n">transformblit</span><span class="p">(</span><span class="n">tri1</span><span class="p">,</span> <span class="n">tri2</span><span class="p">,</span> <span class="n">blank</span><span class="p">,</span> <span class="n">part2</span><span class="p">)</span>
+<span class="n">part2</span> <span class="o">=</span> <span class="n">part2</span><span class="o">.</span><span class="n">resize</span><span class="p">((</span><span class="mi">240</span><span class="p">,</span> <span class="mi">278</span><span class="p">),</span> <span class="n">Image</span><span class="o">.</span><span class="n">ANTIALIAS</span><span class="p">)</span>
+
+
+<span class="n">blank2</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s">"RGBA"</span><span class="p">,</span> <span class="p">(</span><span class="mi">278</span><span class="p">,</span> <span class="mi">278</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">))</span>
+
+<span class="n">contrast</span> <span class="o">=</span> <span class="n">ImageEnhance</span><span class="o">.</span><span class="n">Contrast</span><span class="p">(</span><span class="n">part2</span><span class="p">)</span>
+<span class="n">part2</span> <span class="o">=</span> <span class="n">contrast</span><span class="o">.</span><span class="n">enhance</span><span class="p">(</span><span class="mf">1.6</span><span class="p">)</span>
+
+<span class="n">blank2</span><span class="o">.</span><span class="n">paste</span><span class="p">(</span><span class="n">part2</span><span class="p">,</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">part2</span><span class="p">)</span>
+<span class="n">blank2</span><span class="o">.</span><span class="n">paste</span><span class="p">(</span><span class="n">part1</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">part1</span><span class="p">)</span>
+<span class="n">blank2</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s">"./sol.png"</span><span class="p">,</span> <span class="s">"PNG"</span><span class="p">)</span>
+<span class="n">part1</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s">"./part1.png"</span><span class="p">,</span> <span class="s">"PNG"</span><span class="p">)</span>
+<span class="n">part2</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s">"./part2.png"</span><span class="p">,</span> <span class="s">"PNG"</span><span class="p">)</span>
+
+
+<span class="n">myCode</span> <span class="o">=</span> <span class="n">QR</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s">u"./sol.png"</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">myCode</span><span class="o">.</span><span class="n">decode</span><span class="p">():</span>
+  <span class="k">print</span> <span class="n">myCode</span><span class="o">.</span><span class="n">data_to_string</span><span class="p">()</span>
 </code></pre></div></div>
 
 <p>Example of “phone” QR code retrieval:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>part1 = qr.crop((2089, 1558, 2358, 1723))
-contrast = ImageEnhance.Contrast(part1)
-part1 = contrast.enhance(1.6)
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">part1</span> <span class="o">=</span> <span class="n">qr</span><span class="o">.</span><span class="n">crop</span><span class="p">((</span><span class="mi">2089</span><span class="p">,</span> <span class="mi">1558</span><span class="p">,</span> <span class="mi">2358</span><span class="p">,</span> <span class="mi">1723</span><span class="p">))</span>
+<span class="n">contrast</span> <span class="o">=</span> <span class="n">ImageEnhance</span><span class="o">.</span><span class="n">Contrast</span><span class="p">(</span><span class="n">part1</span><span class="p">)</span>
+<span class="n">part1</span> <span class="o">=</span> <span class="n">contrast</span><span class="o">.</span><span class="n">enhance</span><span class="p">(</span><span class="mf">1.6</span><span class="p">)</span>
 
-part1 = part1.rotate(22, resample=Image.BICUBIC, expand=True)
-width, height = part1.size
-m = -0.62
-xshift = abs(m) * width
-new_width = width + int(round(xshift))
-part1 = part1.transform((new_width, height), Image.AFFINE,
-        (1, m, -xshift if m &gt; 0 else 0, 0, 1.43, 0), Image.BILINEAR)
+<span class="n">part1</span> <span class="o">=</span> <span class="n">part1</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="mi">22</span><span class="p">,</span> <span class="n">resample</span><span class="o">=</span><span class="n">Image</span><span class="o">.</span><span class="n">BICUBIC</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">width</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="n">part1</span><span class="o">.</span><span class="n">size</span>
+<span class="n">m</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.62</span>
+<span class="n">xshift</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="o">*</span> <span class="n">width</span>
+<span class="n">new_width</span> <span class="o">=</span> <span class="n">width</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">xshift</span><span class="p">))</span>
+<span class="n">part1</span> <span class="o">=</span> <span class="n">part1</span><span class="o">.</span><span class="n">transform</span><span class="p">((</span><span class="n">new_width</span><span class="p">,</span> <span class="n">height</span><span class="p">),</span> <span class="n">Image</span><span class="o">.</span><span class="n">AFFINE</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="o">-</span><span class="n">xshift</span> <span class="k">if</span> <span class="n">m</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">1.43</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">Image</span><span class="o">.</span><span class="n">BILINEAR</span><span class="p">)</span>
 
-part1 = part1.resize((285, 285), Image.ANTIALIAS)
-part1 = part1.resize((800, 800), Image.ANTIALIAS)
+<span class="n">part1</span> <span class="o">=</span> <span class="n">part1</span><span class="o">.</span><span class="n">resize</span><span class="p">((</span><span class="mi">285</span><span class="p">,</span> <span class="mi">285</span><span class="p">),</span> <span class="n">Image</span><span class="o">.</span><span class="n">ANTIALIAS</span><span class="p">)</span>
+<span class="n">part1</span> <span class="o">=</span> <span class="n">part1</span><span class="o">.</span><span class="n">resize</span><span class="p">((</span><span class="mi">800</span><span class="p">,</span> <span class="mi">800</span><span class="p">),</span> <span class="n">Image</span><span class="o">.</span><span class="n">ANTIALIAS</span><span class="p">)</span>
 
 
-# junk trimming
-tri1 = [(10,10), (20,20), (10,20)]
-tri2 = [(10,10), (212,100), (208,800)]
-transformblit(tri1, tri2, blank, part1)
-tri2 = [(150,500), (211,280), (600,800)]
-transformblit(tri1, tri2, blank, part1)
-tri2 = [(300,420), (470,420), (600,800)]
-transformblit(tri1, tri2, blank, part1)
-tri2 = [(470,420), (470,100), (900,600)]
-transformblit(tri1, tri2, blank, part1)
-tri2 = [(100,140), (470,140), (800,10)]
-transformblit(tri1, tri2, blank, part1)
-tri2 = [(344,218), (365,0), (800,670)]
-transformblit(tri1, tri2, blank, part1)
-# final trim
-part1 = part1.crop((213, 141, 469, 419))
+<span class="c"># junk trimming</span>
+<span class="n">tri1</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">),</span> <span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">20</span><span class="p">),</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">20</span><span class="p">)]</span>
+<span class="n">tri2</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">),</span> <span class="p">(</span><span class="mi">212</span><span class="p">,</span><span class="mi">100</span><span class="p">),</span> <span class="p">(</span><span class="mi">208</span><span class="p">,</span><span class="mi">800</span><span class="p">)]</span>
+<span class="n">transformblit</span><span class="p">(</span><span class="n">tri1</span><span class="p">,</span> <span class="n">tri2</span><span class="p">,</span> <span class="n">blank</span><span class="p">,</span> <span class="n">part1</span><span class="p">)</span>
+<span class="n">tri2</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">150</span><span class="p">,</span><span class="mi">500</span><span class="p">),</span> <span class="p">(</span><span class="mi">211</span><span class="p">,</span><span class="mi">280</span><span class="p">),</span> <span class="p">(</span><span class="mi">600</span><span class="p">,</span><span class="mi">800</span><span class="p">)]</span>
+<span class="n">transformblit</span><span class="p">(</span><span class="n">tri1</span><span class="p">,</span> <span class="n">tri2</span><span class="p">,</span> <span class="n">blank</span><span class="p">,</span> <span class="n">part1</span><span class="p">)</span>
+<span class="n">tri2</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">300</span><span class="p">,</span><span class="mi">420</span><span class="p">),</span> <span class="p">(</span><span class="mi">470</span><span class="p">,</span><span class="mi">420</span><span class="p">),</span> <span class="p">(</span><span class="mi">600</span><span class="p">,</span><span class="mi">800</span><span class="p">)]</span>
+<span class="n">transformblit</span><span class="p">(</span><span class="n">tri1</span><span class="p">,</span> <span class="n">tri2</span><span class="p">,</span> <span class="n">blank</span><span class="p">,</span> <span class="n">part1</span><span class="p">)</span>
+<span class="n">tri2</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">470</span><span class="p">,</span><span class="mi">420</span><span class="p">),</span> <span class="p">(</span><span class="mi">470</span><span class="p">,</span><span class="mi">100</span><span class="p">),</span> <span class="p">(</span><span class="mi">900</span><span class="p">,</span><span class="mi">600</span><span class="p">)]</span>
+<span class="n">transformblit</span><span class="p">(</span><span class="n">tri1</span><span class="p">,</span> <span class="n">tri2</span><span class="p">,</span> <span class="n">blank</span><span class="p">,</span> <span class="n">part1</span><span class="p">)</span>
+<span class="n">tri2</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">100</span><span class="p">,</span><span class="mi">140</span><span class="p">),</span> <span class="p">(</span><span class="mi">470</span><span class="p">,</span><span class="mi">140</span><span class="p">),</span> <span class="p">(</span><span class="mi">800</span><span class="p">,</span><span class="mi">10</span><span class="p">)]</span>
+<span class="n">transformblit</span><span class="p">(</span><span class="n">tri1</span><span class="p">,</span> <span class="n">tri2</span><span class="p">,</span> <span class="n">blank</span><span class="p">,</span> <span class="n">part1</span><span class="p">)</span>
+<span class="n">tri2</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">344</span><span class="p">,</span><span class="mi">218</span><span class="p">),</span> <span class="p">(</span><span class="mi">365</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">800</span><span class="p">,</span><span class="mi">670</span><span class="p">)]</span>
+<span class="n">transformblit</span><span class="p">(</span><span class="n">tri1</span><span class="p">,</span> <span class="n">tri2</span><span class="p">,</span> <span class="n">blank</span><span class="p">,</span> <span class="n">part1</span><span class="p">)</span>
+<span class="c"># final trim</span>
+<span class="n">part1</span> <span class="o">=</span> <span class="n">part1</span><span class="o">.</span><span class="n">crop</span><span class="p">((</span><span class="mi">213</span><span class="p">,</span> <span class="mi">141</span><span class="p">,</span> <span class="mi">469</span><span class="p">,</span> <span class="mi">419</span><span class="p">))</span>
 
-contrast = ImageEnhance.Contrast(part1)
-part1 = contrast.enhance(1.5)
+<span class="n">contrast</span> <span class="o">=</span> <span class="n">ImageEnhance</span><span class="o">.</span><span class="n">Contrast</span><span class="p">(</span><span class="n">part1</span><span class="p">)</span>
+<span class="n">part1</span> <span class="o">=</span> <span class="n">contrast</span><span class="o">.</span><span class="n">enhance</span><span class="p">(</span><span class="mf">1.5</span><span class="p">)</span>
 </code></pre></div></div>
 <p>Result:</p>
 
@@ -348,30 +371,30 @@ part1 = contrast.enhance(1.5)
 
 <p>Example of “laptop” QR code retrieval:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>part2 = qr.crop((2031, 1584, 2287, 1742))
-contrast = ImageEnhance.Contrast(part2)
-part2 = contrast.enhance(2.7)
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">part2</span> <span class="o">=</span> <span class="n">qr</span><span class="o">.</span><span class="n">crop</span><span class="p">((</span><span class="mi">2031</span><span class="p">,</span> <span class="mi">1584</span><span class="p">,</span> <span class="mi">2287</span><span class="p">,</span> <span class="mi">1742</span><span class="p">))</span>
+<span class="n">contrast</span> <span class="o">=</span> <span class="n">ImageEnhance</span><span class="o">.</span><span class="n">Contrast</span><span class="p">(</span><span class="n">part2</span><span class="p">)</span>
+<span class="n">part2</span> <span class="o">=</span> <span class="n">contrast</span><span class="o">.</span><span class="n">enhance</span><span class="p">(</span><span class="mf">2.7</span><span class="p">)</span>
 
-part2 = ImageOps.mirror(part2)
+<span class="n">part2</span> <span class="o">=</span> <span class="n">ImageOps</span><span class="o">.</span><span class="n">mirror</span><span class="p">(</span><span class="n">part2</span><span class="p">)</span>
 
 
-part2 = part2.rotate(0+20-4, resample=Image.BICUBIC, expand=True)
+<span class="n">part2</span> <span class="o">=</span> <span class="n">part2</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="mi">0</span><span class="o">+</span><span class="mi">20</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="n">resample</span><span class="o">=</span><span class="n">Image</span><span class="o">.</span><span class="n">BICUBIC</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
-width, height = part2.size
-m = -0.49
-xshift = abs(m) * width
-new_width = width + int(round(xshift))
-part2 = part2.transform((new_width, height), Image.AFFINE,
-        (1.1, m, -xshift if m &gt; 0 else 0, 0, 1.605, 0), Image.BILINEAR)
-part2 = part2.resize((800, 700), Image.ANTIALIAS)
-contrast = ImageEnhance.Contrast(part2)
-part2 = contrast.enhance(1.2)
+<span class="n">width</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="n">part2</span><span class="o">.</span><span class="n">size</span>
+<span class="n">m</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.49</span>
+<span class="n">xshift</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="o">*</span> <span class="n">width</span>
+<span class="n">new_width</span> <span class="o">=</span> <span class="n">width</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">xshift</span><span class="p">))</span>
+<span class="n">part2</span> <span class="o">=</span> <span class="n">part2</span><span class="o">.</span><span class="n">transform</span><span class="p">((</span><span class="n">new_width</span><span class="p">,</span> <span class="n">height</span><span class="p">),</span> <span class="n">Image</span><span class="o">.</span><span class="n">AFFINE</span><span class="p">,</span>
+        <span class="p">(</span><span class="mf">1.1</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="o">-</span><span class="n">xshift</span> <span class="k">if</span> <span class="n">m</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">1.605</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">Image</span><span class="o">.</span><span class="n">BILINEAR</span><span class="p">)</span>
+<span class="n">part2</span> <span class="o">=</span> <span class="n">part2</span><span class="o">.</span><span class="n">resize</span><span class="p">((</span><span class="mi">800</span><span class="p">,</span> <span class="mi">700</span><span class="p">),</span> <span class="n">Image</span><span class="o">.</span><span class="n">ANTIALIAS</span><span class="p">)</span>
+<span class="n">contrast</span> <span class="o">=</span> <span class="n">ImageEnhance</span><span class="o">.</span><span class="n">Contrast</span><span class="p">(</span><span class="n">part2</span><span class="p">)</span>
+<span class="n">part2</span> <span class="o">=</span> <span class="n">contrast</span><span class="o">.</span><span class="n">enhance</span><span class="p">(</span><span class="mf">1.2</span><span class="p">)</span>
 
-part2 = part2.crop((245, 80, 393, 301))
-tri1 = [(10,10), (20,20), (10,20)]
-tri2 = [(0,0), (0,220), (100,220)]
-transformblit(tri1, tri2, blank, part2)
-part2 = part2.resize((240, 278), Image.ANTIALIAS)
+<span class="n">part2</span> <span class="o">=</span> <span class="n">part2</span><span class="o">.</span><span class="n">crop</span><span class="p">((</span><span class="mi">245</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mi">393</span><span class="p">,</span> <span class="mi">301</span><span class="p">))</span>
+<span class="n">tri1</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">),</span> <span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">20</span><span class="p">),</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">20</span><span class="p">)]</span>
+<span class="n">tri2</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">220</span><span class="p">),</span> <span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="mi">220</span><span class="p">)]</span>
+<span class="n">transformblit</span><span class="p">(</span><span class="n">tri1</span><span class="p">,</span> <span class="n">tri2</span><span class="p">,</span> <span class="n">blank</span><span class="p">,</span> <span class="n">part2</span><span class="p">)</span>
+<span class="n">part2</span> <span class="o">=</span> <span class="n">part2</span><span class="o">.</span><span class="n">resize</span><span class="p">((</span><span class="mi">240</span><span class="p">,</span> <span class="mi">278</span><span class="p">),</span> <span class="n">Image</span><span class="o">.</span><span class="n">ANTIALIAS</span><span class="p">)</span>
 
 </code></pre></div></div>
 <p>Result:</p>
@@ -384,9 +407,9 @@ part2 = part2.resize((240, 278), Image.ANTIALIAS)
 
 <p>Execution of the python script:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lucian@nitescu:~/security-cctv$ python sol.py 
-BMQQGBMIBKCIAIJLBOKNIKAACQPPKAJGNCKNBNBHOIJQQPHAHCLPJQHIBJIIQCNKIJJBBNKLJGAQJLHKHIALMBMCN
-lucian@nitescu:~/security-cctv$ 
+<div class="language-terminal highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">lucian@nitescu:~/security-cctv$</span> python sol.py 
+<span class="go">BMQQGBMIBKCIAIJLBOKNIKAACQPPKAJGNCKNBNBHOIJQQPHAHCLPJQHIBJIIQCNKIJJBBNKLJGAQJLHKHIALMBMCN
+</span><span class="gp">lucian@nitescu:~/security-cctv$</span> 
 </code></pre></div></div>
 
 <p>After entering the token in less than a minute we get the flag.</p>
@@ -435,8 +458,9 @@ s.setAttribute('data-timestamp', +new Date());
     <p>
       
 
-&copy; Lucian Nitescu - Powered by <a href="https://jekyllrb.com">Jekyll</a> &amp; <a href="https://github.com/yous/whiteglass">whiteglass</a> - Subscribe via <a href="https://nitesculucian.github.io/feed.xml">RSS</a>
+&copy; Lucian Nitescu - Powered by <a href="https://jekyllrb.com">Jekyll</a> &amp; <a href="https://github.com/yous/whiteglass">whiteglass</a> - Subscribe via <a href="http://localhost:4000/feed.xml">RSS</a>
 
+      | <a href="/privacy-policy" >Privacy Policy</a>
     </p>
 
   </div>

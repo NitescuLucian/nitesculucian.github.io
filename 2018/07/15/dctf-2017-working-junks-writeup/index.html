@@ -5,7 +5,24 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
+  <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.2/cookieconsent.min.css" />
+<script async defer src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.2/cookieconsent.min.js"></script>
+<script>
+window.addEventListener("load", function(){
+window.cookieconsent.initialise({
+  "palette": {
+    "popup": {
+      "background": "#424242"
+    },
+    "button": {
+      "background": "#2a7ae2"
+    }
+  },
+  "content": {
+    "href": "/privacy-policy"
+  }
+})});
+</script>
   
   
   
@@ -14,10 +31,10 @@
   
 
   <link rel="stylesheet" href="/assets/main.css">
-  <link rel="canonical" href="https://nitesculucian.github.io/2018/07/15/dctf-2017-working-junks-writeup/">
+  <link rel="canonical" href="http://localhost:4000/2018/07/15/dctf-2017-working-junks-writeup/">
   
   
-  <link rel="alternate" type="application/rss+xml" title="Lucian Nitescu" href="https://nitesculucian.github.io/feed.xml">
+  <link rel="alternate" type="application/rss+xml" title="Lucian Nitescu" href="http://localhost:4000/feed.xml">
 
   
 
@@ -103,6 +120,8 @@
     
       
     
+      
+    
   
     
     
@@ -118,6 +137,8 @@
     
       
         <a href="/categories/ctf/">ctf</a>,
+      
+    
       
     
       
@@ -139,6 +160,8 @@
     
       
         <a href="/categories/writeups/">writeups</a>
+      
+    
       
     
   
@@ -166,19 +189,19 @@
 
 <p>The challenge start with:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mehuser:~$ file e
-e: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 2.6.32, BuildID[sha1]=20712db5ad286fbbcfe0005d23d8cbcc3965cffa, not stripped
-</code></pre></div></div>
+<div class="language-terminal highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">mehuser:~$</span> file e
+<span class="go">e: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 2.6.32, BuildID[sha1]=20712db5ad286fbbcfe0005d23d8cbcc3965cffa, not stripped
+</span></code></pre></div></div>
 
 <p>After we run this 64-bit ELF we got three things (hints):</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mehuser:~$ chmod +x ./e
-mehuser:~$ ./e
-?em wonk uoy oD !!!olleH
+<div class="language-terminal highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">mehuser:~$</span> <span class="nb">chmod</span> +x ./e
+<span class="gp">mehuser:~$</span> ./e
+<span class="go">?em wonk uoy oD !!!olleH
 !sdnatsrednu eno on taht yrots gib a evah I dnA !RACIE si eman yM
 !edoc ym si siht dnA
-*H+H$!ELIF-TSET-SURIVITNA-DRADNATS-RACIE$}7)CC7)^P(45XZP4[PA@P!O5XX5O!P%@AP[4PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*~jn
-
+</span><span class="gp">*H+H$</span><span class="o">!</span>ELIF-TSET-SURIVITNA-DRADNATS-RACIE<span class="nv">$}</span>7<span class="o">)</span>CC7<span class="o">)</span>^P<span class="o">(</span>45XZP4[PA@P!O5XX5O!P%@AP[4PZX54<span class="o">(</span>P^<span class="o">)</span>7CC<span class="o">)</span>7<span class="o">}</span><span class="nv">$EICAR</span><span class="nt">-STANDARD-ANTIVIRUS-TEST-FILE</span><span class="o">!</span><span class="nv">$H</span>+H<span class="k">*</span>~jn
+<span class="go">
 ~cb|6o
 f
 
@@ -195,14 +218,14 @@ u
  
 
   uy|sr
-7Z N?J/.?4[?57Z[G?1FX,,FXK*&amp;,.=B&lt;;.!+.=+B.!;&amp;9&amp;=:&lt;B;*&lt;;B)&amp;#*NK'D'E
-X5O!P
+</span><span class="gp">7Z N?J/.?4[?57Z[G?1FX,,FXK*&amp;,.=B&lt;;</span>.!+.<span class="o">=</span>+B.!<span class="p">;</span>&amp;9&amp;<span class="o">=</span>:&lt;B<span class="p">;</span><span class="k">*</span>&lt;<span class="p">;</span>B<span class="o">)</span>&amp;#<span class="k">*</span>NK<span class="s1">'D'</span>E
+<span class="go">X5O!P
 3.000000, 4.000000, 5.000000 
 
 
-&lt;snip of more junks&gt;
-
-</code></pre></div></div>
+</span><span class="gp">&lt;snip of more junks&gt;</span>
+<span class="go">
+</span></code></pre></div></div>
 <ol>
   <li>We have junk, intended junk.</li>
   <li>We have strings in reverse.</li>
@@ -211,26 +234,26 @@ X5O!P
 
 <p>Reverse everything in python with this script:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 1.py
-f = open("e", "r")
-buf = f.read()
-f.close()
-buf = buf.encode("hex")
-buf = buf[::-1]
-f = open("sol", "w")
-f.write(buf.decode("hex"))
-f.close()
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 1.py</span>
+<span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">"e"</span><span class="p">,</span> <span class="s">"r"</span><span class="p">)</span>
+<span class="n">buf</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="n">buf</span> <span class="o">=</span> <span class="n">buf</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">"hex"</span><span class="p">)</span>
+<span class="n">buf</span> <span class="o">=</span> <span class="n">buf</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">"sol"</span><span class="p">,</span> <span class="s">"w"</span><span class="p">)</span>
+<span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">buf</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">"hex"</span><span class="p">))</span>
+<span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
 </code></pre></div></div>
 <p>And then use binwalk to extract something from the junk!</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mehuser:~$ python ./rev.py 
-mehuser:~$ binwalk sol
-
+<div class="language-terminal highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">mehuser:~$</span> python ./rev.py 
+<span class="gp">mehuser:~$</span> binwalk sol
+<span class="go">
 DECIMAL       HEXADECIMAL     DESCRIPTION
 --------------------------------------------------------------------------------
 11576         0x2D38          PNG image, 862 x 171, 8-bit/color RGB, non-interlaced
-</code></pre></div></div>
+</span></code></pre></div></div>
 
 <p>So we got to extract a PNG file that was stored in a string (reversed hex dump of the PNG file) in the first place.</p>
 
@@ -281,8 +304,9 @@ s.setAttribute('data-timestamp', +new Date());
     <p>
       
 
-&copy; Lucian Nitescu - Powered by <a href="https://jekyllrb.com">Jekyll</a> &amp; <a href="https://github.com/yous/whiteglass">whiteglass</a> - Subscribe via <a href="https://nitesculucian.github.io/feed.xml">RSS</a>
+&copy; Lucian Nitescu - Powered by <a href="https://jekyllrb.com">Jekyll</a> &amp; <a href="https://github.com/yous/whiteglass">whiteglass</a> - Subscribe via <a href="http://localhost:4000/feed.xml">RSS</a>
 
+      | <a href="/privacy-policy" >Privacy Policy</a>
     </p>
 
   </div>

