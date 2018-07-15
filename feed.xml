@@ -3,10 +3,10 @@
   <generator uri="http://jekyllrb.com" version="3.8.3">Jekyll</generator>
   
   
-  <link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" />
-  <link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" />
-  <updated>2018-07-15T19:41:03-03:00</updated>
-  <id>http://localhost:4000//</id>
+  <link href="https://nitesculucian.github.io/feed.xml" rel="self" type="application/atom+xml" />
+  <link href="https://nitesculucian.github.io/" rel="alternate" type="text/html" hreflang="en" />
+  <updated>2018-07-15T20:34:05-03:00</updated>
+  <id>https://nitesculucian.github.io//</id>
 
   
     <title type="html">Lucian Nitescu</title>
@@ -31,12 +31,12 @@
       <title type="html">Exploit Exercises: Nebula Level 01</title>
       
       
-      <link href="http://localhost:4000/2018/07/15/exploit-exercises-nebula-level-01/" rel="alternate" type="text/html" title="Exploit Exercises: Nebula Level 01" />
+      <link href="https://nitesculucian.github.io/2018/07/15/exploit-exercises-nebula-level-01/" rel="alternate" type="text/html" title="Exploit Exercises: Nebula Level 01" />
       
       <published>2018-07-15T18:57:00-03:00</published>
       <updated>2018-07-15T18:57:00-03:00</updated>
-      <id>http://localhost:4000/2018/07/15/exploit-exercises-nebula-level-01</id>
-      <content type="html" xml:base="http://localhost:4000/2018/07/15/exploit-exercises-nebula-level-01/">&lt;p&gt;&lt;img src=&quot;http://127.0.0.1:4000/uploads/Screenshot%20from%202018-07-16%2000-20-16.png&quot; alt=&quot;Image of Nebula Terminal&quot; /&gt;&lt;/p&gt;
+      <id>https://nitesculucian.github.io/2018/07/15/exploit-exercises-nebula-level-01</id>
+      <content type="html" xml:base="https://nitesculucian.github.io/2018/07/15/exploit-exercises-nebula-level-01/">&lt;p&gt;&lt;img src=&quot;http://127.0.0.1:4000/uploads/Screenshot%20from%202018-07-16%2000-20-16.png&quot; alt=&quot;Image of Nebula Terminal&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;There is a vulnerability in the below program that allows arbitrary programs to be executed, can you find it?
 To do this level, log in as the level01 account with the password level01. Files for this level can be found in /home/flag01.&lt;/p&gt;
@@ -143,12 +143,12 @@ drwxr-xr-x 1 root   root      80 Aug 27  2012 ..
       <title type="html">Exploit Exercises: Nebula Level 00</title>
       
       
-      <link href="http://localhost:4000/2018/07/15/exploit-exercises-nebula-level-00/" rel="alternate" type="text/html" title="Exploit Exercises: Nebula Level 00" />
+      <link href="https://nitesculucian.github.io/2018/07/15/exploit-exercises-nebula-level-00/" rel="alternate" type="text/html" title="Exploit Exercises: Nebula Level 00" />
       
       <published>2018-07-15T18:21:00-03:00</published>
       <updated>2018-07-15T18:21:00-03:00</updated>
-      <id>http://localhost:4000/2018/07/15/exploit-exercises-nebula-level-00</id>
-      <content type="html" xml:base="http://localhost:4000/2018/07/15/exploit-exercises-nebula-level-00/">&lt;p&gt;&lt;img src=&quot;http://127.0.0.1:4000/uploads/Screenshot%20from%202018-07-16%2000-20-16.png&quot; alt=&quot;Image of Nebula Terminal&quot; /&gt;&lt;/p&gt;
+      <id>https://nitesculucian.github.io/2018/07/15/exploit-exercises-nebula-level-00</id>
+      <content type="html" xml:base="https://nitesculucian.github.io/2018/07/15/exploit-exercises-nebula-level-00/">&lt;p&gt;&lt;img src=&quot;http://127.0.0.1:4000/uploads/Screenshot%20from%202018-07-16%2000-20-16.png&quot; alt=&quot;Image of Nebula Terminal&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;This level requires you to find a Set User ID program that will run as the “flag00” account. You could also find this by carefully looking in top level directories in / for suspicious looking directories.
 Alternatively, look at the find man page.&lt;/p&gt;
@@ -662,12 +662,12 @@ drwxr-xr-x 3 root   root    2728 Aug 18  2012 ..
       <title type="html">[DCTF 2017] Working Junks Writeup</title>
       
       
-      <link href="http://localhost:4000/2018/07/15/dctf-2017-working-junks-writeup/" rel="alternate" type="text/html" title="[DCTF 2017] Working Junks Writeup" />
+      <link href="https://nitesculucian.github.io/2018/07/15/dctf-2017-working-junks-writeup/" rel="alternate" type="text/html" title="[DCTF 2017] Working Junks Writeup" />
       
       <published>2018-07-15T11:49:00-03:00</published>
       <updated>2018-07-15T11:49:00-03:00</updated>
-      <id>http://localhost:4000/2018/07/15/dctf-2017-working-junks-writeup</id>
-      <content type="html" xml:base="http://localhost:4000/2018/07/15/dctf-2017-working-junks-writeup/">&lt;h3 id=&quot;description&quot;&gt;Description:&lt;/h3&gt;
+      <id>https://nitesculucian.github.io/2018/07/15/dctf-2017-working-junks-writeup</id>
+      <content type="html" xml:base="https://nitesculucian.github.io/2018/07/15/dctf-2017-working-junks-writeup/">&lt;h3 id=&quot;description&quot;&gt;Description:&lt;/h3&gt;
 &lt;p&gt;https://snag.gy/1hqQnF.jpg&lt;/p&gt;
 
 &lt;h3 id=&quot;author&quot;&gt;Author:&lt;/h3&gt;
@@ -795,12 +795,12 @@ DECIMAL       HEXADECIMAL     DESCRIPTION
       <title type="html">[DCTF 2017] Security CCTV Writeup</title>
       
       
-      <link href="http://localhost:4000/2018/07/15/dctf-2017-security-cctv-writeup/" rel="alternate" type="text/html" title="[DCTF 2017] Security CCTV Writeup" />
+      <link href="https://nitesculucian.github.io/2018/07/15/dctf-2017-security-cctv-writeup/" rel="alternate" type="text/html" title="[DCTF 2017] Security CCTV Writeup" />
       
       <published>2018-07-15T11:44:00-03:00</published>
       <updated>2018-07-15T11:44:00-03:00</updated>
-      <id>http://localhost:4000/2018/07/15/dctf-2017-security-cctv-writeup</id>
-      <content type="html" xml:base="http://localhost:4000/2018/07/15/dctf-2017-security-cctv-writeup/">&lt;h3 id=&quot;description&quot;&gt;Description:&lt;/h3&gt;
+      <id>https://nitesculucian.github.io/2018/07/15/dctf-2017-security-cctv-writeup</id>
+      <content type="html" xml:base="https://nitesculucian.github.io/2018/07/15/dctf-2017-security-cctv-writeup/">&lt;h3 id=&quot;description&quot;&gt;Description:&lt;/h3&gt;
 &lt;p&gt;We really need that token. Can you take it? https://security-cctv.dctf-f1nals-2017.def.camp/.&lt;/p&gt;
 
 &lt;h3 id=&quot;author&quot;&gt;Author:&lt;/h3&gt;
@@ -1083,12 +1083,12 @@ DECIMAL       HEXADECIMAL     DESCRIPTION
       <title type="html">[DCTF 2017] State Agency Writeup</title>
       
       
-      <link href="http://localhost:4000/2018/07/15/dctf-2017-state-agency-writeup/" rel="alternate" type="text/html" title="[DCTF 2017] State Agency Writeup" />
+      <link href="https://nitesculucian.github.io/2018/07/15/dctf-2017-state-agency-writeup/" rel="alternate" type="text/html" title="[DCTF 2017] State Agency Writeup" />
       
       <published>2018-07-15T11:37:00-03:00</published>
       <updated>2018-07-15T11:37:00-03:00</updated>
-      <id>http://localhost:4000/2018/07/15/dctf-2017-state-agency-writeup</id>
-      <content type="html" xml:base="http://localhost:4000/2018/07/15/dctf-2017-state-agency-writeup/">&lt;h3 id=&quot;description&quot;&gt;Description:&lt;/h3&gt;
+      <id>https://nitesculucian.github.io/2018/07/15/dctf-2017-state-agency-writeup</id>
+      <content type="html" xml:base="https://nitesculucian.github.io/2018/07/15/dctf-2017-state-agency-writeup/">&lt;h3 id=&quot;description&quot;&gt;Description:&lt;/h3&gt;
 &lt;p&gt;This state agency has some secrets. Exfiltrate those.
 http://state-agency.tux.ro/&lt;/p&gt;
 
@@ -1199,12 +1199,12 @@ ibGljcHVibGljcHVibGlj”) we get the same response as before. The only input is 
       <title type="html">[DCTF 2017] hack-tac-toe Writeup</title>
       
       
-      <link href="http://localhost:4000/2018/07/15/dctf-2017-hack-tac-toe-writeup/" rel="alternate" type="text/html" title="[DCTF 2017] hack-tac-toe Writeup" />
+      <link href="https://nitesculucian.github.io/2018/07/15/dctf-2017-hack-tac-toe-writeup/" rel="alternate" type="text/html" title="[DCTF 2017] hack-tac-toe Writeup" />
       
       <published>2018-07-15T11:37:00-03:00</published>
       <updated>2018-07-15T11:37:00-03:00</updated>
-      <id>http://localhost:4000/2018/07/15/dctf-2017-hack-tac-toe-writeup</id>
-      <content type="html" xml:base="http://localhost:4000/2018/07/15/dctf-2017-hack-tac-toe-writeup/">&lt;h3 id=&quot;description&quot;&gt;Description:&lt;/h3&gt;
+      <id>https://nitesculucian.github.io/2018/07/15/dctf-2017-hack-tac-toe-writeup</id>
+      <content type="html" xml:base="https://nitesculucian.github.io/2018/07/15/dctf-2017-hack-tac-toe-writeup/">&lt;h3 id=&quot;description&quot;&gt;Description:&lt;/h3&gt;
 &lt;p&gt;Pair up! Let’s play a game of tic tac toe :)&lt;/p&gt;
 
 &lt;p&gt;https://hacktactoe.dctf-f1nals-2017.def.camp/&lt;/p&gt;
@@ -1357,12 +1357,12 @@ Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;licen
       <title type="html">[DCTF 2017] Fedora Shop Writeup</title>
       
       
-      <link href="http://localhost:4000/2018/07/15/dctf-2017-fedora-shop-writeup/" rel="alternate" type="text/html" title="[DCTF 2017] Fedora Shop Writeup" />
+      <link href="https://nitesculucian.github.io/2018/07/15/dctf-2017-fedora-shop-writeup/" rel="alternate" type="text/html" title="[DCTF 2017] Fedora Shop Writeup" />
       
       <published>2018-07-15T11:29:00-03:00</published>
       <updated>2018-07-15T11:29:00-03:00</updated>
-      <id>http://localhost:4000/2018/07/15/dctf-2017-fedora-shop-writeup</id>
-      <content type="html" xml:base="http://localhost:4000/2018/07/15/dctf-2017-fedora-shop-writeup/">&lt;h3 id=&quot;description&quot;&gt;Description:&lt;/h3&gt;
+      <id>https://nitesculucian.github.io/2018/07/15/dctf-2017-fedora-shop-writeup</id>
+      <content type="html" xml:base="https://nitesculucian.github.io/2018/07/15/dctf-2017-fedora-shop-writeup/">&lt;h3 id=&quot;description&quot;&gt;Description:&lt;/h3&gt;
 &lt;p&gt;After a series of attacks against their administrators they firewalled their facility. Will this stop you?&lt;/p&gt;
 
 &lt;p&gt;https://fedora-shop.dctf-f1nals-2017.def.camp/&lt;/p&gt;
@@ -1472,12 +1472,12 @@ Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;licen
       <title type="html">Reverse Shells Cheat Sheet</title>
       
       
-      <link href="http://localhost:4000/2018/07/15/reverse-shells-cheat-sheet/" rel="alternate" type="text/html" title="Reverse Shells Cheat Sheet" />
+      <link href="https://nitesculucian.github.io/2018/07/15/reverse-shells-cheat-sheet/" rel="alternate" type="text/html" title="Reverse Shells Cheat Sheet" />
       
       <published>2018-07-15T00:00:00-03:00</published>
       <updated>2018-07-15T00:00:00-03:00</updated>
-      <id>http://localhost:4000/2018/07/15/reverse-shells-cheat-sheet</id>
-      <content type="html" xml:base="http://localhost:4000/2018/07/15/reverse-shells-cheat-sheet/">&lt;p&gt;This list represent an comprehensive cheat sheet of shells and other related stuff.&lt;/p&gt;
+      <id>https://nitesculucian.github.io/2018/07/15/reverse-shells-cheat-sheet</id>
+      <content type="html" xml:base="https://nitesculucian.github.io/2018/07/15/reverse-shells-cheat-sheet/">&lt;p&gt;This list represent an comprehensive cheat sheet of shells and other related stuff.&lt;/p&gt;
 
 &lt;h2 id=&quot;listening&quot;&gt;Listening&lt;/h2&gt;
 &lt;p&gt;To setup a listening netcat instance, enter the following:&lt;/p&gt;
@@ -1617,12 +1617,12 @@ BEGIN {
       <title type="html">New beginnings!</title>
       
       
-      <link href="http://localhost:4000/2018/07/12/welcome-to-jekyll/" rel="alternate" type="text/html" title="New beginnings!" />
+      <link href="https://nitesculucian.github.io/2018/07/12/welcome-to-jekyll/" rel="alternate" type="text/html" title="New beginnings!" />
       
       <published>2018-07-12T17:16:45-03:00</published>
       <updated>2018-07-12T17:16:45-03:00</updated>
-      <id>http://localhost:4000/2018/07/12/welcome-to-jekyll</id>
-      <content type="html" xml:base="http://localhost:4000/2018/07/12/welcome-to-jekyll/">&lt;p&gt;Jekyll is my new black.&lt;/p&gt;</content>
+      <id>https://nitesculucian.github.io/2018/07/12/welcome-to-jekyll</id>
+      <content type="html" xml:base="https://nitesculucian.github.io/2018/07/12/welcome-to-jekyll/">&lt;p&gt;Jekyll is my new black.&lt;/p&gt;</content>
 
       
       
