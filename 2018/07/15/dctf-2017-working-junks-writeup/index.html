@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  
+  
+  <title>[DCTF 2017] Working Junks Writeup</title>
+  <meta name="description" content="Description: https://snag.gy/1hqQnF.jpg">
+  
+
+  <link rel="stylesheet" href="/assets/main.css">
+  <link rel="canonical" href="https://nitesculucian.github.io/2018/07/15/dctf-2017-working-junks-writeup/">
+  
+  
+  <link rel="alternate" type="application/rss+xml" title="Lucian Nitescu" href="https://nitesculucian.github.io/feed.xml">
+
+  
+
+  
+  <meta name="twitter:card" content="summary">
+  
+  <meta name="twitter:title" content="[DCTF 2017] Working Junks Writeup">
+  <meta name="twitter:description" content="Description: https://snag.gy/1hqQnF.jpg">
+  
+  
+
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css?family=Bitter:400,400i,700" rel="stylesheet">
+
+  
+  <!-- Google Analytics -->
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-107695141-1', 'auto');
+    ga('send', 'pageview');
+
+  </script>
+
+
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">Lucian Nitescu</a>
+
+    <nav class="site-nav">
+      
+        
+        <a class="page-link" href="/">Home</a>
+      
+        
+        <a class="page-link" href="/about/">Whoami</a>
+      
+        
+        <a class="page-link" href="/archives/">Archives</a>
+      
+    </nav>
+    <br>Security Blog
+  </div>
+
+</header>
+
+
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    
+      <h1 class="post-title" itemprop="name headline">[DCTF 2017] Working Junks Writeup</h1>
+    
+    <p class="post-meta"><time datetime="2018-07-15T11:49:00-03:00" itemprop="datePublished">Jul 15, 2018</time> •
+  
+    
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        <a href="/categories/dctf/">dctf</a>,
+      
+    
+      
+    
+      
+    
+  
+    
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        <a href="/categories/ctf/">ctf</a>,
+      
+    
+      
+    
+  
+    
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        <a href="/categories/writeups/">writeups</a>
+      
+    
+  
+
+
+
+</p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <h3 id="description">Description:</h3>
+<p>https://snag.gy/1hqQnF.jpg</p>
+
+<h3 id="author">Author:</h3>
+<p>Lucian Nitescu</p>
+
+<h3 id="stats">Stats:</h3>
+<p>162 points / 55 solvers</p>
+
+<h3 id="solution">Solution:</h3>
+
+<p>First of all the above given description is a reference to the junk (the ship/boat) and the red line below is a reference to the “in reverse”.</p>
+
+<p><img src="https://raw.githubusercontent.com/CCSIR/dctf-2017/master/quals/revexp/Working_Junks/img/1.png" alt="alt text" title="The description" /></p>
+
+<p>The challenge start with:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mehuser:~$ file e
+e: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 2.6.32, BuildID[sha1]=20712db5ad286fbbcfe0005d23d8cbcc3965cffa, not stripped
+</code></pre></div></div>
+
+<p>After we run this 64-bit ELF we got three things (hints):</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mehuser:~$ chmod +x ./e
+mehuser:~$ ./e
+?em wonk uoy oD !!!olleH
+!sdnatsrednu eno on taht yrots gib a evah I dnA !RACIE si eman yM
+!edoc ym si siht dnA
+*H+H$!ELIF-TSET-SURIVITNA-DRADNATS-RACIE$}7)CC7)^P(45XZP4[PA@P!O5XX5O!P%@AP[4PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*~jn
+
+~cb|6o
+f
+
+f
+jo`aff
+m}mlqoqo%|
+u
+
+ 
+u
+    
+
+u
+ 
+
+  uy|sr
+7Z N?J/.?4[?57Z[G?1FX,,FXK*&amp;,.=B&lt;;.!+.=+B.!;&amp;9&amp;=:&lt;B;*&lt;;B)&amp;#*NK'D'E
+X5O!P
+3.000000, 4.000000, 5.000000 
+
+
+&lt;snip of more junks&gt;
+
+</code></pre></div></div>
+<ol>
+  <li>We have junk, intended junk.</li>
+  <li>We have strings in reverse.</li>
+  <li>We have an eicar code missing characters because of “" (you can check with strings also)</li>
+</ol>
+
+<p>Reverse everything in python with this script:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 1.py
+f = open("e", "r")
+buf = f.read()
+f.close()
+buf = buf.encode("hex")
+buf = buf[::-1]
+f = open("sol", "w")
+f.write(buf.decode("hex"))
+f.close()
+
+</code></pre></div></div>
+<p>And then use binwalk to extract something from the junk!</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mehuser:~$ python ./rev.py 
+mehuser:~$ binwalk sol
+
+DECIMAL       HEXADECIMAL     DESCRIPTION
+--------------------------------------------------------------------------------
+11576         0x2D38          PNG image, 862 x 171, 8-bit/color RGB, non-interlaced
+</code></pre></div></div>
+
+<p>So we got to extract a PNG file that was stored in a string (reversed hex dump of the PNG file) in the first place.</p>
+
+<p><img src="https://raw.githubusercontent.com/CCSIR/dctf-2017/master/quals/revexp/Working_Junks/img/4.png" alt="alt text" title="The flag" /></p>
+
+<p>The flag is: DCTF{63a47eb3bcfade799a44e0560e891c25029e442e538276fb403975d18f93d88e}</p>
+
+
+  </div>
+
+  
+    <div class="post-comments" itemprop="comment">
+      <hr />
+<h1>Comments</h1>
+<div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://nitesculucian.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+    </div>
+  
+
+</article>
+
+      </div>
+    </main>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <p>
+      
+
+&copy; Lucian Nitescu - Powered by <a href="https://jekyllrb.com">Jekyll</a> &amp; <a href="https://github.com/yous/whiteglass">whiteglass</a> - Subscribe via <a href="https://nitesculucian.github.io/feed.xml">RSS</a>
+
+    </p>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>

