@@ -5,7 +5,7 @@
   
   <link href="https://nitesculucian.github.io/feed.xml" rel="self" type="application/atom+xml" />
   <link href="https://nitesculucian.github.io/" rel="alternate" type="text/html" hreflang="en" />
-  <updated>2018-07-17T19:19:41-03:00</updated>
+  <updated>2018-07-23T15:24:54-03:00</updated>
   <id>https://nitesculucian.github.io//</id>
 
   
@@ -24,6 +24,101 @@
     </author>
   
 
+  
+  
+    <entry>
+      
+      <title type="html">Midland CT590 frequency extender (RX/TX unlock)</title>
+      
+      
+      <link href="https://nitesculucian.github.io/2018/07/23/midland-ct590-frequency-extender-unlock/" rel="alternate" type="text/html" title="Midland CT590 frequency extender (RX/TX unlock)" />
+      
+      <published>2018-07-23T00:00:00-03:00</published>
+      <updated>2018-07-23T00:00:00-03:00</updated>
+      <id>https://nitesculucian.github.io/2018/07/23/midland-ct590-frequency-extender-unlock</id>
+      <content type="html" xml:base="https://nitesculucian.github.io/2018/07/23/midland-ct590-frequency-extender-unlock/">&lt;p&gt;&lt;img src=&quot;/uploads/midlandct590.jpg&quot; alt=&quot;Image of Midland CT590&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Recently I have bought an MIDLAND CT590 VHF/UHF (C1317) witch is a portable radio station for radio amateurs.&lt;/p&gt;
+
+&lt;p&gt;By itself the radio station supports the following frequenciens:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;144-146MHz VHF 
+430-440MHz UHF
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Personally I needed this radio station to talk with other PMR radios which are on 446.XXX frequency. Therefore I had to unlock my radio station (remove the limitations) to be allowed to speak on 446 band. Unfortunately enough, the radio station had no public tutorial so I decided to do one:&lt;/p&gt;
+
+&lt;p&gt;After sending an email to Midland, they provided me with the following steps:&lt;/p&gt;
+
+&lt;h3 id=&quot;italian-version&quot;&gt;Italian Version&lt;/h3&gt;
+
+&lt;p&gt;ESPANSIONE BANDA LAVORO CT590&lt;/p&gt;
+
+&lt;p&gt;Nelle radio CT590 sara possibile cambiare/estendere la banda operativa della radio tramite questa semplice procedura:&lt;/p&gt;
+
+&lt;p&gt;Allargamento range ricezione e trasmissione:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Accendere la radio tenendo premuto il tasto 1. Lo schermo LCD mostrerà la voce “set”.&lt;/li&gt;
+  &lt;li&gt;Premere MENU, il display mostrerà in basso l’attuale range di frequenza in VHF.&lt;/li&gt;
+  &lt;li&gt;Inserire la banda operativa desiderata, ad esempio se si vuole lavorare da 136 a 174MHZ in VHF
+inserire il codice “136174”. Attenzione: a seguito dell’introduzione di ogni singola cifra occorre
+premere il tasto “menu” per poter inserire la cifra successiva.&lt;/li&gt;
+  &lt;li&gt;Al termine dell’inserimento del range di frequenza in VHF premere menu per passare alle UHF.&lt;/li&gt;
+  &lt;li&gt;Inserire la banda operativa desiderata, ad esempio se si vuole lavorare da 400 a 520 MHZ in UHF
+inserire il codice “400520”. Attenzione: a seguito dell’introduzione di ogni singola cifra occorre
+premere il tasto “menu” per poter inserire la cifra successiva.&lt;/li&gt;
+  &lt;li&gt;Al termine della procedura premere “menu” per confermare.&lt;/li&gt;
+  &lt;li&gt;Attendere il boot della radio.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;english-version&quot;&gt;English Version&lt;/h3&gt;
+
+&lt;p&gt;To unlock MIDLAND CT590 it is necessary this procedure:&lt;/p&gt;
+
+&lt;p&gt;RX/TX unlock:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Press “1” and turn on the radio at the same time—then the LCD will show “Set”&lt;/li&gt;
+  &lt;li&gt;For Extend the band to 136-174 and 400-520, Press “Menu”—input “1”—Press “Menu”—input “3”–
+-Press “Menu”—input “6”—Press “Menu”—input “1”—Press “Menu”—input “7”—Press Menu—
+input “4”—Press Menu—input “4”—Press Menu—input “0”—Press Menu—input “0”—Press Menu-
+–input “5”—Press “Menu”—input “2”—Press “Menu”—input “0”&lt;/li&gt;
+  &lt;li&gt;Press “Menu”—The operation is done and the radio will reboot.&lt;/li&gt;
+&lt;/ul&gt;</content>
+
+      
+      
+      
+      
+      
+
+      
+        <author>
+            <name>Lucian Nitescu</name>
+          
+          
+        </author>
+      
+
+      
+        <category term="radio" />
+      
+        <category term="radioamateur" />
+      
+        <category term="modding" />
+      
+
+      
+
+      
+        <summary type="html"></summary>
+      
+
+      
+      
+    </entry>
+  
   
   
     <entry>
