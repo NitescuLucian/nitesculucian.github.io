@@ -5,7 +5,7 @@
   
   <link href="https://nitesculucian.github.io/feed.xml" rel="self" type="application/atom+xml" />
   <link href="https://nitesculucian.github.io/" rel="alternate" type="text/html" hreflang="en" />
-  <updated>2018-07-24T19:16:59-03:00</updated>
+  <updated>2018-07-24T21:24:05-03:00</updated>
   <id>https://nitesculucian.github.io//</id>
 
   
@@ -28,6 +28,146 @@
   
     <entry>
       
+      <title type="html">Create a Tor Website in 5 minutes</title>
+      
+      
+      <link href="https://nitesculucian.github.io/2018/07/24/create-a-tor-website-in-5-minutes/" rel="alternate" type="text/html" title="Create a Tor Website in 5 minutes" />
+      
+      <published>2018-07-24T20:08:00-03:00</published>
+      <updated>2018-07-24T20:08:00-03:00</updated>
+      <id>https://nitesculucian.github.io/2018/07/24/create-a-tor-website-in-5-minutes</id>
+      <content type="html" xml:base="https://nitesculucian.github.io/2018/07/24/create-a-tor-website-in-5-minutes/">&lt;p&gt;&lt;img src=&quot;/uploads/tor.png&quot; alt=&quot;Image of TheOnionRouting&quot; /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;general-informations&quot;&gt;General informations&lt;/h1&gt;
+
+&lt;h4 id=&quot;what-is-tor&quot;&gt;What is Tor?&lt;/h4&gt;
+&lt;p&gt;Tor is free software and an open network that helps you defend against traffic analysis, a form of network surveillance that threatens personal freedom and privacy, confidential business activities and relationships, and state security.&lt;/p&gt;
+
+&lt;h4 id=&quot;why-anonymity-matters&quot;&gt;Why Anonymity Matters&lt;/h4&gt;
+&lt;p&gt;Tor protects you by bouncing your communications around a distributed network of relays run by volunteers all around the world: it prevents somebody watching your Internet connection from learning what sites you visit, and it prevents the sites you visit from learning your physical location.&lt;/p&gt;
+
+&lt;p&gt;Source: https://www.torproject.org/&lt;/p&gt;
+
+&lt;h1 id=&quot;instalation-and-routing&quot;&gt;Instalation and routing&lt;/h1&gt;
+
+&lt;p&gt;Personally, when I need a simple Tor Website I use a VM or a phishical machine with a live booted linux based OS (in general the Ubuntu 16.04). This tutorial is actually for Ubuntu 16.04 in virtual box and fell free to change it to your needs.&lt;/p&gt;
+
+&lt;h4 id=&quot;step-1-vm-and-network-interface&quot;&gt;Step 1: VM and Network Interface&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Make a fresh new VM.&lt;/li&gt;
+  &lt;li&gt;Configure interface in bridged mode.&lt;/li&gt;
+  &lt;li&gt;Boot Ubuntu 16.04 live ISO.&lt;/li&gt;
+  &lt;li&gt;Do not install Ubuntu and choose “Try Ubuntu”&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;step-2-install-nginx&quot;&gt;Step 2: Install Nginx&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;sudo apt install nginx&lt;/li&gt;
+  &lt;li&gt;sudo rm /etc/nginx/sites-available/default&lt;/li&gt;
+  &lt;li&gt;sudo nano /etc/nginx/sites-available/default&lt;/li&gt;
+  &lt;li&gt;Add the followings to the new &lt;code class=&quot;highlighter-rouge&quot;&gt;/etc/nginx/sites-available/default&lt;/code&gt; and save:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-config highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;server&lt;/span&gt; {
+       &lt;span class=&quot;n&quot;&gt;listen&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;127&lt;/span&gt;.&lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;.&lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;.&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;:&lt;span class=&quot;m&quot;&gt;8080&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;default_server&lt;/span&gt;;
+       &lt;span class=&quot;n&quot;&gt;server_name&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;localhost&lt;/span&gt;;
+       &lt;span class=&quot;n&quot;&gt;root&lt;/span&gt; /&lt;span class=&quot;n&quot;&gt;usr&lt;/span&gt;/&lt;span class=&quot;n&quot;&gt;share&lt;/span&gt;/&lt;span class=&quot;n&quot;&gt;nginx&lt;/span&gt;/&lt;span class=&quot;n&quot;&gt;html&lt;/span&gt;;
+       &lt;span class=&quot;n&quot;&gt;index&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;index&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;html&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;index&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;htm&lt;/span&gt;;
+       &lt;span class=&quot;n&quot;&gt;location&lt;/span&gt; / {
+               &lt;span class=&quot;n&quot;&gt;allow&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;127&lt;/span&gt;.&lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;.&lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;.&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;;
+               &lt;span class=&quot;n&quot;&gt;deny&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;all&lt;/span&gt;;
+       }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;step-3-install-tor-for-the-website&quot;&gt;Step 3: Install Tor for the website&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;sudo nano /etc/apt/sources.list&lt;/li&gt;
+  &lt;li&gt;Append and save: &lt;code class=&quot;highlighter-rouge&quot;&gt;deb http://deb.torproject.org/torproject.org xenial main&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;Go to https://www.torproject.org/docs/debian.html.en and retrive the followings:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;gpg &lt;span class=&quot;nt&quot;&gt;--keyserver&lt;/span&gt; keys.gnupg.net &lt;span class=&quot;nt&quot;&gt;--recv&lt;/span&gt; A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89
+gpg &lt;span class=&quot;nt&quot;&gt;--export&lt;/span&gt; A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | &lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-key add -
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Proceed with the instalation:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt update
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;tor deb.torproject.org-keyring
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Proceed with the configuration:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;nano /etc/tor/torrc
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Replace:&lt;/p&gt;
+
+&lt;div class=&quot;language-config highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#HiddenServiceDir /var/lib/tor/hidden_service/#
+#HiddenServicePort 80 127.0.0.1:80
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;With:&lt;/p&gt;
+
+&lt;div class=&quot;language-config highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;HiddenServiceDir&lt;/span&gt; /&lt;span class=&quot;n&quot;&gt;var&lt;/span&gt;/&lt;span class=&quot;n&quot;&gt;lib&lt;/span&gt;/&lt;span class=&quot;n&quot;&gt;tor&lt;/span&gt;/&lt;span class=&quot;n&quot;&gt;hidden_service&lt;/span&gt;/
+&lt;span class=&quot;n&quot;&gt;HiddenServicePort&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;80&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;127&lt;/span&gt;.&lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;.&lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;.&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;:&lt;span class=&quot;m&quot;&gt;8080&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;step-4-fire-it-up&quot;&gt;Step 4: Fire it up!&lt;/h4&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;service nginx restart
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;service tor restart
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;To retrive the website .onion link:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; /var/lib/tor/hidden_service/hostname
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot%20from%202018-07-25%2002-01-59.png&quot; alt=&quot;Image of TheOnionRouting&quot; /&gt;&lt;/p&gt;</content>
+
+      
+      
+      
+      
+      
+
+      
+        <author>
+            <name>Lucian Nitescu</name>
+          
+          
+        </author>
+      
+
+      
+        <category term="Tutorials" />
+      
+        <category term="TheOnionRouting" />
+      
+
+      
+
+      
+        <summary type="html"></summary>
+      
+
+      
+      
+    </entry>
+  
+  
+  
+    <entry>
+      
       <title type="html">Msfvenom Cheat Sheet</title>
       
       
@@ -36,7 +176,7 @@
       <published>2018-07-24T18:58:00-03:00</published>
       <updated>2018-07-24T18:58:00-03:00</updated>
       <id>https://nitesculucian.github.io/2018/07/24/msfvenom-cheat-sheet</id>
-      <content type="html" xml:base="https://nitesculucian.github.io/2018/07/24/msfvenom-cheat-sheet/">&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot%20from%202018-07-25%2001-11-02.png&quot; alt=&quot;Image of Nebula Terminal&quot; /&gt;&lt;/p&gt;
+      <content type="html" xml:base="https://nitesculucian.github.io/2018/07/24/msfvenom-cheat-sheet/">&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot%20from%202018-07-25%2001-11-02.png&quot; alt=&quot;Image of msfconsole&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;MsfVenom is a Metasploit standalone payload generator as replacement for msfpayload and msfencode.&lt;/p&gt;
 
@@ -3913,50 +4053,6 @@ BEGIN {
 
       
         <summary type="html">This list represent an comprehensive cheat sheet of shells and other related stuff.</summary>
-      
-
-      
-      
-    </entry>
-  
-  
-  
-    <entry>
-      
-      <title type="html">New beginnings!</title>
-      
-      
-      <link href="https://nitesculucian.github.io/2018/07/12/welcome-to-jekyll/" rel="alternate" type="text/html" title="New beginnings!" />
-      
-      <published>2018-07-12T17:16:45-03:00</published>
-      <updated>2018-07-12T17:16:45-03:00</updated>
-      <id>https://nitesculucian.github.io/2018/07/12/welcome-to-jekyll</id>
-      <content type="html" xml:base="https://nitesculucian.github.io/2018/07/12/welcome-to-jekyll/">&lt;p&gt;Jekyll is my new black.&lt;/p&gt;</content>
-
-      
-      
-      
-      
-      
-
-      
-        <author>
-            <name>Lucian Nitescu</name>
-          
-          
-        </author>
-      
-
-      
-        <category term="jekyll" />
-      
-        <category term="update" />
-      
-
-      
-
-      
-        <summary type="html">Jekyll is my new black.</summary>
       
 
       
