@@ -5,7 +5,7 @@
   
   <link href="https://nitesculucian.github.io/feed.xml" rel="self" type="application/atom+xml" />
   <link href="https://nitesculucian.github.io/" rel="alternate" type="text/html" hreflang="en" />
-  <updated>2018-07-24T21:24:05-03:00</updated>
+  <updated>2018-07-28T15:55:59-03:00</updated>
   <id>https://nitesculucian.github.io//</id>
 
   
@@ -38,7 +38,7 @@
       <id>https://nitesculucian.github.io/2018/07/24/create-a-tor-website-in-5-minutes</id>
       <content type="html" xml:base="https://nitesculucian.github.io/2018/07/24/create-a-tor-website-in-5-minutes/">&lt;p&gt;&lt;img src=&quot;/uploads/tor.png&quot; alt=&quot;Image of TheOnionRouting&quot; /&gt;&lt;/p&gt;
 
-&lt;h1 id=&quot;general-informations&quot;&gt;General informations&lt;/h1&gt;
+&lt;h1 id=&quot;general-information&quot;&gt;General information&lt;/h1&gt;
 
 &lt;h4 id=&quot;what-is-tor&quot;&gt;What is Tor?&lt;/h4&gt;
 &lt;p&gt;Tor is free software and an open network that helps you defend against traffic analysis, a form of network surveillance that threatens personal freedom and privacy, confidential business activities and relationships, and state security.&lt;/p&gt;
@@ -48,9 +48,9 @@
 
 &lt;p&gt;Source: https://www.torproject.org/&lt;/p&gt;
 
-&lt;h1 id=&quot;instalation-and-routing&quot;&gt;Instalation and routing&lt;/h1&gt;
+&lt;h1 id=&quot;installation-and-routing&quot;&gt;Installation and routing&lt;/h1&gt;
 
-&lt;p&gt;Personally, when I need a simple Tor Website I use a VM or a phishical machine with a live booted linux based OS (in general the Ubuntu 16.04). This tutorial is actually for Ubuntu 16.04 in virtual box and fell free to change it to your needs.&lt;/p&gt;
+&lt;p&gt;Personally, when I need a simple Tor Website I use a VM or a physical machine with a live booted a Linux based OS (in general the Ubuntu 16.04). This tutorial is actually for Ubuntu 16.04 in virtual box and feel free to change it to your needs.&lt;/p&gt;
 
 &lt;h4 id=&quot;step-1-vm-and-network-interface&quot;&gt;Step 1: VM and Network Interface&lt;/h4&gt;
 
@@ -132,7 +132,9 @@ gpg &lt;span class=&quot;nt&quot;&gt;--export&lt;/span&gt; A3C4F0F979CAA22CDBA8F
 &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; /var/lib/tor/hidden_service/hostname
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot%20from%202018-07-25%2002-01-59.png&quot; alt=&quot;Image of TheOnionRouting&quot; /&gt;&lt;/p&gt;</content>
+&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot%20from%202018-07-25%2002-01-59.png&quot; alt=&quot;Image of TheOnionRouting&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Your websites html files can be found in &lt;code class=&quot;highlighter-rouge&quot;&gt;/usr/share/nginx/html&lt;/code&gt;&lt;/p&gt;</content>
 
       
       
@@ -178,7 +180,7 @@ gpg &lt;span class=&quot;nt&quot;&gt;--export&lt;/span&gt; A3C4F0F979CAA22CDBA8F
       <id>https://nitesculucian.github.io/2018/07/24/msfvenom-cheat-sheet</id>
       <content type="html" xml:base="https://nitesculucian.github.io/2018/07/24/msfvenom-cheat-sheet/">&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot%20from%202018-07-25%2001-11-02.png&quot; alt=&quot;Image of msfconsole&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;MsfVenom is a Metasploit standalone payload generator as replacement for msfpayload and msfencode.&lt;/p&gt;
+&lt;p&gt;MsfVenom is a Metasploit standalone payload generator as a replacement for msfpayload and msfencode.&lt;/p&gt;
 
 &lt;h2 id=&quot;binaries&quot;&gt;Binaries&lt;/h2&gt;
 
@@ -328,15 +330,15 @@ msf exploit&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;multi/handler&lt;span c
       <id>https://nitesculucian.github.io/2018/07/23/midland-ct590-frequency-extender-unlock</id>
       <content type="html" xml:base="https://nitesculucian.github.io/2018/07/23/midland-ct590-frequency-extender-unlock/">&lt;p&gt;&lt;img src=&quot;/uploads/midlandct590.jpg&quot; alt=&quot;Image of Midland CT590&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;Recently I have bought an MIDLAND CT590 VHF/UHF (C1317) witch is a portable radio station for radio amateurs.&lt;/p&gt;
+&lt;p&gt;Recently I have bought a MIDLAND CT590 VHF/UHF (C1317) which is a portable radio station for radio amateurs.&lt;/p&gt;
 
-&lt;p&gt;By itself the radio station supports the following frequenciens:&lt;/p&gt;
+&lt;p&gt;By itself the radio station supports the following frequencies:&lt;/p&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;144-146MHz VHF 
 430-440MHz UHF
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;Personally I needed this radio station to talk with other PMR radios which are on 446.XXX frequency. Therefore I had to unlock my radio station (remove the limitations) to be allowed to speak on 446 band. Unfortunately enough, the radio station had no public tutorial so I decided to do one:&lt;/p&gt;
+&lt;p&gt;Personally, I needed this radio station to talk with other PMR radios which are on 446.XXX frequency. Therefore I had to unlock my radio station (remove the limitations) to be allowed to speak on 446 bands. Unfortunately enough, the radio station had no public tutorial so I decided to do one:&lt;/p&gt;
 
 &lt;p&gt;After sending an email to Midland, they provided me with the following steps:&lt;/p&gt;
 
@@ -364,7 +366,7 @@ premere il tasto “menu” per poter inserire la cifra successiva.&lt;/li&gt;
 
 &lt;h3 id=&quot;english-version&quot;&gt;English Version&lt;/h3&gt;
 
-&lt;p&gt;To unlock MIDLAND CT590 it is necessary this procedure:&lt;/p&gt;
+&lt;p&gt;To unlock MIDLAND CT590 it is necessary to follow the next steps:&lt;/p&gt;
 
 &lt;p&gt;RX/TX unlock:&lt;/p&gt;
 
