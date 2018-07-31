@@ -5,7 +5,7 @@
   
   <link href="https://nitesculucian.github.io/feed.xml" rel="self" type="application/atom+xml" />
   <link href="https://nitesculucian.github.io/" rel="alternate" type="text/html" hreflang="en" />
-  <updated>2018-07-31T18:51:06-03:00</updated>
+  <updated>2018-07-31T19:24:49-03:00</updated>
   <id>https://nitesculucian.github.io//</id>
 
   
@@ -28,6 +28,50 @@
   
     <entry>
       
+      <title type="html">Driftnet with ARP Poisoning</title>
+      
+      
+      <link href="https://nitesculucian.github.io/2018/07/31/driftnet-with-arp-poisoning/" rel="alternate" type="text/html" title="Driftnet with ARP Poisoning" />
+      
+      <published>2018-07-31T19:09:00-03:00</published>
+      <updated>2018-07-31T19:09:00-03:00</updated>
+      <id>https://nitesculucian.github.io/2018/07/31/driftnet-with-arp-poisoning</id>
+      <content type="html" xml:base="https://nitesculucian.github.io/2018/07/31/driftnet-with-arp-poisoning/">&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot%20from%202018-08-01%2001-16-32.png&quot; alt=&quot;Image of Driftnet&quot; /&gt;&lt;/p&gt;</content>
+
+      
+      
+      
+      
+      
+
+      
+        <author>
+            <name>Lucian Nitescu</name>
+          
+          
+        </author>
+      
+
+      
+        <category term="sniffing" />
+      
+        <category term="offensive_security" />
+      
+
+      
+
+      
+        <summary type="html"></summary>
+      
+
+      
+      
+    </entry>
+  
+  
+  
+    <entry>
+      
       <title type="html">Common Network Sniffing Tools</title>
       
       
@@ -36,7 +80,7 @@
       <published>2018-07-31T18:08:00-03:00</published>
       <updated>2018-07-31T18:08:00-03:00</updated>
       <id>https://nitesculucian.github.io/2018/07/31/common-network-sniffing-tools</id>
-      <content type="html" xml:base="https://nitesculucian.github.io/2018/07/31/common-network-sniffing-tools/">&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot%20from%202018-08-01%2000-48-07.png&quot; alt=&quot;Image of TheOnionRouting&quot; /&gt;&lt;/p&gt;</content>
+      <content type="html" xml:base="https://nitesculucian.github.io/2018/07/31/common-network-sniffing-tools/">&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot%20from%202018-08-01%2000-48-07.png&quot; alt=&quot;Image of Wireshark&quot; /&gt;&lt;/p&gt;</content>
 
       
       
@@ -869,53 +913,6 @@ http://state-agency.tux.ro/&lt;/p&gt;</content>
 
       
         <summary type="html">Description: Pair up! Let’s play a game of tic tac toe :)</summary>
-      
-
-      
-      
-    </entry>
-  
-  
-  
-    <entry>
-      
-      <title type="html">[DCTF 2017] Fedora Shop Writeup</title>
-      
-      
-      <link href="https://nitesculucian.github.io/2018/07/15/dctf-2017-fedora-shop-writeup/" rel="alternate" type="text/html" title="[DCTF 2017] Fedora Shop Writeup" />
-      
-      <published>2018-07-15T11:29:00-03:00</published>
-      <updated>2018-07-15T11:29:00-03:00</updated>
-      <id>https://nitesculucian.github.io/2018/07/15/dctf-2017-fedora-shop-writeup</id>
-      <content type="html" xml:base="https://nitesculucian.github.io/2018/07/15/dctf-2017-fedora-shop-writeup/">&lt;h3 id=&quot;description&quot;&gt;Description:&lt;/h3&gt;
-&lt;p&gt;After a series of attacks against their administrators they firewalled their facility. Will this stop you?&lt;/p&gt;</content>
-
-      
-      
-      
-      
-      
-
-      
-        <author>
-            <name>Lucian Nitescu</name>
-          
-          
-        </author>
-      
-
-      
-        <category term="dctf" />
-      
-        <category term="ctf" />
-      
-        <category term="writeups" />
-      
-
-      
-
-      
-        <summary type="html">Description: After a series of attacks against their administrators they firewalled their facility. Will this stop you?</summary>
       
 
       

