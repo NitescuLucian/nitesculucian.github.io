@@ -5,7 +5,7 @@
   
   <link href="https://nitesculucian.github.io/feed.xml" rel="self" type="application/atom+xml" />
   <link href="https://nitesculucian.github.io/" rel="alternate" type="text/html" hreflang="en" />
-  <updated>2018-07-30T17:20:40-03:00</updated>
+  <updated>2018-07-31T18:51:06-03:00</updated>
   <id>https://nitesculucian.github.io//</id>
 
   
@@ -24,6 +24,50 @@
     </author>
   
 
+  
+  
+    <entry>
+      
+      <title type="html">Common Network Sniffing Tools</title>
+      
+      
+      <link href="https://nitesculucian.github.io/2018/07/31/common-network-sniffing-tools/" rel="alternate" type="text/html" title="Common Network Sniffing Tools" />
+      
+      <published>2018-07-31T18:08:00-03:00</published>
+      <updated>2018-07-31T18:08:00-03:00</updated>
+      <id>https://nitesculucian.github.io/2018/07/31/common-network-sniffing-tools</id>
+      <content type="html" xml:base="https://nitesculucian.github.io/2018/07/31/common-network-sniffing-tools/">&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot%20from%202018-08-01%2000-48-07.png&quot; alt=&quot;Image of TheOnionRouting&quot; /&gt;&lt;/p&gt;</content>
+
+      
+      
+      
+      
+      
+
+      
+        <author>
+            <name>Lucian Nitescu</name>
+          
+          
+        </author>
+      
+
+      
+        <category term="tools" />
+      
+        <category term="offensive_security" />
+      
+
+      
+
+      
+        <summary type="html"></summary>
+      
+
+      
+      
+    </entry>
+  
   
   
     <entry>
@@ -872,50 +916,6 @@ http://state-agency.tux.ro/&lt;/p&gt;</content>
 
       
         <summary type="html">Description: After a series of attacks against their administrators they firewalled their facility. Will this stop you?</summary>
-      
-
-      
-      
-    </entry>
-  
-  
-  
-    <entry>
-      
-      <title type="html">Reverse Shells Cheat Sheet</title>
-      
-      
-      <link href="https://nitesculucian.github.io/2018/07/15/reverse-shells-cheat-sheet/" rel="alternate" type="text/html" title="Reverse Shells Cheat Sheet" />
-      
-      <published>2018-07-15T00:00:00-03:00</published>
-      <updated>2018-07-15T00:00:00-03:00</updated>
-      <id>https://nitesculucian.github.io/2018/07/15/reverse-shells-cheat-sheet</id>
-      <content type="html" xml:base="https://nitesculucian.github.io/2018/07/15/reverse-shells-cheat-sheet/">&lt;p&gt;This list represent an comprehensive cheat sheet of shells and other related stuff.&lt;/p&gt;</content>
-
-      
-      
-      
-      
-      
-
-      
-        <author>
-            <name>Lucian Nitescu</name>
-          
-          
-        </author>
-      
-
-      
-        <category term="cheatsheet" />
-      
-        <category term="offensive_security" />
-      
-
-      
-
-      
-        <summary type="html">This list represent an comprehensive cheat sheet of shells and other related stuff.</summary>
       
 
       
