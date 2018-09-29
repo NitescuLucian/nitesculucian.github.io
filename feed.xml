@@ -5,7 +5,7 @@
   
   <link href="https://nitesculucian.github.io/feed.xml" rel="self" type="application/atom+xml" />
   <link href="https://nitesculucian.github.io/" rel="alternate" type="text/html" hreflang="en" />
-  <updated>2018-09-09T17:27:40-03:00</updated>
+  <updated>2018-09-29T16:04:22-03:00</updated>
   <id>https://nitesculucian.github.io//</id>
 
   
@@ -24,6 +24,54 @@
     </author>
   
 
+  
+  
+    <entry>
+      
+      <title type="html">[DCTF Quals 2018] Broken TV</title>
+      
+      
+      <link href="https://nitesculucian.github.io/2018/09/29/dctf-2018-broken-tv/" rel="alternate" type="text/html" title="[DCTF Quals 2018] Broken TV" />
+      
+      <published>2018-09-29T15:18:00-03:00</published>
+      <updated>2018-09-29T15:18:00-03:00</updated>
+      <id>https://nitesculucian.github.io/2018/09/29/dctf-2018-broken-tv</id>
+      <content type="html" xml:base="https://nitesculucian.github.io/2018/09/29/dctf-2018-broken-tv/">&lt;h3 id=&quot;description&quot;&gt;Description:&lt;/h3&gt;
+&lt;p&gt;Guys, I’ve asked Google for this flag! But my only monitor is this Broken TV… 
+Target: https://broken-tv.dctfq18.def.camp/&lt;/p&gt;</content>
+
+      
+      
+      
+      
+      
+
+      
+        <author>
+            <name>Lucian Nitescu</name>
+          
+          
+        </author>
+      
+
+      
+        <category term="dctf" />
+      
+        <category term="ctf" />
+      
+        <category term="writeups" />
+      
+
+      
+
+      
+        <summary type="html">Description: Guys, I’ve asked Google for this flag! But my only monitor is this Broken TV… Target: https://broken-tv.dctfq18.def.camp/</summary>
+      
+
+      
+      
+    </entry>
+  
   
   
     <entry>
@@ -858,54 +906,6 @@
 
       
         <summary type="html">Description: We really need that token. Can you take it? https://security-cctv.dctf-f1nals-2017.def.camp/.</summary>
-      
-
-      
-      
-    </entry>
-  
-  
-  
-    <entry>
-      
-      <title type="html">[DCTF 2017] State Agency Writeup</title>
-      
-      
-      <link href="https://nitesculucian.github.io/2018/07/15/dctf-2017-state-agency-writeup/" rel="alternate" type="text/html" title="[DCTF 2017] State Agency Writeup" />
-      
-      <published>2018-07-15T11:37:00-03:00</published>
-      <updated>2018-07-15T11:37:00-03:00</updated>
-      <id>https://nitesculucian.github.io/2018/07/15/dctf-2017-state-agency-writeup</id>
-      <content type="html" xml:base="https://nitesculucian.github.io/2018/07/15/dctf-2017-state-agency-writeup/">&lt;h3 id=&quot;description&quot;&gt;Description:&lt;/h3&gt;
-&lt;p&gt;This state agency has some secrets. Exfiltrate those.
-http://state-agency.tux.ro/&lt;/p&gt;</content>
-
-      
-      
-      
-      
-      
-
-      
-        <author>
-            <name>Lucian Nitescu</name>
-          
-          
-        </author>
-      
-
-      
-        <category term="dctf" />
-      
-        <category term="ctf" />
-      
-        <category term="writeups" />
-      
-
-      
-
-      
-        <summary type="html">Description: This state agency has some secrets. Exfiltrate those. http://state-agency.tux.ro/</summary>
       
 
       
