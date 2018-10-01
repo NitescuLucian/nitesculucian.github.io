@@ -5,7 +5,7 @@
   
   <link href="https://nitesculucian.github.io/feed.xml" rel="self" type="application/atom+xml" />
   <link href="https://nitesculucian.github.io/" rel="alternate" type="text/html" hreflang="en" />
-  <updated>2018-09-29T16:04:22-03:00</updated>
+  <updated>2018-10-01T11:00:53-03:00</updated>
   <id>https://nitesculucian.github.io//</id>
 
   
@@ -28,17 +28,15 @@
   
     <entry>
       
-      <title type="html">[DCTF Quals 2018] Broken TV</title>
+      <title type="html">[DCTF Quals 2018] Message</title>
       
       
-      <link href="https://nitesculucian.github.io/2018/09/29/dctf-2018-broken-tv/" rel="alternate" type="text/html" title="[DCTF Quals 2018] Broken TV" />
+      <link href="https://nitesculucian.github.io/2018/09/30/dctf-2018-message/" rel="alternate" type="text/html" title="[DCTF Quals 2018] Message" />
       
-      <published>2018-09-29T15:18:00-03:00</published>
-      <updated>2018-09-29T15:18:00-03:00</updated>
-      <id>https://nitesculucian.github.io/2018/09/29/dctf-2018-broken-tv</id>
-      <content type="html" xml:base="https://nitesculucian.github.io/2018/09/29/dctf-2018-broken-tv/">&lt;h3 id=&quot;description&quot;&gt;Description:&lt;/h3&gt;
-&lt;p&gt;Guys, I’ve asked Google for this flag! But my only monitor is this Broken TV… 
-Target: https://broken-tv.dctfq18.def.camp/&lt;/p&gt;</content>
+      <published>2018-09-30T05:52:00-03:00</published>
+      <updated>2018-09-30T05:52:00-03:00</updated>
+      <id>https://nitesculucian.github.io/2018/09/30/dctf-2018-message</id>
+      <content type="html" xml:base="https://nitesculucian.github.io/2018/09/30/dctf-2018-message/">&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot%20from%202018-10-01%2016-37-21.png&quot; alt=&quot;Image of DCTF Quals 2018&quot; /&gt;&lt;/p&gt;</content>
 
       
       
@@ -65,7 +63,53 @@ Target: https://broken-tv.dctfq18.def.camp/&lt;/p&gt;</content>
       
 
       
-        <summary type="html">Description: Guys, I’ve asked Google for this flag! But my only monitor is this Broken TV… Target: https://broken-tv.dctfq18.def.camp/</summary>
+        <summary type="html"></summary>
+      
+
+      
+      
+    </entry>
+  
+  
+  
+    <entry>
+      
+      <title type="html">[DCTF Quals 2018] Broken TV</title>
+      
+      
+      <link href="https://nitesculucian.github.io/2018/09/29/dctf-2018-broken-tv/" rel="alternate" type="text/html" title="[DCTF Quals 2018] Broken TV" />
+      
+      <published>2018-09-29T15:18:00-03:00</published>
+      <updated>2018-09-29T15:18:00-03:00</updated>
+      <id>https://nitesculucian.github.io/2018/09/29/dctf-2018-broken-tv</id>
+      <content type="html" xml:base="https://nitesculucian.github.io/2018/09/29/dctf-2018-broken-tv/">&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot%20from%202018-10-01%2016-37-21.png&quot; alt=&quot;Image of DCTF Quals 2018&quot; /&gt;&lt;/p&gt;</content>
+
+      
+      
+      
+      
+      
+
+      
+        <author>
+            <name>Lucian Nitescu</name>
+          
+          
+        </author>
+      
+
+      
+        <category term="dctf" />
+      
+        <category term="ctf" />
+      
+        <category term="writeups" />
+      
+
+      
+
+      
+        <summary type="html"></summary>
       
 
       
@@ -859,53 +903,6 @@ Target: https://broken-tv.dctfq18.def.camp/&lt;/p&gt;</content>
 
       
         <summary type="html">Description: https://snag.gy/1hqQnF.jpg</summary>
-      
-
-      
-      
-    </entry>
-  
-  
-  
-    <entry>
-      
-      <title type="html">[DCTF 2017] Security CCTV Writeup</title>
-      
-      
-      <link href="https://nitesculucian.github.io/2018/07/15/dctf-2017-security-cctv-writeup/" rel="alternate" type="text/html" title="[DCTF 2017] Security CCTV Writeup" />
-      
-      <published>2018-07-15T11:44:00-03:00</published>
-      <updated>2018-07-15T11:44:00-03:00</updated>
-      <id>https://nitesculucian.github.io/2018/07/15/dctf-2017-security-cctv-writeup</id>
-      <content type="html" xml:base="https://nitesculucian.github.io/2018/07/15/dctf-2017-security-cctv-writeup/">&lt;h3 id=&quot;description&quot;&gt;Description:&lt;/h3&gt;
-&lt;p&gt;We really need that token. Can you take it? https://security-cctv.dctf-f1nals-2017.def.camp/.&lt;/p&gt;</content>
-
-      
-      
-      
-      
-      
-
-      
-        <author>
-            <name>Lucian Nitescu</name>
-          
-          
-        </author>
-      
-
-      
-        <category term="dctf" />
-      
-        <category term="ctf" />
-      
-        <category term="writeups" />
-      
-
-      
-
-      
-        <summary type="html">Description: We really need that token. Can you take it? https://security-cctv.dctf-f1nals-2017.def.camp/.</summary>
       
 
       
