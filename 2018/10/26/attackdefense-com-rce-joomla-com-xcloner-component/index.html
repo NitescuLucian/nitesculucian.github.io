@@ -26,15 +26,15 @@ window.cookieconsent.initialise({
   
   
   
-  <title>Midland CT590 frequency extender (RX/TX unlock)</title>
+  <title>AttackDefense.com [RCE] - Joomla com_xcloner Component</title>
   <meta name="description" content="">
   
     
-    <meta name="keywords" content="Lucian Nitescu Midland CT590 frequency flag extender RX/TX unlock hack tutorial solution C1317 VHF UHF">
+    <meta name="keywords" content="Lucian Nitescu DCTF DefCamp 2018 competition CTF capture flag chall challange">
   
 
   <link rel="stylesheet" href="/assets/main.css">
-  <link rel="canonical" href="https://nitesculucian.github.io/2018/07/23/midland-ct590-frequency-extender-unlock/">
+  <link rel="canonical" href="https://nitesculucian.github.io/2018/10/26/attackdefense-com-rce-joomla-com-xcloner-component/">
   
   
   <link rel="alternate" type="application/rss+xml" title="Lucian Nitescu" href="https://nitesculucian.github.io/feed.xml">
@@ -44,7 +44,7 @@ window.cookieconsent.initialise({
   
   <meta name="twitter:card" content="summary">
   
-  <meta name="twitter:title" content="Midland CT590 frequency extender (RX/TX unlock)">
+  <meta name="twitter:title" content="AttackDefense.com [RCE] - Joomla com_xcloner Component">
   <meta name="twitter:description" content="">
   
   
@@ -101,87 +101,9 @@ window.cookieconsent.initialise({
 
   <header class="post-header">
     
-      <h1 class="post-title" itemprop="name headline">Midland CT590 frequency extender (RX/TX unlock)</h1>
+      <h1 class="post-title" itemprop="name headline">AttackDefense.com [RCE] - Joomla com_xcloner Component</h1>
     
-    <p class="post-meta"><time datetime="2018-07-23T00:00:00-03:00" itemprop="datePublished">Jul 23, 2018</time> •
-  
-    
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-        <a href="/categories/radio/">radio</a>,
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-  
-    
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-        <a href="/categories/radioamateur/">radioamateur</a>,
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
+    <p class="post-meta"><time datetime="2018-10-26T11:40:00-03:00" itemprop="datePublished">Oct 26, 2018</time> •
   
     
     
@@ -206,7 +128,36 @@ window.cookieconsent.initialise({
       
     
       
-        <a href="/categories/modding/">modding</a>
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        <a href="/categories/attackdefense-com/">AttackDefense.com</a>,
+      
+    
+      
+    
+  
+    
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        <a href="/categories/ctf/">ctf</a>,
       
     
       
@@ -219,6 +170,94 @@ window.cookieconsent.initialise({
     
       
     
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  
+    
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        <a href="/categories/writeups/">writeups</a>,
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  
+    
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        <a href="/categories/rce/">rce</a>
       
     
   
@@ -229,56 +268,66 @@ window.cookieconsent.initialise({
   </header>
 
   <div class="post-content" itemprop="articleBody">
-    <p><img src="/uploads/midlandct590.jpg" alt="Image of Midland CT590" /></p>
+    <p><img src="/uploads/Screenshot from 2018-10-26 17-44-27.png" alt="Image of AttackDefense 2018" /></p>
 
-<p>Recently I have bought a MIDLAND CT590 VHF/UHF (C1317) which is a portable radio station for radio amateurs.</p>
+<h3 id="mission">Mission</h3>
 
-<p>By itself the radio station supports the following frequencies:</p>
+<p>A version of Joomla com_xcloner Component is vulnerable to remote code execution attack. Your task is to find and exploit this vulnerability.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>144-146MHz VHF 
-430-440MHz UHF
-</code></pre></div></div>
-
-<p>Personally, I needed this radio station to talk with other PMR radios which are on 446.XXX frequency. Therefore I had to unlock my radio station (remove the limitations) to be allowed to speak on 446 bands. Unfortunately enough, the radio station had no public tutorial so I decided to do one:</p>
-
-<p>After sending an email to Midland, they provided me with the following steps:</p>
-
-<h3 id="italian-version">Italian Version</h3>
-
-<p>ESPANSIONE BANDA LAVORO CT590</p>
-
-<p>Nelle radio CT590 sara possibile cambiare/estendere la banda operativa della radio tramite questa semplice procedura:</p>
-
-<p>Allargamento range ricezione e trasmissione:</p>
+<p>The following username and password may be used to explore the application and create regular users if required to exploit authenticated access vulnerabilities:</p>
 
 <ul>
-  <li>Accendere la radio tenendo premuto il tasto 1. Lo schermo LCD mostrerà la voce “set”.</li>
-  <li>Premere MENU, il display mostrerà in basso l’attuale range di frequenza in VHF.</li>
-  <li>Inserire la banda operativa desiderata, ad esempio se si vuole lavorare da 136 a 174MHZ in VHF
-inserire il codice “136174”. Attenzione: a seguito dell’introduzione di ogni singola cifra occorre
-premere il tasto “menu” per poter inserire la cifra successiva.</li>
-  <li>Al termine dell’inserimento del range di frequenza in VHF premere menu per passare alle UHF.</li>
-  <li>Inserire la banda operativa desiderata, ad esempio se si vuole lavorare da 400 a 520 MHZ in UHF
-inserire il codice “400520”. Attenzione: a seguito dell’introduzione di ogni singola cifra occorre
-premere il tasto “menu” per poter inserire la cifra successiva.</li>
-  <li>Al termine della procedura premere “menu” per confermare.</li>
-  <li>Attendere il boot della radio.</li>
+  <li>User: admin</li>
+  <li>Password: password</li>
 </ul>
 
-<h3 id="english-version">English Version</h3>
+<p>Level difficulty: Easy</p>
 
-<p>To unlock MIDLAND CT590 it is necessary to follow the next steps:</p>
+<p>Category: Real World Webapps &gt; Remote Code Execution</p>
 
-<p>RX/TX unlock:</p>
+<h3 id="solution">Solution</h3>
 
-<ul>
-  <li>Press “1” and turn on the radio at the same time—then the LCD will show “Set”</li>
-  <li>For Extend the band to 136-174 and 400-520, Press “Menu”—input “1”—Press “Menu”—input “3”–
--Press “Menu”—input “6”—Press “Menu”—input “1”—Press “Menu”—input “7”—Press Menu—
-input “4”—Press Menu—input “4”—Press Menu—input “0”—Press Menu—input “0”—Press Menu-
-–input “5”—Press “Menu”—input “2”—Press “Menu”—input “0”</li>
-  <li>Press “Menu”—The operation is done and the radio will reboot.</li>
-</ul>
+<p>First I was provided with the following Joomla website:</p>
+
+<p><img src="/uploads/adrce1-image4.png" alt="Image of AttackDefense 2018" /></p>
+
+<p>By using the username and password that were given to me at the start of this challenge, I have obtained access to the Joomla Control Panel:</p>
+
+<p><img src="/uploads/adrce1-image2.png" alt="Image of AttackDefense 2018" /></p>
+
+<p>There I was able to discover the installed version of Joomla Core:</p>
+
+<p><img src="/uploads/adrce1-image6.png" alt="Image of AttackDefense 2018" /></p>
+
+<p>Even if I tried multiple known remote code execution exploits for Joomla Core version 1.6.0, I was unable to get any command execution on the target website. Therefore, I took in account the following provided information:</p>
+
+<p><code class="highlighter-rouge">Joomla com_xcloner Component</code></p>
+
+<p>This simple statement transmitted me to search on Google for exploits applicable to Joomla com_xcloner Component and to my surprise, I have obtained the following:</p>
+
+<p><img src="/uploads/adrce1-image5.png" alt="Image of AttackDefense 2018" /></p>
+
+<p>After downloading the exploit and running it against the target website, I have obtained the following:</p>
+
+<div class="language-terminal highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">lucian@local:~/Downloads$</span> python 16246.py <span class="nt">-t</span> ie9i8y5pobnhaf1u7vhg8egbt.public2.attackdefenselabs.com:80 <span class="nt">-d</span> /joomla/
+<span class="go">
+	| ----------------------------------------------------------------------------- |
+	| Joomla component (com_xcloner-backupandrestore) remote code execution explo!t |
+	| by mr_me - net-ninja.net ---------------------------------------------------- |
+
+(+) Targeting http://ie9i8y5pobnhaf1u7vhg8egbt.public2.attackdefenselabs.com:80/joomla/
+(!) Exploit working!
+(+) Droping to remote console (q for quit)
+
+</span><span class="gp">lucian@ie9i8y5pobnhaf1u7vhg8egbt.public2.attackdefenselabs.com:80#</span> 
+<span class="go">
+</span></code></pre></div></div>
+
+<p>The last thing was to prove that I have finished the challenge:</p>
+
+<p><img src="/uploads/adrce1-image3.png" alt="Image of AttackDefense 2018" /></p>
+
+<p><img src="/uploads/adrce1-image1.png" alt="Image of AttackDefense 2018" /></p>
 
   </div>
 
