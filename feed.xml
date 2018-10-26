@@ -5,7 +5,7 @@
   
   <link href="https://nitesculucian.github.io/feed.xml" rel="self" type="application/atom+xml" />
   <link href="https://nitesculucian.github.io/" rel="alternate" type="text/html" hreflang="en" />
-  <updated>2018-10-26T15:02:29-03:00</updated>
+  <updated>2018-10-26T16:26:51-03:00</updated>
   <id>https://nitesculucian.github.io//</id>
 
   
@@ -24,6 +24,52 @@
     </author>
   
 
+  
+  
+    <entry>
+      
+      <title type="html">AttackDefense.com [ID] - CVE-2018-12604 Exploit</title>
+      
+      
+      <link href="https://nitesculucian.github.io/2018/10/26/attackdefense-com-id-cve-2018-12604-exploit/" rel="alternate" type="text/html" title="AttackDefense.com [ID] - CVE-2018-12604 Exploit" />
+      
+      <published>2018-10-26T16:18:00-03:00</published>
+      <updated>2018-10-26T16:18:00-03:00</updated>
+      <id>https://nitesculucian.github.io/2018/10/26/attackdefense-com-id-cve-2018-12604-exploit</id>
+      <content type="html" xml:base="https://nitesculucian.github.io/2018/10/26/attackdefense-com-id-cve-2018-12604-exploit/">&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot from 2018-10-26 17-44-27.png&quot; alt=&quot;Image of AttackDefense 2018&quot; /&gt;&lt;/p&gt;</content>
+
+      
+      
+      
+      
+      
+
+      
+        <author>
+            <name>Lucian Nitescu</name>
+          
+          
+        </author>
+      
+
+      
+        <category term="AttackDefense.com" />
+      
+        <category term="ctf" />
+      
+        <category term="writeups" />
+      
+
+      
+
+      
+        <summary type="html"></summary>
+      
+
+      
+      
+    </entry>
+  
   
   
     <entry>
@@ -847,50 +893,6 @@
       <updated>2018-07-16T15:48:00-03:00</updated>
       <id>https://nitesculucian.github.io/2018/07/16/exploit-exercises-nebula-level-06</id>
       <content type="html" xml:base="https://nitesculucian.github.io/2018/07/16/exploit-exercises-nebula-level-06/">&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot%20from%202018-07-16%2000-20-16.png&quot; alt=&quot;Image of Nebula Terminal&quot; /&gt;&lt;/p&gt;</content>
-
-      
-      
-      
-      
-      
-
-      
-        <author>
-            <name>Lucian Nitescu</name>
-          
-          
-        </author>
-      
-
-      
-        <category term="nebula" />
-      
-        <category term="writeups" />
-      
-
-      
-
-      
-        <summary type="html"></summary>
-      
-
-      
-      
-    </entry>
-  
-  
-  
-    <entry>
-      
-      <title type="html">Exploit Exercises: Nebula Level 05</title>
-      
-      
-      <link href="https://nitesculucian.github.io/2018/07/16/exploit-exercises-nebula-level-05/" rel="alternate" type="text/html" title="Exploit Exercises: Nebula Level 05" />
-      
-      <published>2018-07-16T15:48:00-03:00</published>
-      <updated>2018-07-16T15:48:00-03:00</updated>
-      <id>https://nitesculucian.github.io/2018/07/16/exploit-exercises-nebula-level-05</id>
-      <content type="html" xml:base="https://nitesculucian.github.io/2018/07/16/exploit-exercises-nebula-level-05/">&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot%20from%202018-07-16%2000-20-16.png&quot; alt=&quot;Image of Nebula Terminal&quot; /&gt;&lt;/p&gt;</content>
 
       
       
