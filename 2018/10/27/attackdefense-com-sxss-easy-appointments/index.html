@@ -26,7 +26,7 @@ window.cookieconsent.initialise({
   
   
   
-  <title>AttackDefense.com [RCE] - Joomla com_xcloner Component</title>
+  <title>AttackDefense.com [SXSS] - Easy Appointments</title>
   <meta name="description" content="">
   
     
@@ -34,7 +34,7 @@ window.cookieconsent.initialise({
   
 
   <link rel="stylesheet" href="/assets/main.css">
-  <link rel="canonical" href="https://nitesculucian.github.io/2018/10/26/attackdefense-com-rce-joomla-com-xcloner-component/">
+  <link rel="canonical" href="https://nitesculucian.github.io/2018/10/27/attackdefense-com-sxss-easy-appointments/">
   
   
   <link rel="alternate" type="application/rss+xml" title="Lucian Nitescu" href="https://nitesculucian.github.io/feed.xml">
@@ -44,7 +44,7 @@ window.cookieconsent.initialise({
   
   <meta name="twitter:card" content="summary">
   
-  <meta name="twitter:title" content="AttackDefense.com [RCE] - Joomla com_xcloner Component">
+  <meta name="twitter:title" content="AttackDefense.com [SXSS] - Easy Appointments">
   <meta name="twitter:description" content="">
   
   
@@ -101,9 +101,9 @@ window.cookieconsent.initialise({
 
   <header class="post-header">
     
-      <h1 class="post-title" itemprop="name headline">AttackDefense.com [RCE] - Joomla com_xcloner Component</h1>
+      <h1 class="post-title" itemprop="name headline">AttackDefense.com [SXSS] - Easy Appointments</h1>
     
-    <p class="post-meta"><time datetime="2018-10-26T11:40:00-03:00" itemprop="datePublished">Oct 26, 2018</time> •
+    <p class="post-meta"><time datetime="2018-10-27T16:40:00-03:00" itemprop="datePublished">Oct 27, 2018</time> •
   
     
     
@@ -263,9 +263,9 @@ window.cookieconsent.initialise({
       
     
       
-        <a href="/categories/rce/">rce</a>
-      
     
+      
+        <a href="/categories/storedxss/">StoredXSS</a>
       
     
   
@@ -280,7 +280,7 @@ window.cookieconsent.initialise({
 
 <h3 id="mission">Mission</h3>
 
-<p>A version of Joomla com_xcloner Component is vulnerable to remote code execution attack. Your task is to find and exploit this vulnerability.</p>
+<p>A version of Easy Appointments is vulnerable to stored cross site scripting attack. This application is vulnerable to multiple reflected and stored XSS vulnerabilities. Your task is to find and exploit them.</p>
 
 <p>The following username and password may be used to explore the application and create regular users if required to exploit authenticated access vulnerabilities:</p>
 
@@ -291,51 +291,49 @@ window.cookieconsent.initialise({
 
 <p>Level difficulty: Easy</p>
 
-<p>Category: Real World Webapps &gt; Remote Code Execution</p>
+<p>Category: Real World Webapps &gt; Stored XSS</p>
 
 <h3 id="solution">Solution</h3>
 
-<p>First I was provided with the following Joomla website:</p>
+<p>At first,  I was prompted straight to the application “Backed Section” at <a href="http://75dux4a6duu9d9ikl8elrdxsc.public1.attackdefenselabs.com/easyappointments/index.php/user/login">http://75dux4a6duu9d9ikl8elrdxsc.public1.attackdefenselabs.com/easyappointments/index.php/user/login</a>.</p>
 
-<p><img src="/uploads/adrce1-image4.png" alt="Image of AttackDefense 2018" /></p>
+<p><img src="/uploads/Screenshot from 2018-10-27 22-45-53.png" alt="Image of AttackDefense 2018" /></p>
 
-<p>By using the username and password that were given to me at the start of this challenge, I have obtained access to the Joomla Control Panel:</p>
+<p>By trimming the given URL of the application, I found the following valid path:</p>
 
-<p><img src="/uploads/adrce1-image2.png" alt="Image of AttackDefense 2018" /></p>
+<ul>
+  <li><a href="http://75dux4a6duu9d9ikl8elrdxsc.public1.attackdefenselabs.com/easyappointments/index.php">http://75dux4a6duu9d9ikl8elrdxsc.public1.attackdefenselabs.com/easyappointments/index.php</a></li>
+</ul>
 
-<p>There I was able to discover the installed version of Joomla Core:</p>
+<p><img src="/uploads/Screenshot from 2018-10-27 22-49-43.png" alt="Image of AttackDefense 2018" /></p>
 
-<p><img src="/uploads/adrce1-image6.png" alt="Image of AttackDefense 2018" /></p>
+<p>I discovered, by filling the public available form, that on step 3 it is the best place to inject my JavaScript payloads in order to achieve a Stored XSS Exploit.</p>
 
-<p>Even if I tried multiple known remote code execution exploits for Joomla Core version 1.6.0, I was unable to get any command execution on the target website. Therefore, I took in account the following provided information:</p>
+<p><img src="/uploads/Screenshot from 2018-10-27 23-00-05.png" alt="Image of AttackDefense 2018" /></p>
 
-<p><code class="highlighter-rouge">Joomla com_xcloner Component</code></p>
+<p>After that, I received an appointment confirmation with a safe and escaped (at least for the user) output of my payloads.</p>
 
-<p>This simple statement transmitted me to search on Google for exploits applicable to Joomla com_xcloner Component and to my surprise, I have obtained the following:</p>
+<p><img src="/uploads/Screenshot from 2018-10-27 23-03-01.png" alt="Image of AttackDefense 2018" /></p>
 
-<p><img src="/uploads/adrce1-image5.png" alt="Image of AttackDefense 2018" /></p>
+<p>Here my payloads are already saved in the database of the application with no error (SQL Injection Vulnerabilities, restricted format or characters).</p>
 
-<p>After downloading the exploit and running it against the target website, I have obtained the following:</p>
+<p><img src="/uploads/Screenshot from 2018-10-27 23-04-16.png" alt="Image of AttackDefense 2018" /></p>
 
-<div class="language-terminal highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">lucian@local:~/Downloads$</span> python 16246.py <span class="nt">-t</span> ie9i8y5pobnhaf1u7vhg8egbt.public2.attackdefenselabs.com:80 <span class="nt">-d</span> /joomla/
-<span class="go">
-	| ----------------------------------------------------------------------------- |
-	| Joomla component (com_xcloner-backupandrestore) remote code execution explo!t |
-	| by mr_me - net-ninja.net ---------------------------------------------------- |
+<p>Using the provided credentials on <a href="http://75dux4a6duu9d9ikl8elrdxsc.public1.attackdefenselabs.com/easyappointments/index.php/user/login">http://75dux4a6duu9d9ikl8elrdxsc.public1.attackdefenselabs.com/easyappointments/index.php/user/login</a> page we obtain access to the admin interface where you can observe the followings:</p>
 
-(+) Targeting http://ie9i8y5pobnhaf1u7vhg8egbt.public2.attackdefenselabs.com:80/joomla/
-(!) Exploit working!
-(+) Droping to remote console (q for quit)
+<p><img src="/uploads/Screenshot from 2018-10-27 23-10-55.png" alt="Image of AttackDefense 2018" /></p>
 
-</span><span class="gp">lucian@ie9i8y5pobnhaf1u7vhg8egbt.public2.attackdefenselabs.com:80#</span> 
-<span class="go">
-</span></code></pre></div></div>
+<p>By clicking on the 29 October 2018 appointment (my appointment), we will execute two different payloads that can be linked back to our inputs.</p>
 
-<p>The last thing was to prove that I have finished the challenge:</p>
+<p><img src="/uploads/Screenshot from 2018-10-27 23-14-05.png" alt="Image of AttackDefense 2018" /></p>
 
-<p><img src="/uploads/adrce1-image3.png" alt="Image of AttackDefense 2018" /></p>
+<p><img src="/uploads/Screenshot from 2018-10-27 23-14-12.png" alt="Image of AttackDefense 2018" /></p>
 
-<p><img src="/uploads/adrce1-image1.png" alt="Image of AttackDefense 2018" /></p>
+<p><img src="/uploads/Screenshot from 2018-10-27 23-14-21.png" alt="Image of AttackDefense 2018" /></p>
+
+<p>With the above example and not just in this scenario, an attacker can compromise the session of the admin user in order to obtain access to the application backend.</p>
+
+<p><img src="/uploads/Screenshot from 2018-10-27 23-19-06.png" alt="Image of AttackDefense 2018" /></p>
 
   </div>
 
