@@ -5,7 +5,7 @@
   
   <link href="https://nitesculucian.github.io/feed.xml" rel="self" type="application/atom+xml" />
   <link href="https://nitesculucian.github.io/" rel="alternate" type="text/html" hreflang="en" />
-  <updated>2018-10-31T17:07:12-03:00</updated>
+  <updated>2018-10-31T20:26:40-03:00</updated>
   <id>https://nitesculucian.github.io//</id>
 
   
@@ -24,6 +24,102 @@
     </author>
   
 
+  
+  
+    <entry>
+      
+      <title type="html">AttackDefense.com [PE] - Editing Gone Wrong</title>
+      
+      
+      <link href="https://nitesculucian.github.io/2018/10/31/attackdefense-com-pe-editing-gone-wrong/" rel="alternate" type="text/html" title="AttackDefense.com [PE] - Editing Gone Wrong" />
+      
+      <published>2018-10-31T20:11:00-03:00</published>
+      <updated>2018-10-31T20:11:00-03:00</updated>
+      <id>https://nitesculucian.github.io/2018/10/31/attackdefense-com-pe-editing-gone-wrong</id>
+      <content type="html" xml:base="https://nitesculucian.github.io/2018/10/31/attackdefense-com-pe-editing-gone-wrong/">&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot from 2018-10-26 17-44-27.png&quot; alt=&quot;Image of AttackDefense 2018&quot; /&gt;&lt;/p&gt;</content>
+
+      
+      
+      
+      
+      
+
+      
+        <author>
+            <name>Lucian Nitescu</name>
+          
+          
+        </author>
+      
+
+      
+        <category term="AttackDefense.com" />
+      
+        <category term="ctf" />
+      
+        <category term="writeups" />
+      
+        <category term="PrivilegeEscalation" />
+      
+
+      
+
+      
+        <summary type="html"></summary>
+      
+
+      
+      
+    </entry>
+  
+  
+  
+    <entry>
+      
+      <title type="html">AttackDefense.com [PE] - Permissions Matter!</title>
+      
+      
+      <link href="https://nitesculucian.github.io/2018/10/31/attackdefense-com-pe-permissions-matter/" rel="alternate" type="text/html" title="AttackDefense.com [PE] - Permissions Matter!" />
+      
+      <published>2018-10-31T19:16:00-03:00</published>
+      <updated>2018-10-31T19:16:00-03:00</updated>
+      <id>https://nitesculucian.github.io/2018/10/31/attackdefense-com-pe-permissions-matter</id>
+      <content type="html" xml:base="https://nitesculucian.github.io/2018/10/31/attackdefense-com-pe-permissions-matter/">&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot from 2018-10-26 17-44-27.png&quot; alt=&quot;Image of AttackDefense 2018&quot; /&gt;&lt;/p&gt;</content>
+
+      
+      
+      
+      
+      
+
+      
+        <author>
+            <name>Lucian Nitescu</name>
+          
+          
+        </author>
+      
+
+      
+        <category term="AttackDefense.com" />
+      
+        <category term="ctf" />
+      
+        <category term="writeups" />
+      
+        <category term="PrivilegeEscalation" />
+      
+
+      
+
+      
+        <summary type="html"></summary>
+      
+
+      
+      
+    </entry>
+  
   
   
     <entry>
@@ -842,96 +938,6 @@
         <category term="Tutorials" />
       
         <category term="TheOnionRouting" />
-      
-
-      
-
-      
-        <summary type="html"></summary>
-      
-
-      
-      
-    </entry>
-  
-  
-  
-    <entry>
-      
-      <title type="html">Msfvenom Cheat Sheet</title>
-      
-      
-      <link href="https://nitesculucian.github.io/2018/07/24/msfvenom-cheat-sheet/" rel="alternate" type="text/html" title="Msfvenom Cheat Sheet" />
-      
-      <published>2018-07-24T18:58:00-03:00</published>
-      <updated>2018-07-24T18:58:00-03:00</updated>
-      <id>https://nitesculucian.github.io/2018/07/24/msfvenom-cheat-sheet</id>
-      <content type="html" xml:base="https://nitesculucian.github.io/2018/07/24/msfvenom-cheat-sheet/">&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot%20from%202018-07-25%2001-11-02.png&quot; alt=&quot;Image of msfconsole&quot; /&gt;&lt;/p&gt;</content>
-
-      
-      
-      
-      
-      
-
-      
-        <author>
-            <name>Lucian Nitescu</name>
-          
-          
-        </author>
-      
-
-      
-        <category term="cheatsheet" />
-      
-        <category term="offensive_security" />
-      
-
-      
-
-      
-        <summary type="html"></summary>
-      
-
-      
-      
-    </entry>
-  
-  
-  
-    <entry>
-      
-      <title type="html">Midland CT590 frequency extender (RX/TX unlock)</title>
-      
-      
-      <link href="https://nitesculucian.github.io/2018/07/23/midland-ct590-frequency-extender-unlock/" rel="alternate" type="text/html" title="Midland CT590 frequency extender (RX/TX unlock)" />
-      
-      <published>2018-07-23T00:00:00-03:00</published>
-      <updated>2018-07-23T00:00:00-03:00</updated>
-      <id>https://nitesculucian.github.io/2018/07/23/midland-ct590-frequency-extender-unlock</id>
-      <content type="html" xml:base="https://nitesculucian.github.io/2018/07/23/midland-ct590-frequency-extender-unlock/">&lt;p&gt;&lt;img src=&quot;/uploads/midlandct590.jpg&quot; alt=&quot;Image of Midland CT590&quot; /&gt;&lt;/p&gt;</content>
-
-      
-      
-      
-      
-      
-
-      
-        <author>
-            <name>Lucian Nitescu</name>
-          
-          
-        </author>
-      
-
-      
-        <category term="radio" />
-      
-        <category term="radioamateur" />
-      
-        <category term="modding" />
       
 
       
