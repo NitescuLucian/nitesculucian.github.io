@@ -5,7 +5,7 @@
   
   <link href="https://nitesculucian.github.io/feed.xml" rel="self" type="application/atom+xml" />
   <link href="https://nitesculucian.github.io/" rel="alternate" type="text/html" hreflang="en" />
-  <updated>2018-11-03T19:11:59-03:00</updated>
+  <updated>2018-11-03T20:59:00-03:00</updated>
   <id>https://nitesculucian.github.io//</id>
 
   
@@ -24,6 +24,56 @@
     </author>
   
 
+  
+  
+    <entry>
+      
+      <title type="html">AttackDefense.com [RCE] - CVE-2018-10517 Exploit</title>
+      
+      
+      <link href="https://nitesculucian.github.io/2018/11/03/attackdefense-com-rce-cve-2018-10517-exploit/" rel="alternate" type="text/html" title="AttackDefense.com [RCE] - CVE-2018-10517 Exploit" />
+      
+      <published>2018-11-03T20:24:00-03:00</published>
+      <updated>2018-11-03T20:24:00-03:00</updated>
+      <id>https://nitesculucian.github.io/2018/11/03/attackdefense-com-rce-cve-2018-10517-exploit</id>
+      <content type="html" xml:base="https://nitesculucian.github.io/2018/11/03/attackdefense-com-rce-cve-2018-10517-exploit/">&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot from 2018-10-26 17-44-27.png&quot; alt=&quot;Image of AttackDefense 2018&quot; /&gt;&lt;/p&gt;</content>
+
+      
+      
+      
+      
+      
+
+      
+        <author>
+            <name>Lucian Nitescu</name>
+          
+          
+        </author>
+      
+
+      
+        <category term="AttackDefense.com" />
+      
+        <category term="ctf" />
+      
+        <category term="writeups" />
+      
+        <category term="CVE-2018" />
+      
+        <category term="rce" />
+      
+
+      
+
+      
+        <summary type="html"></summary>
+      
+
+      
+      
+    </entry>
+  
   
   
     <entry>
@@ -539,6 +589,8 @@
       
         <category term="writeups" />
       
+        <category term="CVE-2018" />
+      
 
       
 
@@ -910,46 +962,6 @@
         <category term="ctf" />
       
         <category term="writeups" />
-      
-
-      
-
-      
-        <summary type="html"></summary>
-      
-
-      
-      
-    </entry>
-  
-  
-  
-    <entry>
-      
-      <title type="html">eCPPT Gold Review</title>
-      
-      
-      <link href="https://nitesculucian.github.io/2018/09/04/ecppt-review/" rel="alternate" type="text/html" title="eCPPT Gold Review" />
-      
-      <published>2018-09-04T19:13:00-03:00</published>
-      <updated>2018-09-04T19:13:00-03:00</updated>
-      <id>https://nitesculucian.github.io/2018/09/04/ecppt-review</id>
-      <content type="html" xml:base="https://nitesculucian.github.io/2018/09/04/ecppt-review/">&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot%20from%202018-09-05%2001-24-27.png&quot; alt=&quot;Image of eCPPT Gold&quot; /&gt;&lt;/p&gt;</content>
-
-      
-      
-      
-      
-      
-
-      
-        <author>
-            <name>Lucian Nitescu</name>
-          
-          
-        </author>
-      
-
       
 
       

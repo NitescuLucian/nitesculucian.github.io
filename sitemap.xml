@@ -173,6 +173,10 @@
 <lastmod>2018-11-02T21:53:00-03:00</lastmod>
 </url>
 <url>
+<loc>https://nitesculucian.github.io/2018/11/03/attackdefense-com-rce-cve-2018-10517-exploit/</loc>
+<lastmod>2018-11-03T20:24:00-03:00</lastmod>
+</url>
+<url>
 <loc>https://nitesculucian.github.io/404/</loc>
 </url>
 <url>
@@ -240,6 +244,9 @@
 </url>
 <url>
 <loc>https://nitesculucian.github.io/categories/rce/</loc>
+</url>
+<url>
+<loc>https://nitesculucian.github.io/categories/cve-2018/</loc>
 </url>
 <url>
 <loc>https://nitesculucian.github.io/categories/storedxss/</loc>
