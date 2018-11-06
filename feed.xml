@@ -5,7 +5,7 @@
   
   <link href="https://nitesculucian.github.io/feed.xml" rel="self" type="application/atom+xml" />
   <link href="https://nitesculucian.github.io/" rel="alternate" type="text/html" hreflang="en" />
-  <updated>2018-11-05T19:05:13-03:00</updated>
+  <updated>2018-11-06T18:49:56-03:00</updated>
   <id>https://nitesculucian.github.io//</id>
 
   
@@ -24,6 +24,56 @@
     </author>
   
 
+  
+  
+    <entry>
+      
+      <title type="html">AttackDefense.com [RCE] - CVE-2018-7466 Exploit</title>
+      
+      
+      <link href="https://nitesculucian.github.io/2018/11/06/attackdefense-com-rce-cve-2018-7466-exploit/" rel="alternate" type="text/html" title="AttackDefense.com [RCE] - CVE-2018-7466 Exploit" />
+      
+      <published>2018-11-06T18:34:00-03:00</published>
+      <updated>2018-11-06T18:34:00-03:00</updated>
+      <id>https://nitesculucian.github.io/2018/11/06/attackdefense-com-rce-cve-2018-7466-exploit</id>
+      <content type="html" xml:base="https://nitesculucian.github.io/2018/11/06/attackdefense-com-rce-cve-2018-7466-exploit/">&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot from 2018-10-26 17-44-27.png&quot; alt=&quot;Image of AttackDefense 2018&quot; /&gt;&lt;/p&gt;</content>
+
+      
+      
+      
+      
+      
+
+      
+        <author>
+            <name>Lucian Nitescu</name>
+          
+          
+        </author>
+      
+
+      
+        <category term="AttackDefense.com" />
+      
+        <category term="ctf" />
+      
+        <category term="writeups" />
+      
+        <category term="CVE-2018" />
+      
+        <category term="rce" />
+      
+
+      
+
+      
+        <summary type="html"></summary>
+      
+
+      
+      
+    </entry>
+  
   
   
     <entry>
@@ -895,52 +945,6 @@
       <updated>2018-09-30T05:52:00-03:00</updated>
       <id>https://nitesculucian.github.io/2018/09/30/dctf-2018-message</id>
       <content type="html" xml:base="https://nitesculucian.github.io/2018/09/30/dctf-2018-message/">&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot%20from%202018-10-01%2016-37-21.png&quot; alt=&quot;Image of DCTF Quals 2018&quot; /&gt;&lt;/p&gt;</content>
-
-      
-      
-      
-      
-      
-
-      
-        <author>
-            <name>Lucian Nitescu</name>
-          
-          
-        </author>
-      
-
-      
-        <category term="dctf" />
-      
-        <category term="ctf" />
-      
-        <category term="writeups" />
-      
-
-      
-
-      
-        <summary type="html"></summary>
-      
-
-      
-      
-    </entry>
-  
-  
-  
-    <entry>
-      
-      <title type="html">[DCTF Quals 2018] Broken TV</title>
-      
-      
-      <link href="https://nitesculucian.github.io/2018/09/29/dctf-2018-broken-tv/" rel="alternate" type="text/html" title="[DCTF Quals 2018] Broken TV" />
-      
-      <published>2018-09-29T15:18:00-03:00</published>
-      <updated>2018-09-29T15:18:00-03:00</updated>
-      <id>https://nitesculucian.github.io/2018/09/29/dctf-2018-broken-tv</id>
-      <content type="html" xml:base="https://nitesculucian.github.io/2018/09/29/dctf-2018-broken-tv/">&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot%20from%202018-10-01%2016-37-21.png&quot; alt=&quot;Image of DCTF Quals 2018&quot; /&gt;&lt;/p&gt;</content>
 
       
       
