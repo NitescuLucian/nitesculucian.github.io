@@ -5,7 +5,7 @@
   
   <link href="https://nitesculucian.github.io/feed.xml" rel="self" type="application/atom+xml" />
   <link href="https://nitesculucian.github.io/" rel="alternate" type="text/html" hreflang="en" />
-  <updated>2018-11-25T19:56:31-03:00</updated>
+  <updated>2018-11-26T19:02:06-03:00</updated>
   <id>https://nitesculucian.github.io//</id>
 
   
@@ -24,6 +24,54 @@
     </author>
   
 
+  
+  
+    <entry>
+      
+      <title type="html">AttackDefense.com [LFI] - CVE-2018-12613 Exploit</title>
+      
+      
+      <link href="https://nitesculucian.github.io/2018/11/26/attackdefense-com-lfi-cve-2018-12613-exploit/" rel="alternate" type="text/html" title="AttackDefense.com [LFI] - CVE-2018-12613 Exploit" />
+      
+      <published>2018-11-26T18:46:00-03:00</published>
+      <updated>2018-11-26T18:46:00-03:00</updated>
+      <id>https://nitesculucian.github.io/2018/11/26/attackdefense-com-lfi-cve-2018-12613-exploit</id>
+      <content type="html" xml:base="https://nitesculucian.github.io/2018/11/26/attackdefense-com-lfi-cve-2018-12613-exploit/">&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot from 2018-10-26 17-44-27.png&quot; alt=&quot;Image of AttackDefense 2018&quot; /&gt;&lt;/p&gt;</content>
+
+      
+      
+      
+      
+      
+
+      
+        <author>
+            <name>Lucian Nitescu</name>
+          
+          
+        </author>
+      
+
+      
+        <category term="AttackDefense.com" />
+      
+        <category term="ctf" />
+      
+        <category term="writeups" />
+      
+        <category term="LFI" />
+      
+
+      
+
+      
+        <summary type="html"></summary>
+      
+
+      
+      
+    </entry>
+  
   
   
     <entry>
@@ -899,54 +947,6 @@
       <updated>2018-10-26T12:33:00-03:00</updated>
       <id>https://nitesculucian.github.io/2018/10/26/attackdefense-com-rce-apphp-microblog</id>
       <content type="html" xml:base="https://nitesculucian.github.io/2018/10/26/attackdefense-com-rce-apphp-microblog/">&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot from 2018-10-26 17-44-27.png&quot; alt=&quot;Image of AttackDefense 2018&quot; /&gt;&lt;/p&gt;</content>
-
-      
-      
-      
-      
-      
-
-      
-        <author>
-            <name>Lucian Nitescu</name>
-          
-          
-        </author>
-      
-
-      
-        <category term="AttackDefense.com" />
-      
-        <category term="ctf" />
-      
-        <category term="writeups" />
-      
-        <category term="rce" />
-      
-
-      
-
-      
-        <summary type="html"></summary>
-      
-
-      
-      
-    </entry>
-  
-  
-  
-    <entry>
-      
-      <title type="html">AttackDefense.com [RCE] - Joomla com_xcloner Component</title>
-      
-      
-      <link href="https://nitesculucian.github.io/2018/10/26/attackdefense-com-rce-joomla-com-xcloner-component/" rel="alternate" type="text/html" title="AttackDefense.com [RCE] - Joomla com_xcloner Component" />
-      
-      <published>2018-10-26T11:40:00-03:00</published>
-      <updated>2018-10-26T11:40:00-03:00</updated>
-      <id>https://nitesculucian.github.io/2018/10/26/attackdefense-com-rce-joomla-com-xcloner-component</id>
-      <content type="html" xml:base="https://nitesculucian.github.io/2018/10/26/attackdefense-com-rce-joomla-com-xcloner-component/">&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot from 2018-10-26 17-44-27.png&quot; alt=&quot;Image of AttackDefense 2018&quot; /&gt;&lt;/p&gt;</content>
 
       
       
