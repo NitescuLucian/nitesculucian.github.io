@@ -5,7 +5,7 @@
   
   <link href="https://nitesculucian.github.io/feed.xml" rel="self" type="application/atom+xml" />
   <link href="https://nitesculucian.github.io/" rel="alternate" type="text/html" hreflang="en" />
-  <updated>2018-12-01T17:53:01-03:00</updated>
+  <updated>2018-12-01T21:41:36-03:00</updated>
   <id>https://nitesculucian.github.io//</id>
 
   
@@ -24,6 +24,46 @@
     </author>
   
 
+  
+  
+    <entry>
+      
+      <title type="html">Metasploit Cheat Sheet</title>
+      
+      
+      <link href="https://nitesculucian.github.io/2018/12/01/metasploit-cheat-sheet/" rel="alternate" type="text/html" title="Metasploit Cheat Sheet" />
+      
+      <published>2018-12-01T20:31:00-03:00</published>
+      <updated>2018-12-01T20:31:00-03:00</updated>
+      <id>https://nitesculucian.github.io/2018/12/01/metasploit-cheat-sheet</id>
+      <content type="html" xml:base="https://nitesculucian.github.io/2018/12/01/metasploit-cheat-sheet/">&lt;p&gt;A few months ago I have created a &lt;a href=&quot;https://nitesculucian.github.io/2018/07/24/msfvenom-cheat-sheet/&quot;&gt;msfvenom cheat sheet&lt;/a&gt; without explaining the Metasploit framework, so here it is a brief cheat sheet.&lt;/p&gt;</content>
+
+      
+      
+      
+      
+      
+
+      
+        <author>
+            <name>Lucian Nitescu</name>
+          
+          
+        </author>
+      
+
+      
+
+      
+
+      
+        <summary type="html">A few months ago I have created a msfvenom cheat sheet without explaining the Metasploit framework, so here it is a brief cheat sheet.</summary>
+      
+
+      
+      
+    </entry>
+  
   
   
     <entry>
@@ -922,54 +962,6 @@
         <category term="writeups" />
       
         <category term="CVE-2018" />
-      
-
-      
-
-      
-        <summary type="html"></summary>
-      
-
-      
-      
-    </entry>
-  
-  
-  
-    <entry>
-      
-      <title type="html">AttackDefense.com [RCE] - osCommerce</title>
-      
-      
-      <link href="https://nitesculucian.github.io/2018/10/26/attackdefense-com-rce-oscommerce/" rel="alternate" type="text/html" title="AttackDefense.com [RCE] - osCommerce" />
-      
-      <published>2018-10-26T13:57:00-03:00</published>
-      <updated>2018-10-26T13:57:00-03:00</updated>
-      <id>https://nitesculucian.github.io/2018/10/26/attackdefense-com-rce-oscommerce</id>
-      <content type="html" xml:base="https://nitesculucian.github.io/2018/10/26/attackdefense-com-rce-oscommerce/">&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot from 2018-10-26 17-44-27.png&quot; alt=&quot;Image of AttackDefense 2018&quot; /&gt;&lt;/p&gt;</content>
-
-      
-      
-      
-      
-      
-
-      
-        <author>
-            <name>Lucian Nitescu</name>
-          
-          
-        </author>
-      
-
-      
-        <category term="AttackDefense.com" />
-      
-        <category term="ctf" />
-      
-        <category term="writeups" />
-      
-        <category term="rce" />
       
 
       
