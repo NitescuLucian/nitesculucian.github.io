@@ -5,7 +5,7 @@
   
   <link href="https://nitesculucian.github.io/feed.xml" rel="self" type="application/atom+xml" />
   <link href="https://nitesculucian.github.io/" rel="alternate" type="text/html" hreflang="en" />
-  <updated>2018-12-10T20:47:12-03:00</updated>
+  <updated>2019-02-04T20:33:19-03:00</updated>
   <id>https://nitesculucian.github.io//</id>
 
   
@@ -24,6 +24,328 @@
     </author>
   
 
+  
+  
+    <entry>
+      
+      <title type="html">[NeverLAN 2019] - Das Blog</title>
+      
+      
+      <link href="https://nitesculucian.github.io/2019/02/04/neverlan-2019-das-blog/" rel="alternate" type="text/html" title="[NeverLAN 2019] - Das Blog" />
+      
+      <published>2019-02-04T19:09:00-03:00</published>
+      <updated>2019-02-04T19:09:00-03:00</updated>
+      <id>https://nitesculucian.github.io/2019/02/04/neverlan-2019-das-blog</id>
+      <content type="html" xml:base="https://nitesculucian.github.io/2019/02/04/neverlan-2019-das-blog/">&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot from 2019-02-02 12-35-09.png&quot; alt=&quot;Image of NeverLAN CTF 2019&quot; /&gt;&lt;/p&gt;</content>
+
+      
+      
+      
+      
+      
+
+      
+        <author>
+            <name>Lucian Nitescu</name>
+          
+          
+        </author>
+      
+
+      
+        <category term="neverlan" />
+      
+        <category term="ctf" />
+      
+        <category term="writeups" />
+      
+
+      
+
+      
+        <summary type="html"></summary>
+      
+
+      
+      
+    </entry>
+  
+  
+  
+    <entry>
+      
+      <title type="html">[NeverLAN 2019] - Things are not always what they seem</title>
+      
+      
+      <link href="https://nitesculucian.github.io/2019/02/04/neverlan-2019-things-are-not-always-what-they-seem/" rel="alternate" type="text/html" title="[NeverLAN 2019] - Things are not always what they seem" />
+      
+      <published>2019-02-04T19:08:00-03:00</published>
+      <updated>2019-02-04T19:08:00-03:00</updated>
+      <id>https://nitesculucian.github.io/2019/02/04/neverlan-2019-things-are-not-always-what-they-seem</id>
+      <content type="html" xml:base="https://nitesculucian.github.io/2019/02/04/neverlan-2019-things-are-not-always-what-they-seem/">&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot from 2019-02-02 12-35-09.png&quot; alt=&quot;Image of NeverLAN CTF 2019&quot; /&gt;&lt;/p&gt;</content>
+
+      
+      
+      
+      
+      
+
+      
+        <author>
+            <name>Lucian Nitescu</name>
+          
+          
+        </author>
+      
+
+      
+        <category term="neverlan" />
+      
+        <category term="ctf" />
+      
+        <category term="writeups" />
+      
+
+      
+
+      
+        <summary type="html"></summary>
+      
+
+      
+      
+    </entry>
+  
+  
+  
+    <entry>
+      
+      <title type="html">[NeverLAN 2019] - SQL FUN 2</title>
+      
+      
+      <link href="https://nitesculucian.github.io/2019/02/04/neverlan-2019-sql-fun-2/" rel="alternate" type="text/html" title="[NeverLAN 2019] - SQL FUN 2" />
+      
+      <published>2019-02-04T19:08:00-03:00</published>
+      <updated>2019-02-04T19:08:00-03:00</updated>
+      <id>https://nitesculucian.github.io/2019/02/04/neverlan-2019-sql-fun-2</id>
+      <content type="html" xml:base="https://nitesculucian.github.io/2019/02/04/neverlan-2019-sql-fun-2/">&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot from 2019-02-02 12-35-09.png&quot; alt=&quot;Image of NeverLAN CTF 2019&quot; /&gt;&lt;/p&gt;</content>
+
+      
+      
+      
+      
+      
+
+      
+        <author>
+            <name>Lucian Nitescu</name>
+          
+          
+        </author>
+      
+
+      
+        <category term="neverlan" />
+      
+        <category term="ctf" />
+      
+        <category term="writeups" />
+      
+
+      
+
+      
+        <summary type="html"></summary>
+      
+
+      
+      
+    </entry>
+  
+  
+  
+    <entry>
+      
+      <title type="html">[NeverLAN 2019] - SQL FUN 1</title>
+      
+      
+      <link href="https://nitesculucian.github.io/2019/02/04/neverlan-2019-sql-fun-1/" rel="alternate" type="text/html" title="[NeverLAN 2019] - SQL FUN 1" />
+      
+      <published>2019-02-04T19:08:00-03:00</published>
+      <updated>2019-02-04T19:08:00-03:00</updated>
+      <id>https://nitesculucian.github.io/2019/02/04/neverlan-2019-sql-fun-1</id>
+      <content type="html" xml:base="https://nitesculucian.github.io/2019/02/04/neverlan-2019-sql-fun-1/">&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot from 2019-02-02 12-35-09.png&quot; alt=&quot;Image of NeverLAN CTF 2019&quot; /&gt;&lt;/p&gt;</content>
+
+      
+      
+      
+      
+      
+
+      
+        <author>
+            <name>Lucian Nitescu</name>
+          
+          
+        </author>
+      
+
+      
+        <category term="neverlan" />
+      
+        <category term="ctf" />
+      
+        <category term="writeups" />
+      
+
+      
+
+      
+        <summary type="html"></summary>
+      
+
+      
+      
+    </entry>
+  
+  
+  
+    <entry>
+      
+      <title type="html">[NeverLAN 2019] - Dirty Validate</title>
+      
+      
+      <link href="https://nitesculucian.github.io/2019/02/04/neverlan-2019-dirty-validate/" rel="alternate" type="text/html" title="[NeverLAN 2019] - Dirty Validate" />
+      
+      <published>2019-02-04T19:07:00-03:00</published>
+      <updated>2019-02-04T19:07:00-03:00</updated>
+      <id>https://nitesculucian.github.io/2019/02/04/neverlan-2019-dirty-validate</id>
+      <content type="html" xml:base="https://nitesculucian.github.io/2019/02/04/neverlan-2019-dirty-validate/">&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot from 2019-02-02 12-35-09.png&quot; alt=&quot;Image of NeverLAN CTF 2019&quot; /&gt;&lt;/p&gt;</content>
+
+      
+      
+      
+      
+      
+
+      
+        <author>
+            <name>Lucian Nitescu</name>
+          
+          
+        </author>
+      
+
+      
+        <category term="neverlan" />
+      
+        <category term="ctf" />
+      
+        <category term="writeups" />
+      
+
+      
+
+      
+        <summary type="html"></summary>
+      
+
+      
+      
+    </entry>
+  
+  
+  
+    <entry>
+      
+      <title type="html">[NeverLAN 2019] - Console</title>
+      
+      
+      <link href="https://nitesculucian.github.io/2019/02/04/neverlan-2019-console/" rel="alternate" type="text/html" title="[NeverLAN 2019] - Console" />
+      
+      <published>2019-02-04T19:07:00-03:00</published>
+      <updated>2019-02-04T19:07:00-03:00</updated>
+      <id>https://nitesculucian.github.io/2019/02/04/neverlan-2019-console</id>
+      <content type="html" xml:base="https://nitesculucian.github.io/2019/02/04/neverlan-2019-console/">&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot from 2019-02-02 12-35-09.png&quot; alt=&quot;Image of NeverLAN CTF 2019&quot; /&gt;&lt;/p&gt;</content>
+
+      
+      
+      
+      
+      
+
+      
+        <author>
+            <name>Lucian Nitescu</name>
+          
+          
+        </author>
+      
+
+      
+        <category term="neverlan" />
+      
+        <category term="ctf" />
+      
+        <category term="writeups" />
+      
+
+      
+
+      
+        <summary type="html"></summary>
+      
+
+      
+      
+    </entry>
+  
+  
+  
+    <entry>
+      
+      <title type="html">[NeverLAN 2019] - Cookie Monster</title>
+      
+      
+      <link href="https://nitesculucian.github.io/2019/02/04/neverlan-2019-cookie-monster/" rel="alternate" type="text/html" title="[NeverLAN 2019] - Cookie Monster" />
+      
+      <published>2019-02-04T19:06:00-03:00</published>
+      <updated>2019-02-04T19:06:00-03:00</updated>
+      <id>https://nitesculucian.github.io/2019/02/04/neverlan-2019-cookie-monster</id>
+      <content type="html" xml:base="https://nitesculucian.github.io/2019/02/04/neverlan-2019-cookie-monster/">&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot from 2019-02-02 12-35-09.png&quot; alt=&quot;Image of NeverLAN CTF 2019&quot; /&gt;&lt;/p&gt;</content>
+
+      
+      
+      
+      
+      
+
+      
+        <author>
+            <name>Lucian Nitescu</name>
+          
+          
+        </author>
+      
+
+      
+        <category term="neverlan" />
+      
+        <category term="ctf" />
+      
+        <category term="writeups" />
+      
+
+      
+
+      
+        <summary type="html"></summary>
+      
+
+      
+      
+    </entry>
+  
   
   
     <entry>
@@ -624,344 +946,6 @@
         <category term="writeups" />
       
         <category term="CVE-2018" />
-      
-        <category term="rce" />
-      
-
-      
-
-      
-        <summary type="html"></summary>
-      
-
-      
-      
-    </entry>
-  
-  
-  
-    <entry>
-      
-      <title type="html">AttackDefense.com [RCE] - CVE-2018-10517 Exploit</title>
-      
-      
-      <link href="https://nitesculucian.github.io/2018/11/03/attackdefense-com-rce-cve-2018-10517-exploit/" rel="alternate" type="text/html" title="AttackDefense.com [RCE] - CVE-2018-10517 Exploit" />
-      
-      <published>2018-11-03T20:24:00-03:00</published>
-      <updated>2018-11-03T20:24:00-03:00</updated>
-      <id>https://nitesculucian.github.io/2018/11/03/attackdefense-com-rce-cve-2018-10517-exploit</id>
-      <content type="html" xml:base="https://nitesculucian.github.io/2018/11/03/attackdefense-com-rce-cve-2018-10517-exploit/">&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot from 2018-10-26 17-44-27.png&quot; alt=&quot;Image of AttackDefense 2018&quot; /&gt;&lt;/p&gt;</content>
-
-      
-      
-      
-      
-      
-
-      
-        <author>
-            <name>Lucian Nitescu</name>
-          
-          
-        </author>
-      
-
-      
-        <category term="AttackDefense.com" />
-      
-        <category term="ctf" />
-      
-        <category term="writeups" />
-      
-        <category term="CVE-2018" />
-      
-        <category term="rce" />
-      
-
-      
-
-      
-        <summary type="html"></summary>
-      
-
-      
-      
-    </entry>
-  
-  
-  
-    <entry>
-      
-      <title type="html">AttackDefense.com [SXSS] - Concrete5 CMS</title>
-      
-      
-      <link href="https://nitesculucian.github.io/2018/11/02/attackdefense-com-sxss-concrete5-cms/" rel="alternate" type="text/html" title="AttackDefense.com [SXSS] - Concrete5 CMS" />
-      
-      <published>2018-11-02T21:53:00-03:00</published>
-      <updated>2018-11-02T21:53:00-03:00</updated>
-      <id>https://nitesculucian.github.io/2018/11/02/attackdefense-com-sxss-concrete5-cms</id>
-      <content type="html" xml:base="https://nitesculucian.github.io/2018/11/02/attackdefense-com-sxss-concrete5-cms/">&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot from 2018-10-26 17-44-27.png&quot; alt=&quot;Image of AttackDefense 2018&quot; /&gt;&lt;/p&gt;</content>
-
-      
-      
-      
-      
-      
-
-      
-        <author>
-            <name>Lucian Nitescu</name>
-          
-          
-        </author>
-      
-
-      
-        <category term="AttackDefense.com" />
-      
-        <category term="ctf" />
-      
-        <category term="writeups" />
-      
-        <category term="StoredXSS" />
-      
-
-      
-
-      
-        <summary type="html"></summary>
-      
-
-      
-      
-    </entry>
-  
-  
-  
-    <entry>
-      
-      <title type="html">AttackDefense.com [SXSS] - YetiForce CRM</title>
-      
-      
-      <link href="https://nitesculucian.github.io/2018/11/01/attackdefense-com-sxss-yetiforce-crm/" rel="alternate" type="text/html" title="AttackDefense.com [SXSS] - YetiForce CRM" />
-      
-      <published>2018-11-01T19:53:00-03:00</published>
-      <updated>2018-11-01T19:53:00-03:00</updated>
-      <id>https://nitesculucian.github.io/2018/11/01/attackdefense-com-sxss-yetiforce-crm</id>
-      <content type="html" xml:base="https://nitesculucian.github.io/2018/11/01/attackdefense-com-sxss-yetiforce-crm/">&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot from 2018-10-26 17-44-27.png&quot; alt=&quot;Image of AttackDefense 2018&quot; /&gt;&lt;/p&gt;</content>
-
-      
-      
-      
-      
-      
-
-      
-        <author>
-            <name>Lucian Nitescu</name>
-          
-          
-        </author>
-      
-
-      
-        <category term="AttackDefense.com" />
-      
-        <category term="ctf" />
-      
-        <category term="writeups" />
-      
-        <category term="StoredXSS" />
-      
-
-      
-
-      
-        <summary type="html"></summary>
-      
-
-      
-      
-    </entry>
-  
-  
-  
-    <entry>
-      
-      <title type="html">AttackDefense.com [PE] - Exploiting Setuid Programs II</title>
-      
-      
-      <link href="https://nitesculucian.github.io/2018/10/31/attackdefense-com-pe-exploiting-setuid-programs-ii/" rel="alternate" type="text/html" title="AttackDefense.com [PE] - Exploiting Setuid Programs II" />
-      
-      <published>2018-10-31T22:10:00-03:00</published>
-      <updated>2018-10-31T22:10:00-03:00</updated>
-      <id>https://nitesculucian.github.io/2018/10/31/attackdefense-com-pe-exploiting-setuid-programs-ii</id>
-      <content type="html" xml:base="https://nitesculucian.github.io/2018/10/31/attackdefense-com-pe-exploiting-setuid-programs-ii/">&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot from 2018-10-26 17-44-27.png&quot; alt=&quot;Image of AttackDefense 2018&quot; /&gt;&lt;/p&gt;</content>
-
-      
-      
-      
-      
-      
-
-      
-        <author>
-            <name>Lucian Nitescu</name>
-          
-          
-        </author>
-      
-
-      
-        <category term="AttackDefense.com" />
-      
-        <category term="ctf" />
-      
-        <category term="writeups" />
-      
-        <category term="PrivilegeEscalation" />
-      
-
-      
-
-      
-        <summary type="html"></summary>
-      
-
-      
-      
-    </entry>
-  
-  
-  
-    <entry>
-      
-      <title type="html">AttackDefense.com [PE] - Editing Gone Wrong</title>
-      
-      
-      <link href="https://nitesculucian.github.io/2018/10/31/attackdefense-com-pe-editing-gone-wrong/" rel="alternate" type="text/html" title="AttackDefense.com [PE] - Editing Gone Wrong" />
-      
-      <published>2018-10-31T20:11:00-03:00</published>
-      <updated>2018-10-31T20:11:00-03:00</updated>
-      <id>https://nitesculucian.github.io/2018/10/31/attackdefense-com-pe-editing-gone-wrong</id>
-      <content type="html" xml:base="https://nitesculucian.github.io/2018/10/31/attackdefense-com-pe-editing-gone-wrong/">&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot from 2018-10-26 17-44-27.png&quot; alt=&quot;Image of AttackDefense 2018&quot; /&gt;&lt;/p&gt;</content>
-
-      
-      
-      
-      
-      
-
-      
-        <author>
-            <name>Lucian Nitescu</name>
-          
-          
-        </author>
-      
-
-      
-        <category term="AttackDefense.com" />
-      
-        <category term="ctf" />
-      
-        <category term="writeups" />
-      
-        <category term="PrivilegeEscalation" />
-      
-
-      
-
-      
-        <summary type="html"></summary>
-      
-
-      
-      
-    </entry>
-  
-  
-  
-    <entry>
-      
-      <title type="html">AttackDefense.com [PE] - Permissions Matter!</title>
-      
-      
-      <link href="https://nitesculucian.github.io/2018/10/31/attackdefense-com-pe-permissions-matter/" rel="alternate" type="text/html" title="AttackDefense.com [PE] - Permissions Matter!" />
-      
-      <published>2018-10-31T19:16:00-03:00</published>
-      <updated>2018-10-31T19:16:00-03:00</updated>
-      <id>https://nitesculucian.github.io/2018/10/31/attackdefense-com-pe-permissions-matter</id>
-      <content type="html" xml:base="https://nitesculucian.github.io/2018/10/31/attackdefense-com-pe-permissions-matter/">&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot from 2018-10-26 17-44-27.png&quot; alt=&quot;Image of AttackDefense 2018&quot; /&gt;&lt;/p&gt;</content>
-
-      
-      
-      
-      
-      
-
-      
-        <author>
-            <name>Lucian Nitescu</name>
-          
-          
-        </author>
-      
-
-      
-        <category term="AttackDefense.com" />
-      
-        <category term="ctf" />
-      
-        <category term="writeups" />
-      
-        <category term="PrivilegeEscalation" />
-      
-
-      
-
-      
-        <summary type="html"></summary>
-      
-
-      
-      
-    </entry>
-  
-  
-  
-    <entry>
-      
-      <title type="html">AttackDefense.com [RCE] - RPi Cam Control</title>
-      
-      
-      <link href="https://nitesculucian.github.io/2018/10/28/attackdefense-com-rce-rpi-cam-control/" rel="alternate" type="text/html" title="AttackDefense.com [RCE] - RPi Cam Control" />
-      
-      <published>2018-10-28T18:27:00-03:00</published>
-      <updated>2018-10-28T18:27:00-03:00</updated>
-      <id>https://nitesculucian.github.io/2018/10/28/attackdefense-com-rce-rpi-cam-control</id>
-      <content type="html" xml:base="https://nitesculucian.github.io/2018/10/28/attackdefense-com-rce-rpi-cam-control/">&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot from 2018-10-26 17-44-27.png&quot; alt=&quot;Image of AttackDefense 2018&quot; /&gt;&lt;/p&gt;</content>
-
-      
-      
-      
-      
-      
-
-      
-        <author>
-            <name>Lucian Nitescu</name>
-          
-          
-        </author>
-      
-
-      
-        <category term="AttackDefense.com" />
-      
-        <category term="ctf" />
-      
-        <category term="writeups" />
       
         <category term="rce" />
       
