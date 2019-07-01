@@ -5,7 +5,7 @@
   
   <link href="https://nitesculucian.github.io/feed.xml" rel="self" type="application/atom+xml" />
   <link href="https://nitesculucian.github.io/" rel="alternate" type="text/html" hreflang="en" />
-  <updated>2019-02-04T20:33:19-03:00</updated>
+  <updated>2019-07-01T20:56:27-03:00</updated>
   <id>https://nitesculucian.github.io//</id>
 
   
@@ -24,6 +24,52 @@
     </author>
   
 
+  
+  
+    <entry>
+      
+      <title type="html">Exploiting the xmlrpc.php on all WordPress versions</title>
+      
+      
+      <link href="https://nitesculucian.github.io/2019/07/01/exploiting-the-xmlrpc-php-on-all-wordpress-versions/" rel="alternate" type="text/html" title="Exploiting the xmlrpc.php on all WordPress versions" />
+      
+      <published>2019-07-01T20:37:00-03:00</published>
+      <updated>2019-07-01T20:37:00-03:00</updated>
+      <id>https://nitesculucian.github.io/2019/07/01/exploiting-the-xmlrpc-php-on-all-wordpress-versions</id>
+      <content type="html" xml:base="https://nitesculucian.github.io/2019/07/01/exploiting-the-xmlrpc-php-on-all-wordpress-versions/">&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot from 2019-07-02 02-52-29.png&quot; alt=&quot;XML RPC DDOS attack, port scanning, xmlrpc.php, wordpress&quot; /&gt;&lt;/p&gt;</content>
+
+      
+      
+      
+      
+      
+
+      
+        <author>
+            <name>Lucian Nitescu</name>
+          
+          
+        </author>
+      
+
+      
+        <category term="cheatsheet" />
+      
+        <category term="offensive_security" />
+      
+        <category term="wordpress" />
+      
+
+      
+
+      
+        <summary type="html"></summary>
+      
+
+      
+      
+    </entry>
+  
   
   
     <entry>
@@ -904,56 +950,6 @@
 
       
         <summary type="html">MyBB Downloads it is a plugin (MyBB) which adds a page to download files. If enabled, regular members can add new downloads to the page after admin approval.</summary>
-      
-
-      
-      
-    </entry>
-  
-  
-  
-    <entry>
-      
-      <title type="html">AttackDefense.com [RCE] - CVE-2018-7466 Exploit</title>
-      
-      
-      <link href="https://nitesculucian.github.io/2018/11/06/attackdefense-com-rce-cve-2018-7466-exploit/" rel="alternate" type="text/html" title="AttackDefense.com [RCE] - CVE-2018-7466 Exploit" />
-      
-      <published>2018-11-06T18:34:00-03:00</published>
-      <updated>2018-11-06T18:34:00-03:00</updated>
-      <id>https://nitesculucian.github.io/2018/11/06/attackdefense-com-rce-cve-2018-7466-exploit</id>
-      <content type="html" xml:base="https://nitesculucian.github.io/2018/11/06/attackdefense-com-rce-cve-2018-7466-exploit/">&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot from 2018-10-26 17-44-27.png&quot; alt=&quot;Image of AttackDefense 2018&quot; /&gt;&lt;/p&gt;</content>
-
-      
-      
-      
-      
-      
-
-      
-        <author>
-            <name>Lucian Nitescu</name>
-          
-          
-        </author>
-      
-
-      
-        <category term="AttackDefense.com" />
-      
-        <category term="ctf" />
-      
-        <category term="writeups" />
-      
-        <category term="CVE-2018" />
-      
-        <category term="rce" />
-      
-
-      
-
-      
-        <summary type="html"></summary>
       
 
       
