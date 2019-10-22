@@ -5,7 +5,7 @@
   
   <link href="https://nitesculucian.github.io/feed.xml" rel="self" type="application/atom+xml" />
   <link href="https://nitesculucian.github.io/" rel="alternate" type="text/html" hreflang="en" />
-  <updated>2019-10-22T19:18:22-03:00</updated>
+  <updated>2019-10-22T19:50:30-03:00</updated>
   <id>https://nitesculucian.github.io//</id>
 
   
@@ -24,6 +24,50 @@
     </author>
   
 
+  
+  
+    <entry>
+      
+      <title type="html">Wordpress Sliced Invoices &amp;lt;= 3.8.2 Authenticated SQL Injection</title>
+      
+      
+      <link href="https://nitesculucian.github.io/2019/10/22/sliced-invoices-3-8-2-authentificated-sql-injection-vulnerability/" rel="alternate" type="text/html" title="Wordpress Sliced Invoices &lt;= 3.8.2 Authenticated SQL Injection" />
+      
+      <published>2019-10-22T19:26:00-03:00</published>
+      <updated>2019-10-22T19:26:00-03:00</updated>
+      <id>https://nitesculucian.github.io/2019/10/22/sliced-invoices-3-8-2-authentificated-sql-injection-vulnerability</id>
+      <content type="html" xml:base="https://nitesculucian.github.io/2019/10/22/sliced-invoices-3-8-2-authentificated-sql-injection-vulnerability/">&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot from 2019-10-22 23-55-40.png&quot; alt=&quot;Wordpress Sliced Invoices &amp;lt;= 3.8.2 Authentificated SQL Injection&quot; /&gt;&lt;/p&gt;</content>
+
+      
+      
+      
+      
+      
+
+      
+        <author>
+            <name>Lucian Nitescu</name>
+          
+          
+        </author>
+      
+
+      
+        <category term="my_exploits" />
+      
+        <category term="offensive_security" />
+      
+
+      
+
+      
+        <summary type="html"></summary>
+      
+
+      
+      
+    </entry>
+  
   
   
     <entry>
@@ -906,50 +950,6 @@
 
       
         <summary type="html"></summary>
-      
-
-      
-      
-    </entry>
-  
-  
-  
-    <entry>
-      
-      <title type="html">CMS Made Simple 2.2.7 - Remote Code Execution</title>
-      
-      
-      <link href="https://nitesculucian.github.io/2018/11/06/cms-made-simple-2-2-7-remote-code-execution/" rel="alternate" type="text/html" title="CMS Made Simple 2.2.7 - Remote Code Execution" />
-      
-      <published>2018-11-06T21:19:00-03:00</published>
-      <updated>2018-11-06T21:19:00-03:00</updated>
-      <id>https://nitesculucian.github.io/2018/11/06/cms-made-simple-2-2-7-remote-code-execution</id>
-      <content type="html" xml:base="https://nitesculucian.github.io/2018/11/06/cms-made-simple-2-2-7-remote-code-execution/">&lt;p&gt;CMS Made Simple is an Open Source Content Management System. It’s built using PHP and the Smarty Engine, which keeps content, functionality, and templates separated.&lt;/p&gt;</content>
-
-      
-      
-      
-      
-      
-
-      
-        <author>
-            <name>Lucian Nitescu</name>
-          
-          
-        </author>
-      
-
-      
-        <category term="my_exploits" />
-      
-        <category term="offensive_security" />
-      
-
-      
-
-      
-        <summary type="html">CMS Made Simple is an Open Source Content Management System. It’s built using PHP and the Smarty Engine, which keeps content, functionality, and templates separated.</summary>
       
 
       
