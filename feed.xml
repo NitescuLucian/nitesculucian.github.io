@@ -5,7 +5,7 @@
   
   <link href="https://nitesculucian.github.io/feed.xml" rel="self" type="application/atom+xml" />
   <link href="https://nitesculucian.github.io/" rel="alternate" type="text/html" hreflang="en" />
-  <updated>2019-10-24T13:53:13-03:00</updated>
+  <updated>2019-10-25T12:28:57-03:00</updated>
   <id>https://nitesculucian.github.io//</id>
 
   
@@ -24,6 +24,46 @@
     </author>
   
 
+  
+  
+    <entry>
+      
+      <title type="html">Wordpress About Author &amp;lt;= 1.3.9 Authentificated Stored XSS</title>
+      
+      
+      <link href="https://nitesculucian.github.io/2019/10/25/about-author-1-3-9-authentificated-stored-xss-vulnerability/" rel="alternate" type="text/html" title="Wordpress About Author &lt;= 1.3.9 Authentificated Stored XSS" />
+      
+      <published>2019-10-25T11:24:00-03:00</published>
+      <updated>2019-10-25T11:24:00-03:00</updated>
+      <id>https://nitesculucian.github.io/2019/10/25/about-author-1-3-9-authentificated-stored-xss-vulnerability</id>
+      <content type="html" xml:base="https://nitesculucian.github.io/2019/10/25/about-author-1-3-9-authentificated-stored-xss-vulnerability/">&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot from 2019-10-25 17-35-10.png&quot; alt=&quot;Wordpress About Author &amp;lt;= 1.3.9 Authenticated Stored XSS&quot; /&gt;&lt;/p&gt;</content>
+
+      
+      
+      
+      
+      
+
+      
+        <author>
+            <name>Lucian Nitescu</name>
+          
+          
+        </author>
+      
+
+      
+
+      
+
+      
+        <summary type="html"></summary>
+      
+
+      
+      
+    </entry>
+  
   
   
     <entry>
@@ -886,54 +926,6 @@
         <category term="writeups" />
       
         <category term="rce" />
-      
-
-      
-
-      
-        <summary type="html"></summary>
-      
-
-      
-      
-    </entry>
-  
-  
-  
-    <entry>
-      
-      <title type="html">AttackDefense.com [LFI] - CVE-2018-12613 Exploit</title>
-      
-      
-      <link href="https://nitesculucian.github.io/2018/11/26/attackdefense-com-lfi-cve-2018-12613-exploit/" rel="alternate" type="text/html" title="AttackDefense.com [LFI] - CVE-2018-12613 Exploit" />
-      
-      <published>2018-11-26T18:46:00-03:00</published>
-      <updated>2018-11-26T18:46:00-03:00</updated>
-      <id>https://nitesculucian.github.io/2018/11/26/attackdefense-com-lfi-cve-2018-12613-exploit</id>
-      <content type="html" xml:base="https://nitesculucian.github.io/2018/11/26/attackdefense-com-lfi-cve-2018-12613-exploit/">&lt;p&gt;&lt;img src=&quot;/uploads/Screenshot from 2018-10-26 17-44-27.png&quot; alt=&quot;Image of AttackDefense 2018&quot; /&gt;&lt;/p&gt;</content>
-
-      
-      
-      
-      
-      
-
-      
-        <author>
-            <name>Lucian Nitescu</name>
-          
-          
-        </author>
-      
-
-      
-        <category term="AttackDefense.com" />
-      
-        <category term="ctf" />
-      
-        <category term="writeups" />
-      
-        <category term="LFI" />
       
 
       
