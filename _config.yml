@@ -148,7 +148,7 @@ paginate: 5
 # paginate_path: "/blog/page:num/"
 
 # The base URL of your site
-baseurl: ""
+baseurl: "nitesculucian.github.io"
 
 # ------------ The following options are not recommended to be modified ------------------
 
