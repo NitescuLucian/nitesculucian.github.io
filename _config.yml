@@ -15,10 +15,10 @@ timezone: Europe/Bucharest
 # url: "https://example.com" # the base hostname & protocol for your site
 # https://github.com/jekyll/jekyll-redirect-from
 plugins:
+  - jekyll-paginate
   - jekyll-sitemap
   - jekyll-redirect-from
 sitemap: true
-
 
 # jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
 # ↓ --------------------------
@@ -65,7 +65,7 @@ webmaster_verifications:
 # Web Analytics Settings
 analytics:
   google:
-    id: UA-107695141-1
+    id: G-WYKB73DYES
   # goatcounter:
   #   id: # fill in your GoatCounter ID
 
@@ -142,8 +142,6 @@ pwa:
     deny_paths:
       # - "/example"  # URLs match `<SITE_URL>/example/*` will not be cached by the PWA
 
-plugins:
-  - jekyll-paginate
 paginate: 5
 # paginate_path: "/blog/page:num/"
 
