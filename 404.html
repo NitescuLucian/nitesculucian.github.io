@@ -25,7 +25,6 @@ layout: default
 
 <script>
   (function() {
-      // Dynamically generate the list of known URLs from Jekyll's site data
       var knownURLs = [
           {% for post in site.posts %}
           '{{ post.url }}',
@@ -37,26 +36,17 @@ layout: default
       console.log(knownURLs);
       console.log(currentURL);
 
-      // Remove the protocol and domain
       var domainAndProtocolRemoved = currentURL.replace(/^[^:]+:\/\/[^\/]+/, '');
-      // Remove the date part
       var modifiedCurrentURL = domainAndProtocolRemoved.replace(/\/\d{1,4}\/\d{1,2}\/\d{1,2}\//g, '');
 
       console.log(modifiedCurrentURL);
       var targetURL = null;
-
-      // Iterate through knownURLs to find a match for the modifiedCurrentURL
       for (var i = 0; i < knownURLs.length; i++) {
-          // In this example, we check if the known URL ends with the modified part of the current URL
-          // Adjust this logic based on how you want to match the modifiedCurrentURL to the knownURLs
           if (knownURLs[i].endsWith(modifiedCurrentURL)) {
               targetURL = knownURLs[i];
-
-              break; // Exit the loop once a match is found
+              break;
           }
       }
-
-      // Redirect to the target URL if it's determined
       if (targetURL !== null) {
           window.location.href = targetURL;
       }
