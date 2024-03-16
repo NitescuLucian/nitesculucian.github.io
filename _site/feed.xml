@@ -1,1 +1,243 @@
-<feed xmlns="http://www.w3.org/2005/Atom"> <id>https://nitesculucian.github.io/nitesculucian.github.io/</id><title>Lucian Nitescu</title><subtitle>Explore the personal blog of a cybersecurity expert with a rich history in Red Teaming, Penetration Testing, and Incident Response since 2017. Active in the cyber community through roles in DefCamp CTF and Romanian Cyber Security Challenges, plus contributions to the bug bounty community.</subtitle> <updated>2024-03-16T00:36:12+02:00</updated> <author> <name>Lucian Nitescu</name> <uri>https://nitesculucian.github.io/nitesculucian.github.io/</uri> </author><link rel="self" type="application/atom+xml" href="https://nitesculucian.github.io/nitesculucian.github.io/feed.xml"/><link rel="alternate" type="text/html" hreflang="en" href="https://nitesculucian.github.io/nitesculucian.github.io/"/> <generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator> <rights> © 2024 Lucian Nitescu </rights> <icon>nitesculucian.github.io/assets/img/favicons/favicon.ico</icon> <logo>nitesculucian.github.io/assets/img/favicons/favicon-96x96.png</logo> <entry><title>Wordpress About Author &amp;lt;= 1.3.9 Authenticated Stored XSS</title><link href="https://nitesculucian.github.io/nitesculucian.github.io/2019/10/25/about-author-1-3-9-authentificated-stored-xss-vulnerability/" rel="alternate" type="text/html" title="Wordpress About Author &amp;lt;= 1.3.9 Authenticated Stored XSS" /><published>2019-10-25T17:24:00+03:00</published> <updated>2019-10-25T17:24:00+03:00</updated> <id>https://nitesculucian.github.io/nitesculucian.github.io/2019/10/25/about-author-1-3-9-authentificated-stored-xss-vulnerability/</id> <content src="https://nitesculucian.github.io/nitesculucian.github.io/2019/10/25/about-author-1-3-9-authentificated-stored-xss-vulnerability/" /> <author> <name>Lucian Nitescu</name> </author> <category term="dctf" /> <category term="ctf" /> <category term="writeups" /> <summary> A vulnerability has been identified in the WordPress “About Author” plugin versions lower than or equal to 1.3.9. This plugin is affected by an authenticated Stored Cross-site scripting (XSS) vulnerability. This means that an attacker with a valid account on the WordPress website could inject malicious code into the plugin, which could be executed whenever a user views the affected page. This... </summary> </entry> <entry><title>Wordpress Groundhogg &amp;lt;= 2.0.8.1 Authentificated Reflected XSS</title><link href="https://nitesculucian.github.io/nitesculucian.github.io/2019/10/23/groundhogg-1-3-2-authentificated-reflected-xss-vulnerability/" rel="alternate" type="text/html" title="Wordpress Groundhogg &amp;lt;= 2.0.8.1 Authentificated Reflected XSS" /><published>2019-10-23T21:50:00+03:00</published> <updated>2019-10-23T21:50:00+03:00</updated> <id>https://nitesculucian.github.io/nitesculucian.github.io/2019/10/23/groundhogg-1-3-2-authentificated-reflected-xss-vulnerability/</id> <content src="https://nitesculucian.github.io/nitesculucian.github.io/2019/10/23/groundhogg-1-3-2-authentificated-reflected-xss-vulnerability/" /> <author> <name>Lucian Nitescu</name> </author> <category term="my_exploits" /> <category term="offensive_security" /> <summary> Wordpress Groundhogg plugin with a version lower then 2.0.8.1 is affected by an authenticated Reflected Cross-site scripting (XSS) vulnerability. Intial submission of the vulnerability # Exploit Title: Wordpress Groundhogg &amp;lt;= 2.0.8.1 Authenticated Reflected XSS Vulnerability # Date: 22-10-2019 # Exploit Author: Lucian Ioan Nitescu # Contact: https://twitter.com/LucianNitescu # Webiste: h... </summary> </entry> <entry><title>Wordpress Groundhogg &amp;lt;= 1.3.11.13 Authentificated SQL Injection</title><link href="https://nitesculucian.github.io/nitesculucian.github.io/2019/10/23/groundhogg-1-3-2-authentificated-sql-injection-vulnerability/" rel="alternate" type="text/html" title="Wordpress Groundhogg &amp;lt;= 1.3.11.13 Authentificated SQL Injection" /><published>2019-10-23T17:47:00+03:00</published> <updated>2019-10-23T17:47:00+03:00</updated> <id>https://nitesculucian.github.io/nitesculucian.github.io/2019/10/23/groundhogg-1-3-2-authentificated-sql-injection-vulnerability/</id> <content src="https://nitesculucian.github.io/nitesculucian.github.io/2019/10/23/groundhogg-1-3-2-authentificated-sql-injection-vulnerability/" /> <author> <name>Lucian Nitescu</name> </author> <category term="my_exploits" /> <category term="offensive_security" /> <summary> Wordpress Groundhogg plugin with a version lower than 1.3.11.13 is affected by an Authenticated SQL Injection vulnerability. Intial submission of the vulnerability # Exploit Title: Wordpress Groundhogg &amp;lt;= 1.3.11.13 Authenticated SQL Injection Vulnerability # Date: 23-10-2019 # Exploit Author: Lucian Ioan Nitescu # Contact: https://twitter.com/LucianNitescu # Webiste: https://nitesculucia... </summary> </entry> <entry><title>Wordpress Sliced Invoices &amp;lt;= 3.8.2 Authenticated SQL Injection</title><link href="https://nitesculucian.github.io/nitesculucian.github.io/2019/10/23/sliced-invoices-3-8-2-authentificated-sql-injection-vulnerability/" rel="alternate" type="text/html" title="Wordpress Sliced Invoices &amp;lt;= 3.8.2 Authenticated SQL Injection" /><published>2019-10-23T01:26:00+03:00</published> <updated>2019-10-23T01:26:00+03:00</updated> <id>https://nitesculucian.github.io/nitesculucian.github.io/2019/10/23/sliced-invoices-3-8-2-authentificated-sql-injection-vulnerability/</id> <content src="https://nitesculucian.github.io/nitesculucian.github.io/2019/10/23/sliced-invoices-3-8-2-authentificated-sql-injection-vulnerability/" /> <author> <name>Lucian Nitescu</name> </author> <category term="my_exploits" /> <category term="offensive_security" /> <summary> Wordpress Sliced Invoices plugin with a version lower then 3.8.2 is affected by an Authenticated SQL Injection vulnerability. Note that this vulnerability is highly similar to Wordpress Sliced Invoices &amp;lt;= 3.8.2 Authenticated Reflected XSS due to the use of the same GET parameter. Intial submission of the vulnerability # Exploit Title: Wordpress Sliced Invoices &amp;lt;= 3.8.2 Authenticated S... </summary> </entry> <entry><title>Wordpress Sliced Invoices &amp;lt;= 3.8.2 Authenticated Reflected XSS</title><link href="https://nitesculucian.github.io/nitesculucian.github.io/2019/10/22/sliced-invoices-3-8-2-authentificated-reflected-xss-vulnerability/" rel="alternate" type="text/html" title="Wordpress Sliced Invoices &amp;lt;= 3.8.2 Authenticated Reflected XSS" /><published>2019-10-22T23:33:00+03:00</published> <updated>2019-10-22T23:33:00+03:00</updated> <id>https://nitesculucian.github.io/nitesculucian.github.io/2019/10/22/sliced-invoices-3-8-2-authentificated-reflected-xss-vulnerability/</id> <content src="https://nitesculucian.github.io/nitesculucian.github.io/2019/10/22/sliced-invoices-3-8-2-authentificated-reflected-xss-vulnerability/" /> <author> <name>Lucian Nitescu</name> </author> <category term="my_exploits" /> <category term="offensive_security" /> <summary> Wordpress Sliced Invoices plugin with a version lower then 3.8.2 is affected by an authenticated Reflected Cross-site scripting (XSS) vulnerability. Intial submission of the vulnerability # Exploit Title: Wordpress Sliced Invoices &amp;lt;= 3.8.2 Authenticated Reflected XSS Vulnerability # Date: 22-10-2019 # Exploit Author: Lucian Ioan Nitescu # Contact: https://twitter.com/LucianNitescu # Webi... </summary> </entry> </feed>
+
+
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <id>http://localhost:4000/</id>
+  <title>Lucian Nitescu</title>
+  <subtitle>Explore the personal blog of a cybersecurity expert with a rich history in Red Teaming, Penetration Testing, and Incident Response since 2017. Active in the cyber community through roles in DefCamp CTF and Romanian Cyber Security Challenges, plus contributions to the bug bounty community.</subtitle>
+  <updated>2024-03-16T14:50:56+02:00</updated>
+  <author>
+    <name>Lucian Nitescu</name>
+    <uri>http://localhost:4000/</uri>
+  </author>
+  <link rel="self" type="application/atom+xml" href="http://localhost:4000/feed.xml"/>
+  <link rel="alternate" type="text/html" hreflang="en"
+    href="http://localhost:4000/"/>
+  <generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator>
+  <rights> © 2024 Lucian Nitescu </rights>
+  <icon>/assets/img/favicons/favicon.ico</icon>
+  <logo>/assets/img/favicons/favicon-96x96.png</logo>
+
+
+  
+  <entry>
+    <title>Wordpress About Author &amp;lt;= 1.3.9 Authenticated Stored XSS</title>
+    <link href="http://localhost:4000/2019/10/25/about-author-1-3-9-authentificated-stored-xss-vulnerability/" rel="alternate" type="text/html" title="Wordpress About Author &amp;lt;= 1.3.9 Authenticated Stored XSS" />
+    <published>2019-10-25T17:24:00+03:00</published>
+  
+    <updated>2019-10-25T17:24:00+03:00</updated>
+  
+    <id>http://localhost:4000/2019/10/25/about-author-1-3-9-authentificated-stored-xss-vulnerability/</id>
+    <content src="http://localhost:4000/2019/10/25/about-author-1-3-9-authentificated-stored-xss-vulnerability/" />
+    <author>
+      <name>Lucian Nitescu</name>
+    </author>
+
+  
+    
+    <category term="dctf" />
+    
+    <category term="ctf" />
+    
+    <category term="writeups" />
+    
+  
+
+  
+    <summary>
+      
+
+
+
+
+
+      
+
+A vulnerability has been identified in the WordPress “About Author” plugin versions lower than or equal to 1.3.9. This plugin is affected by an authenticated Stored Cross-site scripting (XSS) vulnerability. This means that an attacker with a valid account on the WordPress website could inject malicious code into the plugin, which could be executed whenever a user views the affected page. This...
+    </summary>
+  
+
+  </entry>
+
+  
+  <entry>
+    <title>Wordpress Groundhogg &amp;lt;= 2.0.8.1 Authentificated Reflected XSS</title>
+    <link href="http://localhost:4000/2019/10/23/groundhogg-1-3-2-authentificated-reflected-xss-vulnerability/" rel="alternate" type="text/html" title="Wordpress Groundhogg &amp;lt;= 2.0.8.1 Authentificated Reflected XSS" />
+    <published>2019-10-23T21:50:00+03:00</published>
+  
+    <updated>2019-10-23T21:50:00+03:00</updated>
+  
+    <id>http://localhost:4000/2019/10/23/groundhogg-1-3-2-authentificated-reflected-xss-vulnerability/</id>
+    <content src="http://localhost:4000/2019/10/23/groundhogg-1-3-2-authentificated-reflected-xss-vulnerability/" />
+    <author>
+      <name>Lucian Nitescu</name>
+    </author>
+
+  
+    
+    <category term="my_exploits" />
+    
+    <category term="offensive_security" />
+    
+  
+
+  
+    <summary>
+      
+
+
+
+
+
+      
+
+Wordpress Groundhogg plugin with a version lower then 2.0.8.1 is affected by an authenticated Reflected Cross-site scripting (XSS) vulnerability.
+
+Intial submission of the vulnerability
+
+# Exploit Title: Wordpress Groundhogg &amp;lt;= 2.0.8.1 Authenticated Reflected XSS Vulnerability
+# Date: 22-10-2019
+# Exploit Author: Lucian Ioan Nitescu
+# Contact: https://twitter.com/LucianNitescu
+# Webiste: h...
+    </summary>
+  
+
+  </entry>
+
+  
+  <entry>
+    <title>Wordpress Groundhogg &amp;lt;= 1.3.11.13 Authentificated SQL Injection</title>
+    <link href="http://localhost:4000/2019/10/23/groundhogg-1-3-2-authentificated-sql-injection-vulnerability/" rel="alternate" type="text/html" title="Wordpress Groundhogg &amp;lt;= 1.3.11.13 Authentificated SQL Injection" />
+    <published>2019-10-23T17:47:00+03:00</published>
+  
+    <updated>2019-10-23T17:47:00+03:00</updated>
+  
+    <id>http://localhost:4000/2019/10/23/groundhogg-1-3-2-authentificated-sql-injection-vulnerability/</id>
+    <content src="http://localhost:4000/2019/10/23/groundhogg-1-3-2-authentificated-sql-injection-vulnerability/" />
+    <author>
+      <name>Lucian Nitescu</name>
+    </author>
+
+  
+    
+    <category term="my_exploits" />
+    
+    <category term="offensive_security" />
+    
+  
+
+  
+    <summary>
+      
+
+
+
+
+
+      
+
+Wordpress Groundhogg plugin with a version lower than 1.3.11.13 is affected by an Authenticated SQL Injection vulnerability.
+
+Intial submission of the vulnerability
+
+# Exploit Title: Wordpress Groundhogg &amp;lt;= 1.3.11.13 Authenticated SQL Injection Vulnerability
+# Date: 23-10-2019
+# Exploit Author: Lucian Ioan Nitescu
+# Contact: https://twitter.com/LucianNitescu
+# Webiste: https://nitesculucia...
+    </summary>
+  
+
+  </entry>
+
+  
+  <entry>
+    <title>Wordpress Sliced Invoices &amp;lt;= 3.8.2 Authenticated SQL Injection</title>
+    <link href="http://localhost:4000/2019/10/23/sliced-invoices-3-8-2-authentificated-sql-injection-vulnerability/" rel="alternate" type="text/html" title="Wordpress Sliced Invoices &amp;lt;= 3.8.2 Authenticated SQL Injection" />
+    <published>2019-10-23T01:26:00+03:00</published>
+  
+    <updated>2019-10-23T01:26:00+03:00</updated>
+  
+    <id>http://localhost:4000/2019/10/23/sliced-invoices-3-8-2-authentificated-sql-injection-vulnerability/</id>
+    <content src="http://localhost:4000/2019/10/23/sliced-invoices-3-8-2-authentificated-sql-injection-vulnerability/" />
+    <author>
+      <name>Lucian Nitescu</name>
+    </author>
+
+  
+    
+    <category term="my_exploits" />
+    
+    <category term="offensive_security" />
+    
+  
+
+  
+    <summary>
+      
+
+
+
+
+
+      
+
+Wordpress Sliced Invoices plugin with a version lower then 3.8.2 is affected by an Authenticated SQL Injection vulnerability. Note that this vulnerability is highly similar to Wordpress Sliced Invoices &amp;lt;= 3.8.2 Authenticated Reflected XSS due to the use of the same GET parameter.
+
+Intial submission of the vulnerability
+
+# Exploit Title: Wordpress Sliced Invoices &amp;lt;= 3.8.2 Authenticated S...
+    </summary>
+  
+
+  </entry>
+
+  
+  <entry>
+    <title>Wordpress Sliced Invoices &amp;lt;= 3.8.2 Authenticated Reflected XSS</title>
+    <link href="http://localhost:4000/2019/10/22/sliced-invoices-3-8-2-authentificated-reflected-xss-vulnerability/" rel="alternate" type="text/html" title="Wordpress Sliced Invoices &amp;lt;= 3.8.2 Authenticated Reflected XSS" />
+    <published>2019-10-22T23:33:00+03:00</published>
+  
+    <updated>2019-10-22T23:33:00+03:00</updated>
+  
+    <id>http://localhost:4000/2019/10/22/sliced-invoices-3-8-2-authentificated-reflected-xss-vulnerability/</id>
+    <content src="http://localhost:4000/2019/10/22/sliced-invoices-3-8-2-authentificated-reflected-xss-vulnerability/" />
+    <author>
+      <name>Lucian Nitescu</name>
+    </author>
+
+  
+    
+    <category term="my_exploits" />
+    
+    <category term="offensive_security" />
+    
+  
+
+  
+    <summary>
+      
+
+
+
+
+
+      
+
+Wordpress Sliced Invoices plugin with a version lower then 3.8.2 is affected by an authenticated Reflected Cross-site scripting (XSS) vulnerability.
+
+Intial submission of the vulnerability
+
+# Exploit Title: Wordpress Sliced Invoices &amp;lt;= 3.8.2 Authenticated Reflected XSS Vulnerability
+# Date: 22-10-2019
+# Exploit Author: Lucian Ioan Nitescu
+# Contact: https://twitter.com/LucianNitescu
+# Webi...
+    </summary>
+  
+
+  </entry>
+
+</feed>
+
+

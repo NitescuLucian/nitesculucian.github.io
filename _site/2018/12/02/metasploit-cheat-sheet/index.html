@@ -1,1 +1,6425 @@
-<!doctype html><html lang="en" ><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="theme-color" media="(prefers-color-scheme: light)" content="#f7f7f7"><meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1b1b1e"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="viewport" content="width=device-width, user-scalable=no initial-scale=1, shrink-to-fit=no, viewport-fit=cover" ><meta name="generator" content="Jekyll v4.3.3" /><meta property="og:title" content="Metasploit Cheat Sheet" /><meta property="og:locale" content="en" /><meta name="description" content="Explore the personal blog of a cybersecurity expert with a rich history in Red Teaming, Penetration Testing, and Incident Response since 2017. Active in the cyber community through roles in DefCamp CTF and Romanian Cyber Security Challenges, plus contributions to the bug bounty community." /><meta property="og:description" content="Explore the personal blog of a cybersecurity expert with a rich history in Red Teaming, Penetration Testing, and Incident Response since 2017. Active in the cyber community through roles in DefCamp CTF and Romanian Cyber Security Challenges, plus contributions to the bug bounty community." /><link rel="canonical" href="https://nitesculucian.github.io/nitesculucian.github.io/2018/12/02/metasploit-cheat-sheet/" /><meta property="og:url" content="https://nitesculucian.github.io/nitesculucian.github.io/2018/12/02/metasploit-cheat-sheet/" /><meta property="og:site_name" content="Lucian Nitescu" /><meta property="og:type" content="article" /><meta property="article:published_time" content="2018-12-02T01:31:00+02:00" /><meta name="twitter:card" content="summary" /><meta property="twitter:title" content="Metasploit Cheat Sheet" /><meta name="twitter:site" content="@LucianNitescu" /><meta name="google-site-verification" content="Dd0w5mhVXB9dYVNimgGPlkXQomqmN4lkMli1rxwJ4Ws" /> <script type="application/ld+json"> {"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2018-12-02T01:31:00+02:00","datePublished":"2018-12-02T01:31:00+02:00","description":"Explore the personal blog of a cybersecurity expert with a rich history in Red Teaming, Penetration Testing, and Incident Response since 2017. Active in the cyber community through roles in DefCamp CTF and Romanian Cyber Security Challenges, plus contributions to the bug bounty community.","headline":"Metasploit Cheat Sheet","mainEntityOfPage":{"@type":"WebPage","@id":"https://nitesculucian.github.io/nitesculucian.github.io/2018/12/02/metasploit-cheat-sheet/"},"url":"https://nitesculucian.github.io/nitesculucian.github.io/2018/12/02/metasploit-cheat-sheet/"}</script><title>Metasploit Cheat Sheet | Lucian Nitescu</title><meta name="apple-mobile-web-app-title" content="Lucian Nitescu"><meta name="application-name" content="Lucian Nitescu"><meta name="msapplication-TileColor" content="#da532c"><meta name="msapplication-config" content="/browserconfig.xml"><meta name="theme-color" content="#ffffff"><link rel="preconnect" href="https://fonts.googleapis.com" ><link rel="dns-prefetch" href="https://fonts.googleapis.com" ><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="dns-prefetch" href="https://fonts.gstatic.com" crossorigin><link rel="preconnect" href="https://fonts.googleapis.com" ><link rel="dns-prefetch" href="https://fonts.googleapis.com" ><link rel="preconnect" href="https://cdn.jsdelivr.net" ><link rel="dns-prefetch" href="https://cdn.jsdelivr.net" ><link rel="preconnect" href="https://cdnjs.cloudflare.com" ><link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" ><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato&family=Source+Sans+Pro:wght@400;600;700;900&display=swap"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="/nitesculucian.github.io/assets/css/jekyll-theme-chirpy.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/loading-attribute-polyfill@2.1.1/dist/loading-attribute-polyfill.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/magnific-popup@1.1.0/dist/magnific-popup.min.css"> <script type="text/javascript"> class ModeToggle { static get MODE_KEY() { return 'mode'; } static get MODE_ATTR() { return 'data-mode'; } static get DARK_MODE() { return 'dark'; } static get LIGHT_MODE() { return 'light'; } static get ID() { return 'mode-toggle'; } constructor() { if (this.hasMode) { if (this.isDarkMode) { if (!this.isSysDarkPrefer) { this.setDark(); } } else { if (this.isSysDarkPrefer) { this.setLight(); } } } let self = this; /* always follow the system prefers */ this.sysDarkPrefers.addEventListener('change', () => { if (self.hasMode) { if (self.isDarkMode) { if (!self.isSysDarkPrefer) { self.setDark(); } } else { if (self.isSysDarkPrefer) { self.setLight(); } } self.clearMode(); } self.notify(); }); } /* constructor() */ get sysDarkPrefers() { return window.matchMedia('(prefers-color-scheme: dark)'); } get isSysDarkPrefer() { return this.sysDarkPrefers.matches; } get isDarkMode() { return this.mode === ModeToggle.DARK_MODE; } get isLightMode() { return this.mode === ModeToggle.LIGHT_MODE; } get hasMode() { return this.mode != null; } get mode() { return sessionStorage.getItem(ModeToggle.MODE_KEY); } /* get the current mode on screen */ get modeStatus() { if (this.isDarkMode || (!this.hasMode && this.isSysDarkPrefer)) { return ModeToggle.DARK_MODE; } else { return ModeToggle.LIGHT_MODE; } } setDark() { document.documentElement.setAttribute(ModeToggle.MODE_ATTR, ModeToggle.DARK_MODE); sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.DARK_MODE); } setLight() { document.documentElement.setAttribute(ModeToggle.MODE_ATTR, ModeToggle.LIGHT_MODE); sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.LIGHT_MODE); } clearMode() { document.documentElement.removeAttribute(ModeToggle.MODE_ATTR); sessionStorage.removeItem(ModeToggle.MODE_KEY); } /* Notify another plugins that the theme mode has changed */ notify() { window.postMessage( { direction: ModeToggle.ID, message: this.modeStatus }, '*' ); } flipMode() { if (this.hasMode) { if (this.isSysDarkPrefer) { if (this.isLightMode) { this.clearMode(); } else { this.setLight(); } } else { if (this.isDarkMode) { this.clearMode(); } else { this.setDark(); } } } else { if (this.isSysDarkPrefer) { this.setLight(); } else { this.setDark(); } } this.notify(); } /* flipMode() */ } /* ModeToggle */ const modeToggle = new ModeToggle(); </script><body><aside aria-label="Sidebar" id="sidebar" class="d-flex flex-column align-items-end"><header class="profile-wrapper"> <a href="/nitesculucian.github.io/" id="avatar" class="rounded-circle"><img src="nitesculucian.github.io/assets/img/profile.png" width="112" height="112" alt="avatar" onerror="this.style.display='none'"></a><h1 class="site-title"> <a href="/nitesculucian.github.io/">Lucian Nitescu</a></h1><p class="site-subtitle fst-italic mb-0">Cybersecurity Specialist</p></header><nav class="flex-column flex-grow-1 w-100 ps-0"><ul class="nav"><li class="nav-item"> <a href="/nitesculucian.github.io/" class="nav-link"> <i class="fa-fw fas fa-home"></i> <span>HOME</span> </a><li class="nav-item"> <a href="/nitesculucian.github.io/tags/" class="nav-link"> <i class="fa-fw fas fa-tags"></i> <span>TAGS</span> </a><li class="nav-item"> <a href="/nitesculucian.github.io/archives/" class="nav-link"> <i class="fa-fw fas fa-archive"></i> <span>ARCHIVES</span> </a><li class="nav-item"> <a href="/nitesculucian.github.io/about/" class="nav-link"> <i class="fa-fw fas fa-info-circle"></i> <span>ABOUT</span> </a></ul></nav><div class="sidebar-bottom d-flex flex-wrap align-items-center w-100"> <button type="button" class="mode-toggle btn" aria-label="Switch Mode"> <i class="fas fa-adjust"></i> </button> <span class="icon-border"></span> <a href="https://github.com/NitescuLucian" aria-label="github" target="_blank" rel="noopener noreferrer" > <i class="fab fa-github"></i> </a> <a href="https://twitter.com/LucianNitescu" aria-label="twitter" target="_blank" rel="noopener noreferrer" > <i class="fa-brands fa-x-twitter"></i> </a> <a href="https://t.me/luciannitescu" aria-label="email" > <i class="fas fa-envelope"></i> </a> <a href="/nitesculucian.github.io/feed.xml" aria-label="rss" > <i class="fas fa-rss"></i> </a></div></aside><div id="main-wrapper" class="d-flex justify-content-center"><div class="container d-flex flex-column px-xxl-5"><header id="topbar-wrapper" aria-label="Top Bar"><div id="topbar" class="d-flex align-items-center justify-content-between px-lg-3 h-100" ><nav id="breadcrumb" aria-label="Breadcrumb"> <span> <a href="/nitesculucian.github.io/">Home</a> </span> <span>Metasploit Cheat Sheet</span></nav><button type="button" id="sidebar-trigger" class="btn btn-link"> <i class="fas fa-bars fa-fw"></i> </button><div id="topbar-title"> Post</div><button type="button" id="search-trigger" class="btn btn-link"> <i class="fas fa-search fa-fw"></i> </button> <search class="align-items-center ms-3 ms-lg-0"> <i class="fas fa-search fa-fw"></i> <input class="form-control" id="search-input" type="search" aria-label="search" autocomplete="off" placeholder="Search..." > </search> <button type="button" class="btn btn-link text-decoration-none" id="search-cancel">Cancel</button></div></header><div class="row flex-grow-1"><main aria-label="Main Content" class="col-12 col-lg-11 col-xl-9 px-md-4"><article class="px-1"><header><h1 data-toc-skip>Metasploit Cheat Sheet</h1><div class="post-meta text-muted"> <span> Posted <time data-ts="1543707060" data-df="ll" data-bs-toggle="tooltip" data-bs-placement="bottom" > Dec 2, 2018 </time> </span><div class="d-flex justify-content-between"> <span> By <em> <a href="https://twitter.com/LucianNitescu">Lucian Nitescu</a> </em> </span> <span class="readtime" data-bs-toggle="tooltip" data-bs-placement="bottom" title="551 words" > <em>3 min</em> read</span></div></div></header><div class="content"><p><a href="nitesculucian.github.io/uploads/msflogo.png" class="popup img-link shimmer"><img src="nitesculucian.github.io/uploads/msflogo.png" alt="Image of Metasploit Cheat Sheet" loading="lazy"></a></p><p>A few months ago I have created a <a href="https://nitesculucian.github.io/2018/07/24/msfvenom-cheat-sheet/">msfvenom cheat sheet</a> without explaining the Metasploit framework, so here it is a brief cheat sheet.</p><p>Metasploit is a free tool that has built-in exploits which aids in gaining remote access to a system by exploiting a vulnerability in that server.</p><h3 id="general-information"><span class="me-2">General Information</span><a href="#general-information" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3><div class="table-wrapper"><table><thead><tr><th>Command<th>Description<tbody><tr><td>msfconsole<td>Launch program<tr><td>version<td>Display current version<tr><td>msfupdate<td>Pull the weekly update<tr><td>makerc <code class="language-plaintext highlighter-rouge">&lt;FILE.rc&gt;</code><td>Saves recent commands to file<tr><td>msfconsole -r <code class="language-plaintext highlighter-rouge">&lt;FILE.rc&gt;</code><td>Loads a resource file</table></div><h3 id="executing-an-exploit--scanner--module"><span class="me-2">Executing an Exploit / Scanner / Module</span><a href="#executing-an-exploit--scanner--module" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3><div class="table-wrapper"><table><thead><tr><th>Command<th>Description<tbody><tr><td>use <code class="language-plaintext highlighter-rouge">&lt;MODULE&gt;</code><td>Set the exploit to use<tr><td>set payload <code class="language-plaintext highlighter-rouge">&lt;PAYLOAD&gt;</code><td>Set the payload<tr><td>show options<td>Show all options<tr><td>set <code class="language-plaintext highlighter-rouge">&lt;OPTION&gt;</code> <code class="language-plaintext highlighter-rouge">&lt;SETTING&gt;</code><td>Set a setting<tr><td>exploit or run<td>Execute the exploit</table></div><h3 id="session-handling"><span class="me-2">Session Handling</span><a href="#session-handling" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3><div class="table-wrapper"><table><thead><tr><th>Command<th>Description<tbody><tr><td>sessions -l<td>List all sessions<tr><td>sessions -i <code class="language-plaintext highlighter-rouge">&lt;ID&gt;</code><td>Interact/attach to session<tr><td>background or ^Z<td>Detach from session</table></div><h3 id="using-the-database"><span class="me-2">Using the Database</span><a href="#using-the-database" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3><p>The DB saves data found during exploitation. Auxiliary scan results, hashdumps, and credentials show up in the DB.</p><ul><li>First Time Setup (Run from linux command line.)</ul><div class="table-wrapper"><table><thead><tr><th>Command<th>Description<tbody><tr><td>service postgresql Start<td>Start DB<tr><td>msfdb Init<td>Init the DB</table></div><ul><li>Inside msfconsole</ul><div class="table-wrapper"><table><thead><tr><th>Command<th>Description<tbody><tr><td>db_status<td>Should say connected<tr><td>hosts<td>Show hosts in DB<tr><td>services<td>Show ports in DB<tr><td>vulns<td>Show all vulns found</table></div><h3 id="meterpreter-session-commands"><span class="me-2">Meterpreter Session Commands</span><a href="#meterpreter-session-commands" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3><p>The Meterpreter is a payload within the Metasploit Framework that provides control over an exploited target system, running as a DLL loaded inside of any process on a target machine.</p><div class="table-wrapper"><table><thead><tr><th>Command<th>Description<tbody><tr><td>sysinfo<td>Show system info<tr><td>ps<td>Show running processes<tr><td>kill <code class="language-plaintext highlighter-rouge">&lt;PID&gt;</code><td>Terminate a process<tr><td>getuid<td>Show your user ID<tr><td>upload / download<td>Upload / download a file<tr><td>pwd / lpwd<td>Print working directory (local / remote)<tr><td>cd / lcd<td>Change directory (local / remote)<tr><td>cat<td>Show contents of a file<tr><td>edit <code class="language-plaintext highlighter-rouge">&lt;FILE&gt;</code><td>Edit a file (vim)<tr><td>shell<td>Drop into a shell on the target machine<tr><td>migrate <code class="language-plaintext highlighter-rouge">&lt;PID&gt;</code><td>Switch to another process<tr><td>hashdump<td>Show all pw hashes (Windows only)<tr><td>idletime<td>Display idle time of user<tr><td>screenshot<td>Take a screenshot<tr><td>clearev<td>Clear the logs</table></div><ul><li>Escalate Privileges</ul><div class="table-wrapper"><table><thead><tr><th>Command<th>Description<tbody><tr><td>use priv<td>Load the script<tr><td>getsystem<td>Elevate your privs<tr><td>getprivs<td>Elevate your privs</table></div><ul><li>Token Stealing (Windows only)</ul><div class="table-wrapper"><table><thead><tr><th>Command<th>Description<tbody><tr><td>use incognito<td>Load the script<tr><td>list_tokens -u<td>Show all tokens<tr><td>impersonate_token<td>DOMAIN\USER Use token<tr><td>drop_token<td>Stop using token</table></div><ul><li>Network Pivoting</ul><div class="table-wrapper"><table><thead><tr><th>Command<th>Description<tbody><tr><td>portfwd [ADD/DELETE] -L <code class="language-plaintext highlighter-rouge">&lt;LHOST&gt;</code> -l 3388 -r <code class="language-plaintext highlighter-rouge">&lt;RHOST&gt;</code> -p 3389<td>Enable port forwarding<tr><td>route add <code class="language-plaintext highlighter-rouge">&lt;SUBNET&gt;</code> <code class="language-plaintext highlighter-rouge">&lt;MASK&gt;</code><td>Pivot through a session by adding a route within msf<tr><td>route add <code class="language-plaintext highlighter-rouge">192.168.0.0/24</code><td>Pivot through a session by adding a route within msf<tr><td>route add <code class="language-plaintext highlighter-rouge">192.168.0.0/24</code> -d<td>Deleting a route within msf</table></div><h3 id="finding-an-exploit--payload-to-use"><span class="me-2">Finding an Exploit / Payload to Use</span><a href="#finding-an-exploit--payload-to-use" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3><div class="table-wrapper"><table><thead><tr><th>Command<th>Description<tbody><tr><td>search <code class="language-plaintext highlighter-rouge">&lt;TERM&gt;</code><td>Searches all exploits, payloads, and auxiliary modules<tr><td>show exploits<td>Show all exploits<tr><td>show payloads<td>Show all payloads<tr><td>show auxiliary<td>Show all auxiliary modules (like scanners)<tr><td>show all<td>*</table></div><h3 id="my-favorite"><span class="me-2">My favorite</span><a href="#my-favorite" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3><div class="table-wrapper"><table><thead><tr><th>Command<th>Description<tbody><tr><td>use auxiliary/scanner/smb/smb_enumshares<td>SMB Share Enumeration<tr><td>use auxiliary/scanner/smb/smb_ms17_010<td>MS17-010 SMB RCE Detection<tr><td>use exploit/windows/smb/ms17_010_eternalblue<td>MS17-010 EternalBlue SMB Remote Windows Kernel Pool Corruption<tr><td>use exploit/windows/smb/ms17_010_psexec<td>MS17-010 EternalRomance/EternalSynergy/EternalChampion SMB Remote Windows Code Execution<tr><td>use exploit/windows/smb/ms08_067_netapi<td>MS08-067 Microsoft Server Service Relative Path Stack Corruption<tr><td>use exploit/windows/smb/psexec<td>Microsoft Windows Authenticated User Code Execution<tr><td>use exploit/multi/ssh/sshexec<td>SSH User Code Execution (good for using meterpreter)<tr><td>use post/windows/gather/arp_scanner<td>Windows Gather ARP Scanner<tr><td>use post/windows/gather/enum_applications<td>Windows Gather Installed Application Enumeration<tr><td>run getgui -e<td>Enables RDP for Windows in meterpreter session</table></div><h3 id="external-resources"><span class="me-2">External Resources</span><a href="#external-resources" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3><ul><li><p><a href="https://github.com/coreb1t/awesome-pentest-cheat-sheets/blob/master/docs/Metasploit-CheatSheet.pdf">https://github.com/coreb1t/awesome-pentest-cheat-sheets/blob/master/docs/Metasploit-CheatSheet.pdf</a></p><li><p><a href="https://www.sans.org/security-resources/sec560/misc_tools_sheet_v1.pdf">https://www.sans.org/security-resources/sec560/misc_tools_sheet_v1.pdf</a></p></ul></div><div class="post-tail-wrapper text-muted"><div class="post-meta mb-3"> <i class="far fa-folder-open fa-fw me-1"></i> <a href="nitesculucian.github.io/categories/cheatsheet/">cheatsheet</a>, <a href="nitesculucian.github.io/categories/offensive-security/">offensive_security</a></div><div class="post-tags"> <i class="fa fa-tags fa-fw me-1"></i> <a href="nitesculucian.github.io/tags/offensive-security/" class="post-tag no-text-decoration" >offensive security</a> <a href="nitesculucian.github.io/tags/cheat-sheet/" class="post-tag no-text-decoration" >cheat sheet</a> <a href="nitesculucian.github.io/tags/reverse-shell/" class="post-tag no-text-decoration" >reverse shell</a> <a href="nitesculucian.github.io/tags/backdoor/" class="post-tag no-text-decoration" >backdoor</a> <a href="nitesculucian.github.io/tags/bash/" class="post-tag no-text-decoration" >bash</a> <a href="nitesculucian.github.io/tags/perl/" class="post-tag no-text-decoration" >perl</a> <a href="nitesculucian.github.io/tags/python/" class="post-tag no-text-decoration" >python</a> <a href="nitesculucian.github.io/tags/php/" class="post-tag no-text-decoration" >PHP</a></div><div class=" post-tail-bottom d-flex justify-content-between align-items-center mt-5 pb-2 " ><div class="license-wrapper"> This post is licensed under <a href="https://creativecommons.org/licenses/by/4.0/"> CC BY 4.0 </a> by the author.</div><div class="share-wrapper d-flex align-items-center"> <span class="share-label text-muted">Share</span> <span class="share-icons"> <a href="https://twitter.com/intent/tweet?text=Metasploit%20Cheat%20Sheet%20-%20Lucian%20Nitescu&url=https%3A%2F%2Fnitesculucian.github.io%2Fnitesculucian.github.io%2F2018%2F12%2F02%2Fmetasploit-cheat-sheet%2F" target="_blank" rel="noopener" data-bs-toggle="tooltip" data-bs-placement="top" title="Twitter" aria-label="Twitter"> <i class="fa-fw fa-brands fa-square-x-twitter"></i> </a> <a href="https://www.facebook.com/sharer/sharer.php?title=Metasploit%20Cheat%20Sheet%20-%20Lucian%20Nitescu&u=https%3A%2F%2Fnitesculucian.github.io%2Fnitesculucian.github.io%2F2018%2F12%2F02%2Fmetasploit-cheat-sheet%2F" target="_blank" rel="noopener" data-bs-toggle="tooltip" data-bs-placement="top" title="Facebook" aria-label="Facebook"> <i class="fa-fw fab fa-facebook-square"></i> </a> <a href="https://t.me/share/url?url=https%3A%2F%2Fnitesculucian.github.io%2Fnitesculucian.github.io%2F2018%2F12%2F02%2Fmetasploit-cheat-sheet%2F&text=Metasploit%20Cheat%20Sheet%20-%20Lucian%20Nitescu" target="_blank" rel="noopener" data-bs-toggle="tooltip" data-bs-placement="top" title="Telegram" aria-label="Telegram"> <i class="fa-fw fab fa-telegram"></i> </a> <button id="copy-link" aria-label="Copy link" class="btn small" data-bs-toggle="tooltip" data-bs-placement="top" title="Copy link" data-title-succeed="Link copied successfully!" > <i class="fa-fw fas fa-link pe-none fs-6"></i> </button> </span></div></div></div></article></main><aside aria-label="Panel" id="panel-wrapper" class="col-xl-3 ps-2 mb-5 text-muted"><div class="access"><section id="access-lastmod"><h2 class="panel-heading">Recently Updated</h2><ul class="content list-unstyled ps-0 pb-1 ms-1 mt-2"><li class="text-truncate lh-lg"> <a href="/nitesculucian.github.io/2019/10/25/about-author-1-3-9-authentificated-stored-xss-vulnerability/">Wordpress About Author <= 1.3.9 Authenticated Stored XSS</a><li class="text-truncate lh-lg"> <a href="/nitesculucian.github.io/2019/10/23/groundhogg-1-3-2-authentificated-reflected-xss-vulnerability/">Wordpress Groundhogg <= 2.0.8.1 Authentificated Reflected XSS</a><li class="text-truncate lh-lg"> <a href="/nitesculucian.github.io/2019/10/23/groundhogg-1-3-2-authentificated-sql-injection-vulnerability/">Wordpress Groundhogg <= 1.3.11.13 Authentificated SQL Injection</a><li class="text-truncate lh-lg"> <a href="/nitesculucian.github.io/2019/10/23/sliced-invoices-3-8-2-authentificated-sql-injection-vulnerability/">Wordpress Sliced Invoices <= 3.8.2 Authenticated SQL Injection</a><li class="text-truncate lh-lg"> <a href="/nitesculucian.github.io/2019/10/22/sliced-invoices-3-8-2-authentificated-reflected-xss-vulnerability/">Wordpress Sliced Invoices <= 3.8.2 Authenticated Reflected XSS</a></ul></section><section id="access-lastmod"><h2 class="panel-heading"></h2><ul class="content list-unstyled ps-0 pb-1 ms-1 mt-2"> <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0255642880549652" crossorigin="anonymous" ></script> <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-0255642880549652" data-ad-slot="2875050473" data-ad-format="auto" data-full-width-responsive="true" ></ins> <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script></ul></section><section><h2 class="panel-heading">Trending Tags</h2><div class="d-flex flex-wrap mt-3 mb-1 me-3"> <a class="post-tag btn btn-outline-primary" href="/nitesculucian.github.io/tags/writeups/">writeups</a> <a class="post-tag btn btn-outline-primary" href="/nitesculucian.github.io/tags/challange/">challange</a> <a class="post-tag btn btn-outline-primary" href="/nitesculucian.github.io/tags/ctf/">CTF</a> <a class="post-tag btn btn-outline-primary" href="/nitesculucian.github.io/tags/attackdefense-com/">AttackDefense.com</a> <a class="post-tag btn btn-outline-primary" href="/nitesculucian.github.io/tags/exploit/">exploit</a> <a class="post-tag btn btn-outline-primary" href="/nitesculucian.github.io/tags/solution/">solution</a> <a class="post-tag btn btn-outline-primary" href="/nitesculucian.github.io/tags/tutorial/">tutorial</a> <a class="post-tag btn btn-outline-primary" href="/nitesculucian.github.io/tags/exercise/">exercise</a> <a class="post-tag btn btn-outline-primary" href="/nitesculucian.github.io/tags/level/">level</a> <a class="post-tag btn btn-outline-primary" href="/nitesculucian.github.io/tags/nebula/">nebula</a></div></section></div></aside></div><div class="row"><div id="tail-wrapper" class="col-12 col-lg-11 col-xl-9 px-md-4"><aside id="related-posts" aria-labelledby="related-label"><h3 class="mb-4" id="related-label">Further Reading</h3><nav class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4 mb-4"><article class="col"> <a href="/nitesculucian.github.io/2018/07/15/reverse-shells-cheat-sheet/" class="post-preview card h-100"><div class="card-body"> <time data-ts="1531602000" data-df="ll" > Jul 15, 2018 </time><h4 class="pt-0 my-2">Reverse Shells Cheat Sheet</h4><div class="text-muted"><p> This list represent an comprehensive cheat sheet of shells and other related stuff. Listening To setup a listening netcat instance, enter the following: sudo nc -nvlp 80 Reverse Shells To conn...</p></div></div></a></article><article class="col"> <a href="/nitesculucian.github.io/2018/07/25/msfvenom-cheat-sheet/" class="post-preview card h-100"><div class="card-body"> <time data-ts="1532469480" data-df="ll" > Jul 25, 2018 </time><h4 class="pt-0 my-2">Msfvenom Cheat Sheet</h4><div class="text-muted"><p> MsfVenom is a Metasploit standalone payload generator as a replacement for msfpayload and msfencode. Binaries Command Info msfvenom -p windows/meterpr...</p></div></div></a></article><article class="col"> <a href="/nitesculucian.github.io/2018/10/06/php-object-injection-cheat-sheet/" class="post-preview card h-100"><div class="card-body"> <time data-ts="1538775600" data-df="ll" > Oct 6, 2018 </time><h4 class="pt-0 my-2">PHP Object Injection Cheat Sheet</h4><div class="text-muted"><p> Description of the vulnerability PHP Object Injection is an application level vulnerability that could allow an attacker to perform different kinds of malicious attacks, such as Code Injection, ...</p></div></div></a></article></nav></aside><nav class="post-navigation d-flex justify-content-between" aria-label="Post Navigation"> <a href="nitesculucian.github.io/2018/12/01/attackdefense-com-rce-webid/" class="btn btn-outline-primary" aria-label="Older" ><p>AttackDefense.com [RCE] - WeBid</p></a> <a href="nitesculucian.github.io/2018/12/02/attackdefense-com-msf-meterpreter-basics/" class="btn btn-outline-primary" aria-label="Newer" ><p>AttackDefense.com [MSF] - Meterpreter Basics</p></a></nav><footer aria-label="Site Info" class=" d-flex flex-column justify-content-center text-muted flex-lg-row justify-content-lg-between align-items-lg-center pb-lg-3 " ><p>© <time>2024</time> <a href="https://twitter.com/LucianNitescu">Lucian Nitescu</a>. <span data-bs-toggle="tooltip" data-bs-placement="top" title="Except where otherwise noted, the blog posts on this site are licensed under the Creative Commons Attribution 4.0 International (CC BY 4.0) License by the author." >Some rights reserved.</span></p><p>Using the <a href="https://github.com/cotes2020/jekyll-theme-chirpy" target="_blank" rel="noopener">Chirpy</a> theme for <a href="https://jekyllrb.com" target="_blank" rel="noopener">Jekyll</a>.</p></footer></div></div><div id="search-result-wrapper" class="d-flex justify-content-center unloaded"><div class="col-11 content"><div id="search-hints"><section><h2 class="panel-heading">Trending Tags</h2><div class="d-flex flex-wrap mt-3 mb-1 me-3"> <a class="post-tag btn btn-outline-primary" href="/nitesculucian.github.io/tags/writeups/">writeups</a> <a class="post-tag btn btn-outline-primary" href="/nitesculucian.github.io/tags/challange/">challange</a> <a class="post-tag btn btn-outline-primary" href="/nitesculucian.github.io/tags/ctf/">CTF</a> <a class="post-tag btn btn-outline-primary" href="/nitesculucian.github.io/tags/attackdefense-com/">AttackDefense.com</a> <a class="post-tag btn btn-outline-primary" href="/nitesculucian.github.io/tags/exploit/">exploit</a> <a class="post-tag btn btn-outline-primary" href="/nitesculucian.github.io/tags/solution/">solution</a> <a class="post-tag btn btn-outline-primary" href="/nitesculucian.github.io/tags/tutorial/">tutorial</a> <a class="post-tag btn btn-outline-primary" href="/nitesculucian.github.io/tags/exercise/">exercise</a> <a class="post-tag btn btn-outline-primary" href="/nitesculucian.github.io/tags/level/">level</a> <a class="post-tag btn btn-outline-primary" href="/nitesculucian.github.io/tags/nebula/">nebula</a></div></section></div><div id="search-results" class="d-flex flex-wrap justify-content-center text-muted mt-3"></div></div></div></div><aside aria-label="Scroll to Top"> <button id="back-to-top" type="button" class="btn btn-lg btn-box-shadow"> <i class="fas fa-angle-up"></i> </button></aside></div><div id="mask"></div><aside id="notification" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-animation="true" data-bs-autohide="false" ><div class="toast-header"> <button type="button" class="btn-close ms-auto" data-bs-dismiss="toast" aria-label="Close" ></button></div><div class="toast-body text-center pt-0"><p class="px-2 mb-3">A new version of content is available.</p><button type="button" class="btn btn-primary" aria-label="Update"> Update </button></div></aside><script src="https://cdn.jsdelivr.net/combine/npm/jquery@3.7.1/dist/jquery.min.js,npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js,npm/simple-jekyll-search@1.10.0/dest/simple-jekyll-search.min.js,npm/loading-attribute-polyfill@2.1.1/dist/loading-attribute-polyfill.umd.min.js,npm/magnific-popup@1.1.0/dist/jquery.magnific-popup.min.js,npm/clipboard@2.0.11/dist/clipboard.min.js,npm/dayjs@1.11.10/dayjs.min.js,npm/dayjs@1.11.10/locale/en.min.js,npm/dayjs@1.11.10/plugin/relativeTime.min.js,npm/dayjs@1.11.10/plugin/localizedFormat.min.js"></script> <script defer src="/nitesculucian.github.io/assets/js/dist/post.min.js"></script> <script defer src="/nitesculucian.github.io/assets/js/dist/app.min.js"></script> <script> /* Note: dependent library will be loaded in `js-selector.html` */ SimpleJekyllSearch({ searchInput: document.getElementById('search-input'), resultsContainer: document.getElementById('search-results'), json: '/nitesculucian.github.io/assets/js/data/search.json', searchResultTemplate: '<article class="px-1 px-sm-2 px-lg-4 px-xl-0"><header><h2><a href="{url}">{title}</a></h2><div class="post-meta d-flex flex-column flex-sm-row text-muted mt-1 mb-1"> {categories} {tags}</div></header><p>{snippet}</p></article>', noResultsText: '<p class="mt-5"></p>', templateMiddleware: function(prop, value, template) { if (prop === 'categories') { if (value === '') { return `${value}`; } else { return `<div class="me-sm-4"><i class="far fa-folder fa-fw"></i>${value}</div>`; } } if (prop === 'tags') { if (value === '') { return `${value}`; } else { return `<div><i class="fa fa-tag fa-fw"></i>${value}</div>`; } } } }); </script>
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- `site.alt_lang` can specify a language different from the UI -->
+<html lang="en" >
+  <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f7f7f7">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1b1b1e">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta
+    name="viewport"
+    content="width=device-width, user-scalable=no initial-scale=1, shrink-to-fit=no, viewport-fit=cover"
+  ><!-- Setup Open Graph image -->
+
+  
+
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="Metasploit Cheat Sheet" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="Explore the personal blog of a cybersecurity expert with a rich history in Red Teaming, Penetration Testing, and Incident Response since 2017. Active in the cyber community through roles in DefCamp CTF and Romanian Cyber Security Challenges, plus contributions to the bug bounty community." />
+<meta property="og:description" content="Explore the personal blog of a cybersecurity expert with a rich history in Red Teaming, Penetration Testing, and Incident Response since 2017. Active in the cyber community through roles in DefCamp CTF and Romanian Cyber Security Challenges, plus contributions to the bug bounty community." />
+<link rel="canonical" href="http://localhost:4000/2018/12/02/metasploit-cheat-sheet/" />
+<meta property="og:url" content="http://localhost:4000/2018/12/02/metasploit-cheat-sheet/" />
+<meta property="og:site_name" content="Lucian Nitescu" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-12-02T01:31:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Metasploit Cheat Sheet" />
+<meta name="twitter:site" content="@LucianNitescu" />
+<meta name="google-site-verification" content="Dd0w5mhVXB9dYVNimgGPlkXQomqmN4lkMli1rxwJ4Ws" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2018-12-02T01:31:00+02:00","datePublished":"2018-12-02T01:31:00+02:00","description":"Explore the personal blog of a cybersecurity expert with a rich history in Red Teaming, Penetration Testing, and Incident Response since 2017. Active in the cyber community through roles in DefCamp CTF and Romanian Cyber Security Challenges, plus contributions to the bug bounty community.","headline":"Metasploit Cheat Sheet","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/12/02/metasploit-cheat-sheet/"},"url":"http://localhost:4000/2018/12/02/metasploit-cheat-sheet/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <title>Metasploit Cheat Sheet | Lucian Nitescu
+  </title>
+
+  <!--
+  The Favicons for Web, Android, Microsoft, and iOS (iPhone and iPad) Apps
+  Generated by: https://realfavicongenerator.net/
+-->
+
+
+
+
+
+
+<meta name="apple-mobile-web-app-title" content="Lucian Nitescu">
+<meta name="application-name" content="Lucian Nitescu">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="msapplication-config" content="/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+
+
+  
+    
+      <link rel="preconnect" href="https://fonts.googleapis.com" >
+      <link rel="dns-prefetch" href="https://fonts.googleapis.com" >
+    
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link rel="dns-prefetch" href="https://fonts.gstatic.com" crossorigin>
+    
+      <link rel="preconnect" href="https://fonts.googleapis.com" >
+      <link rel="dns-prefetch" href="https://fonts.googleapis.com" >
+    
+      <link rel="preconnect" href="https://cdn.jsdelivr.net" >
+      <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" >
+    
+      <link rel="preconnect" href="https://cdnjs.cloudflare.com" >
+      <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" >
+    
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato&family=Source+Sans+Pro:wght@400;600;700;900&display=swap">
+  
+
+  <!-- GA -->
+  
+
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css">
+
+  <link rel="stylesheet" href="/assets/css/jekyll-theme-chirpy.css">
+
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/loading-attribute-polyfill@2.1.1/dist/loading-attribute-polyfill.min.css">
+  
+
+  
+    <!-- Manific Popup -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/magnific-popup@1.1.0/dist/magnific-popup.min.css">
+  
+
+  <!-- JavaScript -->
+
+  
+    <!-- Switch the mode between dark and light. -->
+
+<script type="text/javascript">
+  class ModeToggle {
+    static get MODE_KEY() {
+      return 'mode';
+    }
+    static get MODE_ATTR() {
+      return 'data-mode';
+    }
+    static get DARK_MODE() {
+      return 'dark';
+    }
+    static get LIGHT_MODE() {
+      return 'light';
+    }
+    static get ID() {
+      return 'mode-toggle';
+    }
+
+    constructor() {
+      if (this.hasMode) {
+        if (this.isDarkMode) {
+          if (!this.isSysDarkPrefer) {
+            this.setDark();
+          }
+        } else {
+          if (this.isSysDarkPrefer) {
+            this.setLight();
+          }
+        }
+      }
+
+      let self = this;
+
+      /* always follow the system prefers */
+      this.sysDarkPrefers.addEventListener('change', () => {
+        if (self.hasMode) {
+          if (self.isDarkMode) {
+            if (!self.isSysDarkPrefer) {
+              self.setDark();
+            }
+          } else {
+            if (self.isSysDarkPrefer) {
+              self.setLight();
+            }
+          }
+
+          self.clearMode();
+        }
+
+        self.notify();
+      });
+    } /* constructor() */
+
+    get sysDarkPrefers() {
+      return window.matchMedia('(prefers-color-scheme: dark)');
+    }
+
+    get isSysDarkPrefer() {
+      return this.sysDarkPrefers.matches;
+    }
+
+    get isDarkMode() {
+      return this.mode === ModeToggle.DARK_MODE;
+    }
+
+    get isLightMode() {
+      return this.mode === ModeToggle.LIGHT_MODE;
+    }
+
+    get hasMode() {
+      return this.mode != null;
+    }
+
+    get mode() {
+      return sessionStorage.getItem(ModeToggle.MODE_KEY);
+    }
+
+    /* get the current mode on screen */
+    get modeStatus() {
+      if (this.isDarkMode || (!this.hasMode && this.isSysDarkPrefer)) {
+        return ModeToggle.DARK_MODE;
+      } else {
+        return ModeToggle.LIGHT_MODE;
+      }
+    }
+
+    setDark() {
+      document.documentElement.setAttribute(ModeToggle.MODE_ATTR, ModeToggle.DARK_MODE);
+      sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.DARK_MODE);
+    }
+
+    setLight() {
+      document.documentElement.setAttribute(ModeToggle.MODE_ATTR, ModeToggle.LIGHT_MODE);
+      sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.LIGHT_MODE);
+    }
+
+    clearMode() {
+      document.documentElement.removeAttribute(ModeToggle.MODE_ATTR);
+      sessionStorage.removeItem(ModeToggle.MODE_KEY);
+    }
+
+    /* Notify another plugins that the theme mode has changed */
+    notify() {
+      window.postMessage(
+        {
+          direction: ModeToggle.ID,
+          message: this.modeStatus
+        },
+        '*'
+      );
+    }
+
+    flipMode() {
+      if (this.hasMode) {
+        if (this.isSysDarkPrefer) {
+          if (this.isLightMode) {
+            this.clearMode();
+          } else {
+            this.setLight();
+          }
+        } else {
+          if (this.isDarkMode) {
+            this.clearMode();
+          } else {
+            this.setDark();
+          }
+        }
+      } else {
+        if (this.isSysDarkPrefer) {
+          this.setLight();
+        } else {
+          this.setDark();
+        }
+      }
+
+      this.notify();
+    } /* flipMode() */
+  } /* ModeToggle */
+
+  const modeToggle = new ModeToggle();
+</script>
+
+  
+
+  <!-- A placeholder to allow defining custom metadata -->
+
+</head>
+
+
+  <body>
+    <!-- The Side Bar -->
+
+<aside aria-label="Sidebar" id="sidebar" class="d-flex flex-column align-items-end">
+  <header class="profile-wrapper">
+    <a href="/" id="avatar" class="rounded-circle"><img src="/assets/img/profile.png" width="112" height="112" alt="avatar" onerror="this.style.display='none'"></a>
+
+    <h1 class="site-title">
+      <a href="/">Lucian Nitescu</a>
+    </h1>
+    <p class="site-subtitle fst-italic mb-0">Cybersecurity Specialist</p>
+  </header>
+  <!-- .profile-wrapper -->
+
+  <nav class="flex-column flex-grow-1 w-100 ps-0">
+    <ul class="nav">
+      <!-- home -->
+      <li class="nav-item">
+        <a href="/" class="nav-link">
+          <i class="fa-fw fas fa-home"></i>
+          <span>HOME</span>
+        </a>
+      </li>
+      <!-- the real tabs -->
+      
+        <li class="nav-item">
+          <a href="/tags/" class="nav-link">
+            <i class="fa-fw fas fa-tags"></i>
+            
+
+            <span>TAGS</span>
+          </a>
+        </li>
+        <!-- .nav-item -->
+      
+        <li class="nav-item">
+          <a href="/archives/" class="nav-link">
+            <i class="fa-fw fas fa-archive"></i>
+            
+
+            <span>ARCHIVES</span>
+          </a>
+        </li>
+        <!-- .nav-item -->
+      
+        <li class="nav-item">
+          <a href="/about/" class="nav-link">
+            <i class="fa-fw fas fa-info-circle"></i>
+            
+
+            <span>ABOUT</span>
+          </a>
+        </li>
+        <!-- .nav-item -->
+      
+    </ul>
+  </nav>
+
+  <div class="sidebar-bottom d-flex flex-wrap  align-items-center w-100">
+    
+      <button type="button" class="mode-toggle btn" aria-label="Switch Mode">
+        <i class="fas fa-adjust"></i>
+      </button>
+
+      
+        <span class="icon-border"></span>
+      
+    
+
+    
+      
+
+      
+        <a
+          href="https://github.com/NitescuLucian"
+          aria-label="github"
+          
+
+          
+            target="_blank"
+            
+          
+
+          
+
+          
+            rel="noopener noreferrer"
+          
+        >
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+
+      
+        <a
+          href="https://twitter.com/LucianNitescu"
+          aria-label="twitter"
+          
+
+          
+            target="_blank"
+            
+          
+
+          
+
+          
+            rel="noopener noreferrer"
+          
+        >
+          <i class="fa-brands fa-x-twitter"></i>
+        </a>
+      
+    
+      
+
+      
+        <a
+          href="https://t.me/luciannitescu"
+          aria-label="email"
+          
+
+          
+
+          
+
+          
+        >
+          <i class="fas fa-envelope"></i>
+        </a>
+      
+    
+      
+
+      
+        <a
+          href="/feed.xml"
+          aria-label="rss"
+          
+
+          
+
+          
+
+          
+        >
+          <i class="fas fa-rss"></i>
+        </a>
+      
+    
+  </div>
+  <!-- .sidebar-bottom -->
+</aside>
+<!-- #sidebar -->
+
+
+    <div id="main-wrapper" class="d-flex justify-content-center">
+      <div class="container d-flex flex-column px-xxl-5">
+        <!-- The Top Bar -->
+
+<header id="topbar-wrapper" aria-label="Top Bar">
+  <div
+    id="topbar"
+    class="d-flex align-items-center justify-content-between px-lg-3 h-100"
+  >
+    <nav id="breadcrumb" aria-label="Breadcrumb">
+      
+
+      
+        
+          
+            <span>
+              <a href="/">Home</a>
+            </span>
+
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            
+              <span>Metasploit Cheat Sheet</span>
+            
+
+          
+        
+      
+    </nav>
+    <!-- endof #breadcrumb -->
+
+    <button type="button" id="sidebar-trigger" class="btn btn-link">
+      <i class="fas fa-bars fa-fw"></i>
+    </button>
+
+    <div id="topbar-title">
+      Post
+    </div>
+
+    <button type="button" id="search-trigger" class="btn btn-link">
+      <i class="fas fa-search fa-fw"></i>
+    </button>
+
+    <search class="align-items-center ms-3 ms-lg-0">
+      <i class="fas fa-search fa-fw"></i>
+      <input
+        class="form-control"
+        id="search-input"
+        type="search"
+        aria-label="search"
+        autocomplete="off"
+        placeholder="Search..."
+      >
+    </search>
+    <button type="button" class="btn btn-link text-decoration-none" id="search-cancel">Cancel</button>
+  </div>
+</header>
+
+
+        <div class="row flex-grow-1">
+          <main aria-label="Main Content" class="col-12 col-lg-11 col-xl-9 px-md-4">
+            
+              <!-- Refactor the HTML structure -->
+
+
+
+<!--
+  In order to allow a wide table to scroll horizontally,
+  we suround the markdown table with `<div class="table-wrapper">` and `</div>`
+-->
+
+
+
+<!--
+  Fixed kramdown code highlight rendering:
+  https://github.com/penibelst/jekyll-compress-html/issues/101
+  https://github.com/penibelst/jekyll-compress-html/issues/71#issuecomment-188144901
+-->
+
+
+
+<!-- Change the icon of checkbox -->
+
+
+
+<!-- Handle images -->
+
+
+
+
+  
+  
+
+  
+    
+      
+      
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+    
+    
+
+    
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+      
+
+      
+    
+
+    <!-- take out classes -->
+    
+
+    
+    
+
+    
+
+    
+      
+    
+
+    <!-- lazy-load images -->
+    
+
+    
+      <!-- make sure the `<img>` is wrapped by `<a>` -->
+      
+
+      
+        <!-- create the image wrapper -->
+        
+
+        
+        
+      
+    
+
+    <!-- combine -->
+    
+  
+
+  
+
+
+<!-- Add header for code snippets -->
+
+
+
+<!-- Create heading anchors -->
+
+
+
+
+
+  
+  
+
+  
+
+  
+  
+
+  
+    
+    
+
+    
+      
+        
+        
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+
+    
+  
+
+  
+  
+
+  
+
+  
+  
+
+  
+
+
+
+
+<!-- return -->
+
+
+
+
+<article class="px-1">
+  <header>
+    <h1 data-toc-skip>Metasploit Cheat Sheet</h1>
+
+    <div class="post-meta text-muted">
+      <!-- published date -->
+      <span>
+        Posted
+        <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/locale-dateime.js
+-->
+
+
+
+
+<time
+  
+  data-ts="1543707060"
+  data-df="ll"
+  
+    data-bs-toggle="tooltip" data-bs-placement="bottom"
+  
+>
+  Dec  2, 2018
+</time>
+
+      </span>
+
+      <!-- lastmod date -->
+      
+
+      
+
+      <div class="d-flex justify-content-between">
+        <!-- author(s) -->
+        <span>
+          
+
+          By
+
+          <em>
+            
+              <a href="https://twitter.com/LucianNitescu">Lucian Nitescu</a>
+            
+          </em>
+        </span>
+
+        <!-- read time -->
+        <!-- Calculate the post's reading time, and display the word count in tooltip -->
+
+
+
+<!-- words per minute -->
+
+
+
+
+
+
+
+
+
+
+<!-- return element -->
+<span
+  class="readtime"
+  data-bs-toggle="tooltip"
+  data-bs-placement="bottom"
+  title="551 words"
+>
+  <em>3 min</em> read</span>
+
+      </div>
+      <!-- .d-flex -->
+    </div>
+    <!-- .post-meta -->
+  </header>
+
+  <div class="content">
+    <p><a href="/uploads/msflogo.png" class="popup img-link  shimmer"><img src="/uploads/msflogo.png" alt="Image of Metasploit Cheat Sheet" loading="lazy"></a></p>
+
+<p>A few months ago I have created a <a href="https://nitesculucian.github.io/2018/07/24/msfvenom-cheat-sheet/">msfvenom cheat sheet</a> without explaining the Metasploit framework, so here it is a brief cheat sheet.</p>
+
+<p>Metasploit is a free tool that has built-in exploits which aids in gaining remote access to a system by exploiting a vulnerability in that server.</p>
+
+<h3 id="general-information"><span class="me-2">General Information</span><a href="#general-information" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
+
+<div class="table-wrapper"><table>
+  <thead>
+    <tr>
+      <th>Command</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>msfconsole</td>
+      <td>Launch program</td>
+    </tr>
+    <tr>
+      <td>version</td>
+      <td>Display current version</td>
+    </tr>
+    <tr>
+      <td>msfupdate</td>
+      <td>Pull the weekly update</td>
+    </tr>
+    <tr>
+      <td>makerc <code class="language-plaintext highlighter-rouge">&lt;FILE.rc&gt;</code></td>
+      <td>Saves recent commands to file</td>
+    </tr>
+    <tr>
+      <td>msfconsole -r <code class="language-plaintext highlighter-rouge">&lt;FILE.rc&gt;</code></td>
+      <td>Loads a resource file</td>
+    </tr>
+  </tbody>
+</table></div>
+
+<h3 id="executing-an-exploit--scanner--module"><span class="me-2">Executing an Exploit / Scanner / Module</span><a href="#executing-an-exploit--scanner--module" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
+
+<div class="table-wrapper"><table>
+  <thead>
+    <tr>
+      <th>Command</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>use <code class="language-plaintext highlighter-rouge">&lt;MODULE&gt;</code></td>
+      <td>Set the exploit to use</td>
+    </tr>
+    <tr>
+      <td>set payload <code class="language-plaintext highlighter-rouge">&lt;PAYLOAD&gt;</code></td>
+      <td>Set the payload</td>
+    </tr>
+    <tr>
+      <td>show options</td>
+      <td>Show all options</td>
+    </tr>
+    <tr>
+      <td>set <code class="language-plaintext highlighter-rouge">&lt;OPTION&gt;</code> <code class="language-plaintext highlighter-rouge">&lt;SETTING&gt;</code></td>
+      <td>Set a setting</td>
+    </tr>
+    <tr>
+      <td>exploit or run</td>
+      <td>Execute the exploit</td>
+    </tr>
+  </tbody>
+</table></div>
+
+<h3 id="session-handling"><span class="me-2">Session Handling</span><a href="#session-handling" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
+
+<div class="table-wrapper"><table>
+  <thead>
+    <tr>
+      <th>Command</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>sessions -l</td>
+      <td>List all sessions</td>
+    </tr>
+    <tr>
+      <td>sessions -i <code class="language-plaintext highlighter-rouge">&lt;ID&gt;</code></td>
+      <td>Interact/attach to session</td>
+    </tr>
+    <tr>
+      <td>background or ^Z</td>
+      <td>Detach from session</td>
+    </tr>
+  </tbody>
+</table></div>
+
+<h3 id="using-the-database"><span class="me-2">Using the Database</span><a href="#using-the-database" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
+
+<p>The DB saves data found during exploitation. Auxiliary scan results, hashdumps, and credentials show up in the DB.</p>
+
+<ul>
+  <li>First Time Setup (Run from linux command line.)</li>
+</ul>
+
+<div class="table-wrapper"><table>
+  <thead>
+    <tr>
+      <th>Command</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>service postgresql Start</td>
+      <td>Start DB</td>
+    </tr>
+    <tr>
+      <td>msfdb Init</td>
+      <td>Init the DB</td>
+    </tr>
+  </tbody>
+</table></div>
+
+<ul>
+  <li>Inside msfconsole</li>
+</ul>
+
+<div class="table-wrapper"><table>
+  <thead>
+    <tr>
+      <th>Command</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>db_status</td>
+      <td>Should say connected</td>
+    </tr>
+    <tr>
+      <td>hosts</td>
+      <td>Show hosts in DB</td>
+    </tr>
+    <tr>
+      <td>services</td>
+      <td>Show ports in DB</td>
+    </tr>
+    <tr>
+      <td>vulns</td>
+      <td>Show all vulns found</td>
+    </tr>
+  </tbody>
+</table></div>
+
+<h3 id="meterpreter-session-commands"><span class="me-2">Meterpreter Session Commands</span><a href="#meterpreter-session-commands" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
+
+<p>The Meterpreter is a payload within the Metasploit Framework that provides control over an exploited target system, running as a DLL loaded inside of any process on a target machine.</p>
+
+<div class="table-wrapper"><table>
+  <thead>
+    <tr>
+      <th>Command</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>sysinfo</td>
+      <td>Show system info</td>
+    </tr>
+    <tr>
+      <td>ps</td>
+      <td>Show running processes</td>
+    </tr>
+    <tr>
+      <td>kill <code class="language-plaintext highlighter-rouge">&lt;PID&gt;</code></td>
+      <td>Terminate a process</td>
+    </tr>
+    <tr>
+      <td>getuid</td>
+      <td>Show your user ID</td>
+    </tr>
+    <tr>
+      <td>upload / download</td>
+      <td>Upload / download a file</td>
+    </tr>
+    <tr>
+      <td>pwd / lpwd</td>
+      <td>Print working directory (local / remote)</td>
+    </tr>
+    <tr>
+      <td>cd / lcd</td>
+      <td>Change directory (local / remote)</td>
+    </tr>
+    <tr>
+      <td>cat</td>
+      <td>Show contents of a file</td>
+    </tr>
+    <tr>
+      <td>edit <code class="language-plaintext highlighter-rouge">&lt;FILE&gt;</code></td>
+      <td>Edit a file (vim)</td>
+    </tr>
+    <tr>
+      <td>shell</td>
+      <td>Drop into a shell on the target machine</td>
+    </tr>
+    <tr>
+      <td>migrate <code class="language-plaintext highlighter-rouge">&lt;PID&gt;</code></td>
+      <td>Switch to another process</td>
+    </tr>
+    <tr>
+      <td>hashdump</td>
+      <td>Show all pw hashes (Windows only)</td>
+    </tr>
+    <tr>
+      <td>idletime</td>
+      <td>Display idle time of user</td>
+    </tr>
+    <tr>
+      <td>screenshot</td>
+      <td>Take a screenshot</td>
+    </tr>
+    <tr>
+      <td>clearev</td>
+      <td>Clear the logs</td>
+    </tr>
+  </tbody>
+</table></div>
+
+<ul>
+  <li>Escalate Privileges</li>
+</ul>
+
+<div class="table-wrapper"><table>
+  <thead>
+    <tr>
+      <th>Command</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>use priv</td>
+      <td>Load the script</td>
+    </tr>
+    <tr>
+      <td>getsystem</td>
+      <td>Elevate your privs</td>
+    </tr>
+    <tr>
+      <td>getprivs</td>
+      <td>Elevate your privs</td>
+    </tr>
+  </tbody>
+</table></div>
+
+<ul>
+  <li>Token Stealing (Windows only)</li>
+</ul>
+
+<div class="table-wrapper"><table>
+  <thead>
+    <tr>
+      <th>Command</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>use incognito</td>
+      <td>Load the script</td>
+    </tr>
+    <tr>
+      <td>list_tokens -u</td>
+      <td>Show all tokens</td>
+    </tr>
+    <tr>
+      <td>impersonate_token</td>
+      <td>DOMAIN\USER Use token</td>
+    </tr>
+    <tr>
+      <td>drop_token</td>
+      <td>Stop using token</td>
+    </tr>
+  </tbody>
+</table></div>
+
+<ul>
+  <li>Network Pivoting</li>
+</ul>
+
+<div class="table-wrapper"><table>
+  <thead>
+    <tr>
+      <th>Command</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>portfwd [ADD/DELETE] -L <code class="language-plaintext highlighter-rouge">&lt;LHOST&gt;</code> -l 3388 -r <code class="language-plaintext highlighter-rouge">&lt;RHOST&gt;</code> -p 3389</td>
+      <td>Enable port forwarding</td>
+    </tr>
+    <tr>
+      <td>route add <code class="language-plaintext highlighter-rouge">&lt;SUBNET&gt;</code> <code class="language-plaintext highlighter-rouge">&lt;MASK&gt;</code></td>
+      <td>Pivot through a session by adding a route within msf</td>
+    </tr>
+    <tr>
+      <td>route add <code class="language-plaintext highlighter-rouge">192.168.0.0/24</code></td>
+      <td>Pivot through a session by adding a route within msf</td>
+    </tr>
+    <tr>
+      <td>route add <code class="language-plaintext highlighter-rouge">192.168.0.0/24</code> -d</td>
+      <td>Deleting a route within msf</td>
+    </tr>
+  </tbody>
+</table></div>
+
+<h3 id="finding-an-exploit--payload-to-use"><span class="me-2">Finding an Exploit / Payload to Use</span><a href="#finding-an-exploit--payload-to-use" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
+
+<div class="table-wrapper"><table>
+  <thead>
+    <tr>
+      <th>Command</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>search <code class="language-plaintext highlighter-rouge">&lt;TERM&gt;</code></td>
+      <td>Searches all exploits, payloads, and auxiliary modules</td>
+    </tr>
+    <tr>
+      <td>show exploits</td>
+      <td>Show all exploits</td>
+    </tr>
+    <tr>
+      <td>show payloads</td>
+      <td>Show all payloads</td>
+    </tr>
+    <tr>
+      <td>show auxiliary</td>
+      <td>Show all auxiliary modules (like scanners)</td>
+    </tr>
+    <tr>
+      <td>show all</td>
+      <td>*</td>
+    </tr>
+  </tbody>
+</table></div>
+
+<h3 id="my-favorite"><span class="me-2">My favorite</span><a href="#my-favorite" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
+
+<div class="table-wrapper"><table>
+  <thead>
+    <tr>
+      <th>Command</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>use auxiliary/scanner/smb/smb_enumshares</td>
+      <td>SMB Share Enumeration</td>
+    </tr>
+    <tr>
+      <td>use auxiliary/scanner/smb/smb_ms17_010</td>
+      <td>MS17-010 SMB RCE Detection</td>
+    </tr>
+    <tr>
+      <td>use exploit/windows/smb/ms17_010_eternalblue</td>
+      <td>MS17-010 EternalBlue SMB Remote Windows Kernel Pool Corruption</td>
+    </tr>
+    <tr>
+      <td>use exploit/windows/smb/ms17_010_psexec</td>
+      <td>MS17-010 EternalRomance/EternalSynergy/EternalChampion SMB Remote Windows Code Execution</td>
+    </tr>
+    <tr>
+      <td>use exploit/windows/smb/ms08_067_netapi</td>
+      <td>MS08-067 Microsoft Server Service Relative Path Stack Corruption</td>
+    </tr>
+    <tr>
+      <td>use exploit/windows/smb/psexec</td>
+      <td>Microsoft Windows Authenticated User Code Execution</td>
+    </tr>
+    <tr>
+      <td>use exploit/multi/ssh/sshexec</td>
+      <td>SSH User Code Execution (good for using meterpreter)</td>
+    </tr>
+    <tr>
+      <td>use post/windows/gather/arp_scanner</td>
+      <td>Windows Gather ARP Scanner</td>
+    </tr>
+    <tr>
+      <td>use post/windows/gather/enum_applications</td>
+      <td>Windows Gather Installed Application Enumeration</td>
+    </tr>
+    <tr>
+      <td>run getgui -e</td>
+      <td>Enables RDP for Windows in meterpreter session</td>
+    </tr>
+  </tbody>
+</table></div>
+
+<h3 id="external-resources"><span class="me-2">External Resources</span><a href="#external-resources" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3>
+
+<ul>
+  <li>
+    <p><a href="https://github.com/coreb1t/awesome-pentest-cheat-sheets/blob/master/docs/Metasploit-CheatSheet.pdf">https://github.com/coreb1t/awesome-pentest-cheat-sheets/blob/master/docs/Metasploit-CheatSheet.pdf</a></p>
+  </li>
+  <li>
+    <p><a href="https://www.sans.org/security-resources/sec560/misc_tools_sheet_v1.pdf">https://www.sans.org/security-resources/sec560/misc_tools_sheet_v1.pdf</a></p>
+  </li>
+</ul>
+
+
+  </div>
+
+  <div class="post-tail-wrapper text-muted">
+    <!-- categories -->
+    
+      <div class="post-meta mb-3">
+        <i class="far fa-folder-open fa-fw me-1"></i>
+        
+          <a href="/categories/cheatsheet/">cheatsheet</a>,
+          <a href="/categories/offensive-security/">offensive_security</a>
+      </div>
+    
+
+    <!-- tags -->
+    
+      <div class="post-tags">
+        <i class="fa fa-tags fa-fw me-1"></i>
+        
+          <a
+            href="/tags/offensive-security/"
+            class="post-tag no-text-decoration"
+          >offensive security</a>
+        
+          <a
+            href="/tags/cheat-sheet/"
+            class="post-tag no-text-decoration"
+          >cheat sheet</a>
+        
+          <a
+            href="/tags/reverse-shell/"
+            class="post-tag no-text-decoration"
+          >reverse shell</a>
+        
+          <a
+            href="/tags/backdoor/"
+            class="post-tag no-text-decoration"
+          >backdoor</a>
+        
+          <a
+            href="/tags/bash/"
+            class="post-tag no-text-decoration"
+          >bash</a>
+        
+          <a
+            href="/tags/perl/"
+            class="post-tag no-text-decoration"
+          >perl</a>
+        
+          <a
+            href="/tags/python/"
+            class="post-tag no-text-decoration"
+          >python</a>
+        
+          <a
+            href="/tags/php/"
+            class="post-tag no-text-decoration"
+          >PHP</a>
+        
+      </div>
+    
+
+    <div
+      class="
+        post-tail-bottom
+        d-flex justify-content-between align-items-center mt-5 pb-2
+      "
+    >
+      <div class="license-wrapper">
+        
+          
+
+          This post is licensed under 
+        <a href="https://creativecommons.org/licenses/by/4.0/">
+          CC BY 4.0
+        </a>
+         by the author.
+        
+      </div>
+
+      <!-- Post sharing snippet -->
+
+<div class="share-wrapper d-flex align-items-center">
+  <span class="share-label text-muted">Share</span>
+  <span class="share-icons">
+    
+    
+    
+
+    
+
+      
+
+      <a href="https://twitter.com/intent/tweet?text=Metasploit%20Cheat%20Sheet%20-%20Lucian%20Nitescu&url=http%3A%2F%2Flocalhost%3A4000%2F2018%2F12%2F02%2Fmetasploit-cheat-sheet%2F" target="_blank" rel="noopener" data-bs-toggle="tooltip" data-bs-placement="top" title="Twitter" aria-label="Twitter">
+        <i class="fa-fw fa-brands fa-square-x-twitter"></i>
+      </a>
+    
+
+      
+
+      <a href="https://www.facebook.com/sharer/sharer.php?title=Metasploit%20Cheat%20Sheet%20-%20Lucian%20Nitescu&u=http%3A%2F%2Flocalhost%3A4000%2F2018%2F12%2F02%2Fmetasploit-cheat-sheet%2F" target="_blank" rel="noopener" data-bs-toggle="tooltip" data-bs-placement="top" title="Facebook" aria-label="Facebook">
+        <i class="fa-fw fab fa-facebook-square"></i>
+      </a>
+    
+
+      
+
+      <a href="https://t.me/share/url?url=http%3A%2F%2Flocalhost%3A4000%2F2018%2F12%2F02%2Fmetasploit-cheat-sheet%2F&text=Metasploit%20Cheat%20Sheet%20-%20Lucian%20Nitescu" target="_blank" rel="noopener" data-bs-toggle="tooltip" data-bs-placement="top" title="Telegram" aria-label="Telegram">
+        <i class="fa-fw fab fa-telegram"></i>
+      </a>
+    
+
+    <button
+      id="copy-link"
+      aria-label="Copy link"
+      class="btn small"
+      data-bs-toggle="tooltip"
+      data-bs-placement="top"
+      title="Copy link"
+      data-title-succeed="Link copied successfully!"
+    >
+      <i class="fa-fw fas fa-link pe-none fs-6"></i>
+    </button>
+  </span>
+</div>
+
+    </div>
+    <!-- .post-tail-bottom -->
+  </div>
+  <!-- div.post-tail-wrapper -->
+</article>
+
+
+            
+          </main>
+
+          <!-- panel -->
+          <aside aria-label="Panel" id="panel-wrapper" class="col-xl-3 ps-2 mb-5 text-muted">
+            <div class="access">
+              <!-- Get 5 last posted/updated posts -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <section id="access-lastmod">
+    <h2 class="panel-heading">Recently Updated</h2>
+    <ul class="content list-unstyled ps-0 pb-1 ms-1 mt-2">
+      
+        
+        
+        
+        <li class="text-truncate lh-lg">
+          <a href="/2019/10/25/about-author-1-3-9-authentificated-stored-xss-vulnerability/">Wordpress About Author <= 1.3.9 Authenticated Stored XSS</a>
+        </li>
+      
+        
+        
+        
+        <li class="text-truncate lh-lg">
+          <a href="/2019/10/23/groundhogg-1-3-2-authentificated-reflected-xss-vulnerability/">Wordpress Groundhogg <= 2.0.8.1 Authentificated Reflected XSS</a>
+        </li>
+      
+        
+        
+        
+        <li class="text-truncate lh-lg">
+          <a href="/2019/10/23/groundhogg-1-3-2-authentificated-sql-injection-vulnerability/">Wordpress Groundhogg <= 1.3.11.13 Authentificated SQL Injection</a>
+        </li>
+      
+        
+        
+        
+        <li class="text-truncate lh-lg">
+          <a href="/2019/10/23/sliced-invoices-3-8-2-authentificated-sql-injection-vulnerability/">Wordpress Sliced Invoices <= 3.8.2 Authenticated SQL Injection</a>
+        </li>
+      
+        
+        
+        
+        <li class="text-truncate lh-lg">
+          <a href="/2019/10/22/sliced-invoices-3-8-2-authentificated-reflected-xss-vulnerability/">Wordpress Sliced Invoices <= 3.8.2 Authenticated Reflected XSS</a>
+        </li>
+      
+    </ul>
+  </section>
+  <!-- #access-lastmod -->
+
+
+              <section id="access-lastmod">
+                <h2 class="panel-heading"></h2>
+                <ul class="content list-unstyled ps-0 pb-1 ms-1 mt-2">
+                  <script
+                    async
+                    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0255642880549652"
+                    crossorigin="anonymous"
+                  ></script>
+                  <!-- NewWebsite -->
+                  <ins
+                    class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-0255642880549652"
+                    data-ad-slot="2875050473"
+                    data-ad-format="auto"
+                    data-full-width-responsive="true"
+                  ></ins>
+                  <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                  </script>
+                </ul>
+              </section>
+
+              <!-- The trending tags list -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+
+
+  <section>
+    <h2 class="panel-heading">Trending Tags</h2>
+    <div class="d-flex flex-wrap mt-3 mb-1 me-3">
+      
+        
+        <a class="post-tag btn btn-outline-primary" href="/tags/writeups/">writeups</a>
+      
+        
+        <a class="post-tag btn btn-outline-primary" href="/tags/challange/">challange</a>
+      
+        
+        <a class="post-tag btn btn-outline-primary" href="/tags/ctf/">CTF</a>
+      
+        
+        <a class="post-tag btn btn-outline-primary" href="/tags/attackdefense-com/">AttackDefense.com</a>
+      
+        
+        <a class="post-tag btn btn-outline-primary" href="/tags/exploit/">exploit</a>
+      
+        
+        <a class="post-tag btn btn-outline-primary" href="/tags/solution/">solution</a>
+      
+        
+        <a class="post-tag btn btn-outline-primary" href="/tags/tutorial/">tutorial</a>
+      
+        
+        <a class="post-tag btn btn-outline-primary" href="/tags/exercise/">exercise</a>
+      
+        
+        <a class="post-tag btn btn-outline-primary" href="/tags/level/">level</a>
+      
+        
+        <a class="post-tag btn btn-outline-primary" href="/tags/nebula/">nebula</a>
+      
+    </div>
+  </section>
+
+
+            </div>
+
+            
+              
+              
+
+
+
+
+            
+          </aside>
+        </div>
+
+        <div class="row">
+          <!-- tail -->
+          <div id="tail-wrapper" class="col-12 col-lg-11 col-xl-9 px-md-4">
+            
+              
+              <!-- Recommend the other 3 posts according to the tags and categories of the current post. -->
+
+<!-- The total size of related posts -->
+
+
+<!-- An random integer that bigger than 0 -->
+
+
+<!-- Equals to TAG_SCORE / {max_categories_hierarchy} -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  <aside id="related-posts" aria-labelledby="related-label">
+    <h3 class="mb-4" id="related-label">Further Reading</h3>
+    <nav class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4 mb-4">
+      
+        <article class="col">
+          <a href="/2018/07/15/reverse-shells-cheat-sheet/" class="post-preview card h-100">
+            <div class="card-body">
+              <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/locale-dateime.js
+-->
+
+
+
+
+<time
+  
+  data-ts="1531602000"
+  data-df="ll"
+  
+>
+  Jul 15, 2018
+</time>
+
+              <h4 class="pt-0 my-2">Reverse Shells Cheat Sheet</h4>
+              <div class="text-muted">
+                <p>
+                  
+
+
+
+
+
+                  This list represent an comprehensive cheat sheet of shells and other related stuff.
+
+Listening
+To setup a listening netcat instance, enter the following:
+
+sudo nc -nvlp 80
+
+
+Reverse Shells
+
+To conn...
+                </p>
+              </div>
+            </div>
+          </a>
+        </article>
+      
+        <article class="col">
+          <a href="/2018/07/25/msfvenom-cheat-sheet/" class="post-preview card h-100">
+            <div class="card-body">
+              <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/locale-dateime.js
+-->
+
+
+
+
+<time
+  
+  data-ts="1532469480"
+  data-df="ll"
+  
+>
+  Jul 25, 2018
+</time>
+
+              <h4 class="pt-0 my-2">Msfvenom Cheat Sheet</h4>
+              <div class="text-muted">
+                <p>
+                  
+
+
+
+
+
+                  
+
+MsfVenom is a Metasploit standalone payload generator as a replacement for msfpayload and msfencode.
+
+Binaries
+
+
+  
+    
+      Command
+      Info
+    
+  
+  
+    
+      msfvenom -p windows/meterpr...
+                </p>
+              </div>
+            </div>
+          </a>
+        </article>
+      
+        <article class="col">
+          <a href="/2018/10/06/php-object-injection-cheat-sheet/" class="post-preview card h-100">
+            <div class="card-body">
+              <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/locale-dateime.js
+-->
+
+
+
+
+<time
+  
+  data-ts="1538775600"
+  data-df="ll"
+  
+>
+  Oct  6, 2018
+</time>
+
+              <h4 class="pt-0 my-2">PHP Object Injection Cheat Sheet</h4>
+              <div class="text-muted">
+                <p>
+                  
+
+
+
+
+
+                  
+
+Description of the vulnerability
+
+PHP Object Injection is an application level vulnerability that could allow an attacker to perform different kinds of malicious attacks, such as Code Injection, ...
+                </p>
+              </div>
+            </div>
+          </a>
+        </article>
+      
+    </nav>
+  </aside>
+  <!-- #related-posts -->
+
+
+            
+              
+              <!-- Navigation buttons at the bottom of the post. -->
+
+<nav class="post-navigation d-flex justify-content-between" aria-label="Post Navigation">
+  
+  
+
+  
+    <a
+      href="/2018/12/01/attackdefense-com-rce-webid/"
+      class="btn btn-outline-primary"
+      aria-label="Older"
+    >
+      <p>AttackDefense.com [RCE] - WeBid</p>
+    </a>
+  
+
+  
+    <a
+      href="/2018/12/02/attackdefense-com-msf-meterpreter-basics/"
+      class="btn btn-outline-primary"
+      aria-label="Newer"
+    >
+      <p>AttackDefense.com [MSF] - Meterpreter Basics</p>
+    </a>
+  
+</nav>
+
+            
+              
+              <!--  The comments switcher -->
+
+
+            
+
+            <!-- The Footer -->
+
+<footer
+  aria-label="Site Info"
+  class="
+    d-flex flex-column justify-content-center text-muted
+    flex-lg-row justify-content-lg-between align-items-lg-center pb-lg-3
+  "
+>
+  <p>©
+    <time>2024</time>
+
+    
+      <a href="https://twitter.com/LucianNitescu">Lucian Nitescu</a>.
+    
+
+    
+      <span
+        data-bs-toggle="tooltip"
+        data-bs-placement="top"
+        title="Except where otherwise noted, the blog posts on this site are licensed under the Creative Commons Attribution 4.0 International (CC BY 4.0) License by the author."
+      >Some rights reserved.</span>
+    
+  </p>
+
+  <p>Using the <a href="https://github.com/cotes2020/jekyll-theme-chirpy" target="_blank" rel="noopener">Chirpy</a> theme for <a href="https://jekyllrb.com" target="_blank" rel="noopener">Jekyll</a>.
+  </p>
+</footer>
+
+          </div>
+        </div>
+
+        <!-- The Search results -->
+
+<div id="search-result-wrapper" class="d-flex justify-content-center unloaded">
+  <div class="col-11 content">
+    <div id="search-hints">
+      <!-- The trending tags list -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+
+
+  <section>
+    <h2 class="panel-heading">Trending Tags</h2>
+    <div class="d-flex flex-wrap mt-3 mb-1 me-3">
+      
+        
+        <a class="post-tag btn btn-outline-primary" href="/tags/writeups/">writeups</a>
+      
+        
+        <a class="post-tag btn btn-outline-primary" href="/tags/challange/">challange</a>
+      
+        
+        <a class="post-tag btn btn-outline-primary" href="/tags/ctf/">CTF</a>
+      
+        
+        <a class="post-tag btn btn-outline-primary" href="/tags/attackdefense-com/">AttackDefense.com</a>
+      
+        
+        <a class="post-tag btn btn-outline-primary" href="/tags/exploit/">exploit</a>
+      
+        
+        <a class="post-tag btn btn-outline-primary" href="/tags/solution/">solution</a>
+      
+        
+        <a class="post-tag btn btn-outline-primary" href="/tags/tutorial/">tutorial</a>
+      
+        
+        <a class="post-tag btn btn-outline-primary" href="/tags/exercise/">exercise</a>
+      
+        
+        <a class="post-tag btn btn-outline-primary" href="/tags/level/">level</a>
+      
+        
+        <a class="post-tag btn btn-outline-primary" href="/tags/nebula/">nebula</a>
+      
+    </div>
+  </section>
+
+
+    </div>
+    <div id="search-results" class="d-flex flex-wrap justify-content-center text-muted mt-3"></div>
+  </div>
+</div>
+
+      </div>
+
+      <aside aria-label="Scroll to Top">
+        <button id="back-to-top" type="button" class="btn btn-lg btn-box-shadow">
+          <i class="fas fa-angle-up"></i>
+        </button>
+      </aside>
+    </div>
+
+    <div id="mask"></div>
+
+    
+      <aside
+  id="notification"
+  class="toast"
+  role="alert"
+  aria-live="assertive"
+  aria-atomic="true"
+  data-bs-animation="true"
+  data-bs-autohide="false"
+>
+  <div class="toast-header">
+    <button
+      type="button"
+      class="btn-close ms-auto"
+      data-bs-dismiss="toast"
+      aria-label="Close"
+    ></button>
+  </div>
+  <div class="toast-body text-center pt-0">
+    <p class="px-2 mb-3">A new version of content is available.</p>
+    <button type="button" class="btn btn-primary" aria-label="Update">
+      Update
+    </button>
+  </div>
+</aside>
+
+    
+
+    <!-- JavaScripts -->
+
+    <!-- JS selector for site. -->
+
+<!-- commons -->
+
+
+
+<!-- layout specified -->
+
+
+
+
+  
+
+  
+    <!-- image lazy-loading & popup & clipboard -->
+    
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+
+    
+
+  
+
+  
+    
+
+    
+
+  
+
+  
+    
+
+    
+
+  
+
+  
+    
+
+    
+
+  
+
+  
+    
+
+    
+
+  
+
+  
+    
+
+    
+
+  
+
+  
+    
+
+    
+
+  
+
+  
+    
+
+    
+
+  
+
+  
+    
+
+    
+
+  
+
+  
+    
+
+    
+
+  
+
+
+
+  <script src="https://cdn.jsdelivr.net/combine/npm/jquery@3.7.1/dist/jquery.min.js,npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js,npm/simple-jekyll-search@1.10.0/dest/simple-jekyll-search.min.js,npm/loading-attribute-polyfill@2.1.1/dist/loading-attribute-polyfill.umd.min.js,npm/magnific-popup@1.1.0/dist/jquery.magnific-popup.min.js,npm/clipboard@2.0.11/dist/clipboard.min.js,npm/dayjs@1.11.10/dayjs.min.js,npm/dayjs@1.11.10/locale/en.min.js,npm/dayjs@1.11.10/plugin/relativeTime.min.js,npm/dayjs@1.11.10/plugin/localizedFormat.min.js"></script>
+
+
+
+
+
+
+<script defer src="/assets/js/dist/post.min.js"></script>
+
+
+
+
+
+
+    
+
+    <!--
+  Jekyll Simple Search loader
+  See: <https://github.com/christian-fei/Simple-Jekyll-Search>
+-->
+
+
+
+
+
+<script>
+  /* Note: dependent library will be loaded in `js-selector.html` */
+  SimpleJekyllSearch({
+    searchInput: document.getElementById('search-input'),
+    resultsContainer: document.getElementById('search-results'),
+    json: '/assets/js/data/search.json',
+    searchResultTemplate: '  <article class="px-1 px-sm-2 px-lg-4 px-xl-0">    <header>      <h2><a href="{url}">{title}</a></h2>      <div class="post-meta d-flex flex-column flex-sm-row text-muted mt-1 mb-1">        {categories}        {tags}      </div>    </header>    <p>{snippet}</p>  </article>',
+    noResultsText: '<p class="mt-5"></p>',
+    templateMiddleware: function(prop, value, template) {
+      if (prop === 'categories') {
+        if (value === '') {
+          return `${value}`;
+        } else {
+          return `<div class="me-sm-4"><i class="far fa-folder fa-fw"></i>${value}</div>`;
+        }
+      }
+
+      if (prop === 'tags') {
+        if (value === '') {
+          return `${value}`;
+        } else {
+          return `<div><i class="fa fa-tag fa-fw"></i>${value}</div>`;
+        }
+      }
+    }
+  });
+</script>
+
+  </body>
+</html>
+
