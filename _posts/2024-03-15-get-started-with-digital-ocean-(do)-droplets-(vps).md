@@ -3,7 +3,7 @@ layout: post
 title: Get started with Digital Ocean (DO) Droplets (VPS)
 date: 2024-03-15 21:53:12 +0200
 categories: [tutorial]
-tags: [vps, do, ubuntu, private server, DigitalOcean, droplet]
+tags: [vps, ubuntu, private server, DigitalOcean, droplet]
 pin: false
 hidden: false
 ---

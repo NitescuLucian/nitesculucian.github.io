@@ -4,7 +4,7 @@
   <id>http://localhost:4000/</id>
   <title>Lucian Nitescu</title>
   <subtitle>Explore the personal blog of a cybersecurity expert with a rich history in Red Teaming, Penetration Testing, and Incident Response since 2017. Active in the cyber community through roles in DefCamp CTF and Romanian Cyber Security Challenges, plus contributions to the bug bounty community.</subtitle>
-  <updated>2024-03-16T15:04:23+02:00</updated>
+  <updated>2024-03-17T00:07:37+02:00</updated>
   <author>
     <name>Lucian Nitescu</name>
     <uri>http://localhost:4000/</uri>
@@ -17,6 +17,78 @@
   <icon>/assets/img/favicons/favicon.ico</icon>
   <logo>/assets/img/favicons/favicon-96x96.png</logo>
 
+
+  
+  <entry>
+    <title>Creating environments for researching vulnerabilities with Digital Ocean</title>
+    <link href="http://localhost:4000/2024/03/16/creating-environments-for-researching-vulnerabilities-with-do/" rel="alternate" type="text/html" title="Creating environments for researching vulnerabilities with Digital Ocean" />
+    <published>2024-03-16T21:11:55+02:00</published>
+  
+    <updated>2024-03-16T21:11:55+02:00</updated>
+  
+    <id>http://localhost:4000/2024/03/16/creating-environments-for-researching-vulnerabilities-with-do/</id>
+    <content src="http://localhost:4000/2024/03/16/creating-environments-for-researching-vulnerabilities-with-do/" />
+    <author>
+      <name>Lucian Nitescu</name>
+    </author>
+
+  
+    
+    <category term="tutorial" />
+    
+    <category term="bug bounty" />
+    
+  
+
+  
+    <summary>
+      
+
+
+
+
+
+      In cybersecurity, staying one step ahead of potential threats is crucial. This proactive approach is beneficial and necessary for bug bounty hunters, security researchers, and IT professionals who strive to safeguard digital assets from vulnerabilities. One effective way to achieve this is by setting up an environment tailored for researching known vulnerabilities. Such an environment allows us...
+    </summary>
+  
+
+  </entry>
+
+  
+  <entry>
+    <title>Get started with Digital Ocean (DO) Droplets (VPS)</title>
+    <link href="http://localhost:4000/2024/03/15/get-started-with-digital-ocean-(do)-droplets-(vps)/" rel="alternate" type="text/html" title="Get started with Digital Ocean (DO) Droplets (VPS)" />
+    <published>2024-03-15T21:53:12+02:00</published>
+  
+    <updated>2024-03-15T21:53:12+02:00</updated>
+  
+    <id>http://localhost:4000/2024/03/15/get-started-with-digital-ocean-(do)-droplets-(vps)/</id>
+    <content src="http://localhost:4000/2024/03/15/get-started-with-digital-ocean-(do)-droplets-(vps)/" />
+    <author>
+      <name>Lucian Nitescu</name>
+    </author>
+
+  
+    
+    <category term="tutorial" />
+    
+  
+
+  
+    <summary>
+      
+
+
+
+
+
+      What is the Digital Ocean?
+
+Digital Ocean is a cloud infrastructure provider that offers simplicity, scalability, and reliability for developers and businesses. Users can quickly deploy, manage, and scale applications with its intuitive platform. Digital Ocean provides various services, including Droplets (virtual private servers), managed databases, and object storage solutions, making it a ve...
+    </summary>
+  
+
+  </entry>
 
   
   <entry>
@@ -145,94 +217,6 @@ Intial submission of the vulnerability
 # Exploit Author: Lucian Ioan Nitescu
 # Contact: https://twitter.com/LucianNitescu
 # Webiste: https://nitesculucia...
-    </summary>
-  
-
-  </entry>
-
-  
-  <entry>
-    <title>Wordpress Sliced Invoices &amp;lt;= 3.8.2 Authenticated SQL Injection</title>
-    <link href="http://localhost:4000/2019/10/23/sliced-invoices-3-8-2-authentificated-sql-injection-vulnerability/" rel="alternate" type="text/html" title="Wordpress Sliced Invoices &amp;lt;= 3.8.2 Authenticated SQL Injection" />
-    <published>2019-10-23T01:26:00+03:00</published>
-  
-    <updated>2019-10-23T01:26:00+03:00</updated>
-  
-    <id>http://localhost:4000/2019/10/23/sliced-invoices-3-8-2-authentificated-sql-injection-vulnerability/</id>
-    <content src="http://localhost:4000/2019/10/23/sliced-invoices-3-8-2-authentificated-sql-injection-vulnerability/" />
-    <author>
-      <name>Lucian Nitescu</name>
-    </author>
-
-  
-    
-    <category term="my_exploits" />
-    
-    <category term="offensive_security" />
-    
-  
-
-  
-    <summary>
-      
-
-
-
-
-
-      
-
-Wordpress Sliced Invoices plugin with a version lower then 3.8.2 is affected by an Authenticated SQL Injection vulnerability. Note that this vulnerability is highly similar to Wordpress Sliced Invoices &amp;lt;= 3.8.2 Authenticated Reflected XSS due to the use of the same GET parameter.
-
-Intial submission of the vulnerability
-
-# Exploit Title: Wordpress Sliced Invoices &amp;lt;= 3.8.2 Authenticated S...
-    </summary>
-  
-
-  </entry>
-
-  
-  <entry>
-    <title>Wordpress Sliced Invoices &amp;lt;= 3.8.2 Authenticated Reflected XSS</title>
-    <link href="http://localhost:4000/2019/10/22/sliced-invoices-3-8-2-authentificated-reflected-xss-vulnerability/" rel="alternate" type="text/html" title="Wordpress Sliced Invoices &amp;lt;= 3.8.2 Authenticated Reflected XSS" />
-    <published>2019-10-22T23:33:00+03:00</published>
-  
-    <updated>2019-10-22T23:33:00+03:00</updated>
-  
-    <id>http://localhost:4000/2019/10/22/sliced-invoices-3-8-2-authentificated-reflected-xss-vulnerability/</id>
-    <content src="http://localhost:4000/2019/10/22/sliced-invoices-3-8-2-authentificated-reflected-xss-vulnerability/" />
-    <author>
-      <name>Lucian Nitescu</name>
-    </author>
-
-  
-    
-    <category term="my_exploits" />
-    
-    <category term="offensive_security" />
-    
-  
-
-  
-    <summary>
-      
-
-
-
-
-
-      
-
-Wordpress Sliced Invoices plugin with a version lower then 3.8.2 is affected by an authenticated Reflected Cross-site scripting (XSS) vulnerability.
-
-Intial submission of the vulnerability
-
-# Exploit Title: Wordpress Sliced Invoices &amp;lt;= 3.8.2 Authenticated Reflected XSS Vulnerability
-# Date: 22-10-2019
-# Exploit Author: Lucian Ioan Nitescu
-# Contact: https://twitter.com/LucianNitescu
-# Webi...
     </summary>
   
 
