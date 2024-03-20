@@ -4,7 +4,7 @@
   <id>http://localhost:4000/</id>
   <title>Lucian Nitescu</title>
   <subtitle>Explore the personal blog of a cybersecurity expert with a rich history in Red Teaming, Penetration Testing, and Incident Response since 2017. Active in the cyber community through roles in DefCamp CTF and Romanian Cyber Security Challenges, plus contributions to the bug bounty community.</subtitle>
-  <updated>2024-03-17T00:07:37+02:00</updated>
+  <updated>2024-03-21T00:31:27+02:00</updated>
   <author>
     <name>Lucian Nitescu</name>
     <uri>http://localhost:4000/</uri>
@@ -60,7 +60,7 @@
     <link href="http://localhost:4000/2024/03/15/get-started-with-digital-ocean-(do)-droplets-(vps)/" rel="alternate" type="text/html" title="Get started with Digital Ocean (DO) Droplets (VPS)" />
     <published>2024-03-15T21:53:12+02:00</published>
   
-    <updated>2024-03-15T21:53:12+02:00</updated>
+    <updated>2024-03-17T00:08:28+02:00</updated>
   
     <id>http://localhost:4000/2024/03/15/get-started-with-digital-ocean-(do)-droplets-(vps)/</id>
     <content src="http://localhost:4000/2024/03/15/get-started-with-digital-ocean-(do)-droplets-(vps)/" />
