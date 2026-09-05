@@ -1,15 +1,19 @@
 # Local build/preview environment for the blog.
 #
-# The theme requires Ruby >= 3.0, so this pins the same Ruby the GitHub Actions
-# deploy uses (.github/workflows/jekyll.yml -> ruby-version: '3.1'). Nothing is
-# installed on the host; gems live in the named `bundle` volume.
+# The theme needs Ruby >= 3.0 (macOS ships 2.6), so this pins the same Ruby the
+# Pages workflow uses: .github/workflows/jekyll.yml -> ruby-version: '3.1'.
+# Nothing is installed on the host; gems live in the named `bundle` volume and
+# are reused across runs.
 #
-#   docker compose up serve     -> http://localhost:4000 with live reload
-#   docker compose run --rm build   -> production build into ./_site (same as CI)
+#   docker compose up serve          -> http://localhost:4000, live reload
+#   docker compose run --rm build    -> production build into ./_site
+#   docker compose down              -> stop
 #
+# Both services layer _config.dev.yml over _config.yml to correct the malformed
+# `baseurl` (see the comments in that file); without it every local asset URL
+# gets prefixed with /nitesculucian.github.io.
 services:
-  # Dev server with live reload. Mirrors the README's
-  # `bundle exec jekyll serve --livereload --baseurl ''`.
+  # Dev server with live reload.
   serve:
     image: ruby:3.1
     working_dir: /srv
@@ -24,13 +28,13 @@ services:
     command: >
       bash -c "bundle install &&
                bundle exec jekyll serve
+                 --config _config.yml,_config.dev.yml
                  --host 0.0.0.0
                  --livereload --livereload-port 35729
-                 --baseurl ''
                  --force_polling"
 
-  # One-shot production build, identical to what the Pages workflow runs.
-  # Writes ./_site, then exits.
+  # One-shot production build, matching what the Pages workflow produces.
+  # Writes ./_site and exits.
   build:
     image: ruby:3.1
     working_dir: /srv
@@ -41,7 +45,7 @@ services:
       JEKYLL_ENV: production
     command: >
       bash -c "bundle install &&
-               bundle exec jekyll build --baseurl ''"
+               bundle exec jekyll build --config _config.yml,_config.dev.yml"
 
 volumes:
   bundle:

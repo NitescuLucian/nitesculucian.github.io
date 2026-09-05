@@ -1,0 +1,9 @@
+# Local-only overrides, layered on top of _config.yml by docker-compose.
+#
+# _config.yml sets `baseurl: "nitesculucian.github.io"`, which is wrong for a
+# user site (it should be ""). The Pages workflow overrides it at build time, so
+# the deployed site is fine, but a plain local build inherits it and prefixes
+# every asset/link with /nitesculucian.github.io. Note that `--baseurl ''` on the
+# command line does NOT fix this: Jekyll treats an empty CLI value as "not given"
+# and falls back to _config.yml. Overriding via a config file does work.
+baseurl: ""
