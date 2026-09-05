@@ -1,0 +1,47 @@
+# Local build/preview environment for the blog.
+#
+# The theme requires Ruby >= 3.0, so this pins the same Ruby the GitHub Actions
+# deploy uses (.github/workflows/jekyll.yml -> ruby-version: '3.1'). Nothing is
+# installed on the host; gems live in the named `bundle` volume.
+#
+#   docker compose up serve     -> http://localhost:4000 with live reload
+#   docker compose run --rm build   -> production build into ./_site (same as CI)
+#
+services:
+  # Dev server with live reload. Mirrors the README's
+  # `bundle exec jekyll serve --livereload --baseurl ''`.
+  serve:
+    image: ruby:3.1
+    working_dir: /srv
+    ports:
+      - "4000:4000" # site
+      - "35729:35729" # livereload
+    volumes:
+      - .:/srv
+      - bundle:/usr/local/bundle
+    environment:
+      JEKYLL_ENV: development
+    command: >
+      bash -c "bundle install &&
+               bundle exec jekyll serve
+                 --host 0.0.0.0
+                 --livereload --livereload-port 35729
+                 --baseurl ''
+                 --force_polling"
+
+  # One-shot production build, identical to what the Pages workflow runs.
+  # Writes ./_site, then exits.
+  build:
+    image: ruby:3.1
+    working_dir: /srv
+    volumes:
+      - .:/srv
+      - bundle:/usr/local/bundle
+    environment:
+      JEKYLL_ENV: production
+    command: >
+      bash -c "bundle install &&
+               bundle exec jekyll build --baseurl ''"
+
+volumes:
+  bundle:
