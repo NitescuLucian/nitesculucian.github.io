@@ -12,3 +12,26 @@ redirect_from:
 {% include lang.html %}
 
 <p class="lead">{{ site.data.locales[lang].not_found.statment }}</p>
+
+<script>
+  // Legacy permalinks: posts used to live at /<slug>/ rather than
+  // /<year>/<month>/<day>/<slug>/. Strip a leading date segment from the
+  // requested path and, if it matches a real post, redirect there.
+  (function () {
+    var knownURLs = [
+      {% for post in site.posts %}
+      '{{ post.url }}',
+      {% endfor %}
+    ];
+
+    var path = window.location.href.replace(/^[^:]+:\/\/[^\/]+/, '');
+    var stripped = path.replace(/\/\d{1,4}\/\d{1,2}\/\d{1,2}\//g, '');
+
+    for (var i = 0; i < knownURLs.length; i++) {
+      if (knownURLs[i].endsWith(stripped)) {
+        window.location.href = knownURLs[i];
+        return;
+      }
+    }
+  })();
+</script>

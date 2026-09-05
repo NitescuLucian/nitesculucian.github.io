@@ -145,8 +145,11 @@ pwa:
 paginate: 5
 # paginate_path: "/blog/page:num/"
 
-# The base URL of your site
-baseurl: "nitesculucian.github.io"
+# The base URL of your site.
+# Must be empty for a user site served at the domain root
+# (https://nitesculucian.github.io); a non-empty value prefixes every
+# generated asset and page URL.
+baseurl: ""
 
 # ------------ The following options are not recommended to be modified ------------------
 
@@ -214,7 +217,6 @@ exclude:
   - rollup.config.js
   - package*.json
   - docker-compose.yml
-  - _config.dev.yml
 
 jekyll-archives:
   enabled: [categories, tags]

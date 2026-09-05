@@ -3,7 +3,7 @@ layout: post
 title: CMS Made Simple 2.2.7 - Remote Code Execution
 date: 2018-11-06 21:19 -0300
 categories: [my_exploits, offensive_security]
-tags: [ exploit, rce, command injection, security, hacking, CMS, CMS Made Simple, vulnerability, Remote Code Execution]
+tags: [ exploit, RCE, command injection, security, hacking, CMS, CMS Made Simple, vulnerability, Remote Code Execution]
 ---
 
 CMS Made Simple is an Open Source Content Management System. It’s built using PHP and the Smarty Engine, which keeps content, functionality, and templates separated.
