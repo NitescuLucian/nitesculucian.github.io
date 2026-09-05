@@ -4,3 +4,8 @@
 @import 'main';
 
 /* append your custom style below */
+
+/* 2026 dark redesign. Layered on top of the stock theme rather than edited
+   into it, so upstream Chirpy updates can still be merged.
+   Variables: _sass/variables-hook.scss  |  Backup: .theme-backup/ */
+@import 'custom/dark-2026';

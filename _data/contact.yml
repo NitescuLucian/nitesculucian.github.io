@@ -13,6 +13,10 @@
 - type: rss
   icon: "fas fa-rss"
   noblank: true
+
+- type: linkedin
+  icon: "fab fa-linkedin"
+  url: "https://www.linkedin.com/in/luciannitescu/"
 # Uncomment and complete the url below to enable more contact options
 #
 # - type: mastodon

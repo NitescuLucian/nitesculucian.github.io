@@ -1,3 +1,50 @@
 /*
   Appending custom SCSS variables will override the default ones in `_sass/addon/variables.scsss`
+
+  ---------------------------------------------------------------------------
+  2026 dark redesign - part 1 of 2 (variables).
+  The visual layer lives in `_sass/custom/dark-2026.scss`.
+  A pristine copy of the stock theme is kept in `.theme-backup/`.
+  ---------------------------------------------------------------------------
 */
+
+/* Typography ------------------------------------------------------------- */
+
+/* Inter for UI and headings, JetBrains Mono for code. Both are pulled in via
+   `webfonts:` in `_data/origin/cors.yml`; the stacks below degrade to the
+   platform UI font if the webfont request fails. */
+$font-family-base:
+  Inter,
+  -apple-system,
+  BlinkMacSystemFont,
+  'Segoe UI',
+  Roboto,
+  'Helvetica Neue',
+  sans-serif;
+
+$font-family-heading: $font-family-base;
+
+$font-family-mono:
+  'JetBrains Mono',
+  ui-monospace,
+  SFMono-Regular,
+  'SF Mono',
+  Menlo,
+  Consolas,
+  monospace;
+
+/* Slightly larger code than stock 0.85rem - JetBrains Mono runs small. */
+$code-font-size: 0.875rem;
+
+/* Geometry --------------------------------------------------------------- */
+
+/* Softer, more contemporary rounding than the stock 0.625rem. */
+$base-radius: 0.875rem;
+
+/* A little more breathing room in the sidebar and a wider content column. */
+$sidebar-width: 272px;
+$sidebar-width-large: 312px;
+$main-content-max-width: 1300px;
+
+$topbar-height: 3.25rem;
+$back2top-size: 2.875rem;
