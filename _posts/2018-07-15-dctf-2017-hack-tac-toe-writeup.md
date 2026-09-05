@@ -3,7 +3,7 @@ layout: post
 title: "[DCTF 2017] hack-tac-toe Writeup"
 date: 2018-07-15 11:37 -0300
 categories: [dctf, writeups]
-tags: [ DCTF, DefCamp, '2017', writeups, CTF,  challange]
+tags: [ DCTF, DefCamp, '2017', writeups, CTF,  challenge]
 ---
 ### Description:
 Pair up! Let's play a game of tic tac toe :)
@@ -14,7 +14,7 @@ https://hacktactoe.dctf-f1nals-2017.def.camp/
 Anatol, Lucian Nitescu
 
 ### Stats: 
-360 point / 10 solvers
+360 points / 10 solvers
 
 ### Solution:  
 
@@ -22,7 +22,7 @@ The challenge started with this simple website:
 
 ![alt text](https://raw.githubusercontent.com/CCSIR/dctf-2017/master/finals/web/hack-tac-toe/img/1.png "1")
 
-If we change the name of Player 1 with test we get:
+If we change the name of Player 1 to "test", we get:
 
 ![alt text](https://raw.githubusercontent.com/CCSIR/dctf-2017/master/finals/web/hack-tac-toe/img/2.png "2")
 
@@ -30,22 +30,22 @@ If we change the name of Player 1 with test we get:
 Encrypted_Game_Session=ITSSn%2FICisO1i6CBSOBGkzM0kJWzU%2FS02%2B%2B92B6zVJt3N5aRvRTSxbbP9tlP4VKdcziQlroU0pa7nqPZS%2BMCyXBol8PoENSSt5rwjx7lB5gkOZfD6EDRlb%2BZ8JALvBeSdDSFy%2Bgc1dW02vzVE6U0xCF3wtepQJLM%2FJPz1wvpBcUlPIWe%2BkuIza35qoxQ4haIciyc1rNEitX8yqmfTKVfwXo%2BnNazR4rV%2FMqpn0y1RpMpNJee9A%3D%3D
 ```
 
-If we change the name of Player 2 with test2 we get:
+If we change the name of Player 2 to "test2", we get:
 
 ![alt text](https://raw.githubusercontent.com/CCSIR/dctf-2017/master/finals/web/hack-tac-toe/img/3.png "3")
 
 ```http
 Encrypted_Game_Session=ITSSn%2FICisO1i6CBSOBGkzM0kJWzU%2FS02%2B%2B92B6zVJt3N5aRvRTSxbbP9tlP4VKdcziQlroU0pa7nqPZS%2BMCyXBol8PoENSSt5rwjx7lB5gkOZfD6EDRlb%2BZ8JALvBeSdDSFy%2Bgc1dW02vzeG71GqEAOp6WJcbD3j6nG7SmHZKhADqeliXGw94%2Bpxu0ph2SKe32dkLNT3pbizPTPEvRenHosw9boFZLM%2FJPz1wv0B8cya4We4EuCzPyT8NcL9AfHMmuVh7IYise01A%3D%3D
 ```
-Under the Encrypted_Game_Session we observe some static stored things (because of the small variation).
+Inside the Encrypted_Game_Session we can observe some statically stored data (because of the small variation).
 
-If we request https://hacktactoe.dctf-f1nals-2017.def.camp/action.php?name=%00%00%00%00%00%00%00%00%00%00%00%00%00%00 we will get that:
+If we request https://hacktactoe.dctf-f1nals-2017.def.camp/action.php?name=%00%00%00%00%00%00%00%00%00%00%00%00%00%00 we get:
 
 ```http
 Encrypted_Game_Session=ITSSn%2FICisO1i6CBSOBGkzM0kJWzU%2FS02%2B%2B92B6zVJt3N5aRvRTSxbbP9tlP4VKdcziQlroU0pa7nqPZS%2BMCyXBol8PoENSSt5rwjx7lB5gkOZfD6EDRlb%2BZ8JALvBeSdDSFy%2Bgc1dW02vzeG71GqEAOp6WJcbD3j6nG7SmHZKhADqeliXGw94%2Bpxu0ph2SKe32dkLNT3pbizPTPEvRenHosw9boFZLM%2FJPz1wv0B8cya4We4EuCzPyT8NcL9AfHMmuVh7IYise01A%3D%3D
 ```
 
-We now use an URL decoder:
+We now use a URL decoder:
 
 ```
 urldecoded(Encrypted_Game_Session):
@@ -53,7 +53,7 @@ urldecoded(Encrypted_Game_Session):
 ITSSn/ICisO1i6CBSOBGkzM0kJWzU/S02++92B6zVJt3N5aRvRTSxbbP9tlP4VKdcziQlroU0pa7nqPZS+MCyXBol8PoENSSt5rwjx7lB5gkOZfD6EDRlb+Z8JALvBeSdDSFy+gc1dW02vzeG71GqEAOp6WJcbD3j6nG7SmHZKhADqeliXGw94+pxu0ph2SKe32dkLNT3pbizPTPEvRenHosw9boFZLM/JPz1wv0B8cya4We4EuCzPyT8NcL9AfHMmuVh7IYise01A==
 ```
 
-We now use an base 64 decoder to hex:
+We now use a base64-to-hex decoder:
 
 ```
 decode_base64_to_hex(urldecoded(Encrypted_Game_Session):
@@ -61,7 +61,7 @@ decode_base64_to_hex(urldecoded(Encrypted_Game_Session):
 21 34 92 9f f2 02 8a c3 b5 8b a0 81 48 e0 46 93 33 34 90 95 b3 53 f4 b4 db ef bd d8 1e b3 54 9b 77 37 96 91 bd 14 d2 c5 b6 cf f6 d9 4f e1 52 9d 73 38 90 96 ba 14 d2 96 bb 9e a3 d9 4b e3 02 c9 70 68 97 c3 e8 10 d4 92 b7 9a f0 8f 1e e5 07 98 24 39 97 c3 e8 40 d1 95 bf 99 f0 90 0b bc 17 92 74 34 85 cb e8 1c d5 d5 b4 da fc de 1b bd 46 a8 40 0e a7 a5 89 71 b0 f7 8f a9 c6 ed 29 87 64 a8 40 0e a7 a5 89 71 b0 f7 8f a9 c6 ed 29 87 64 8a 7b 7d 9d 90 b3 53 de 96 e2 cc f4 cf 12 f4 5e 9c 7a 2c c3 d6 e8 15 92 cc fc 93 f3 d7 0b f4 07 c7 32 6b 85 9e e0 4b 82 cc fc 93 f0 d7 0b f4 07 c7 32 6b 95 87 b2 18 8a c7 b4 d4
 ```
 
-From this and after a few retries we can retrive that "40 0e a7 a5 89 71 b0 f7 8f a9 c6 ed 29 87 64 a8" is static and also is the key for our XOR "encryption". After running the following python script we get:
+From this, and after a few retries, we can determine that "40 0e a7 a5 89 71 b0 f7 8f a9 c6 ed 29 87 64 a8" is static and is also the key for our XOR "encryption". After running the following Python script we get:
 
 ```python
 import sys
@@ -88,7 +88,7 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> 
 ```
 
-At this point we are sure about our XOR key and we have to just improve a bit our python script. Like this:
+At this point we are sure about our XOR key, and we just have to improve our Python script a bit, like this:
 
 
 ```python
@@ -109,7 +109,7 @@ while len(buf) > 32:
 	buf = buf[len(key):]
 ```
 
-At execution we get the flag:
+On execution we get the flag:
 
 ```terminal
 lucian@nitescu:~$ python 1.py 

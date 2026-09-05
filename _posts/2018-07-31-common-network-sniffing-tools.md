@@ -8,9 +8,9 @@ tags: [ offensive security, cheat sheet, sniffing, mitm, arp]
 
 ![Image of Wireshark](/uploads/Screenshot%20from%202018-08-01%2000-48-07.png)
 
-In this article, I am going to list (not explain) some common packet sniffers and network analyzers that you can use now in any man-in-the-middle attack (MITM).
+In this article, I am going to list (not explain) some common packet sniffers and network analyzers that you can use right now in any man-in-the-middle (MITM) attack.
 
-What you have to keep in mind, is that there is no perfect tool for doing the perfect MITM attack and you will have to adapt your technics in order to better match your objectives.
+What you have to keep in mind is that there is no perfect tool for the perfect MITM attack, and you will have to adapt your techniques to better match your objectives.
 
 ## DSNIFF
 

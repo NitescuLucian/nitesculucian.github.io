@@ -8,11 +8,11 @@ pin: false
 hidden: false
 ---
 
-## What is the Digital Ocean?
+## What is Digital Ocean?
 
 Digital Ocean is a cloud infrastructure provider that offers simplicity, scalability, and reliability for developers and businesses. Users can quickly deploy, manage, and scale applications with its intuitive platform. Digital Ocean provides various services, including Droplets (virtual private servers), managed databases, and object storage solutions, making it a versatile choice for hosting a wide range of applications and environments.
 
-If you want to jump in this tutorial and set up your environment, here is a 200$ referral link for your new digital ocean account:
+If you want to jump into this tutorial and set up your environment, here is a $200 referral link for your new Digital Ocean account:
 
 [![DigitalOcean Referral Badge](https://web-platforms.sfo2.cdn.digitaloceanspaces.com/WWW/Badge%201.svg)](https://www.digitalocean.com/?refcode=69a748f0c7fb&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge)
 
@@ -32,18 +32,18 @@ Setting up a Virtual Private Server (VPS) on Digital Ocean is straightforward. A
 
 ![Ubuntu 22.04](</uploads/Screenshot from 2024-03-16 21-46-22.png>)
 
-* Chose a size on your budget and appropriate to what you need testing:
+* Choose a size that fits your budget and is appropriate for what you need to test:
 
 ![size m4tters](</uploads/Screenshot from 2024-03-16 21-47-19.png>)
 
-* Upload or select your SSH key used to connect to the VPS over the root user:
+* Upload or select the SSH key you use to connect to the VPS as the root user:
 
 ![ssh key](</uploads/Screenshot from 2024-03-16 21-48-11.png>)
 
-* Name you Droplet as you wish; I did as such:
+* Name your Droplet as you wish; here is how I did it:
 
 ![my target tld](</uploads/Screenshot from 2024-03-16 21-48-54.png>)
 
-* Press "Create Droplet" wait a few seconds, get the alocated IP address and `ssh root@<your ip address>` to get started:
+* Press "Create Droplet", wait a few seconds, get the allocated IP address and run `ssh root@<your ip address>` to get started:
 
 ![Create Droplet](</uploads/Screenshot from 2024-03-16 21-51-41.png>)

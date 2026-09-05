@@ -3,7 +3,7 @@ layout: post
 title: AttackDefense.com [RCE] - WeBid
 date: 2018-12-01 17:41 -0300
 categories: [AttackDefense.com, ctf, writeups, RCE]
-tags: [ writeups, CTF,  challange, AttackDefense.com]
+tags: [ writeups, CTF,  challenge, AttackDefense.com]
 ---
 
 ![Image of AttackDefense 2018](/uploads/Screenshot from 2018-10-26 17-44-27.png)
@@ -24,9 +24,9 @@ Category: Real Web Applications > Remote Code Execution
 
 ### Solution
 
-WeBid provides open source auction software which has been used around the world and has been downloaded over 100,000 times and allows consumers to quickly set up their own auction site and get started straight away.
+WeBid provides open source auction software that has been used around the world and downloaded over 100,000 times, and which allows consumers to quickly set up their own auction site and get started straight away.
 
-Unfortunately, in this lab, I was provided with a rather old version of WeBid that has a Remote Code Execution Vulnerability using an unrestricted file upload.
+Unfortunately, in this lab I was provided with a rather old version of WeBid that has a Remote Code Execution vulnerability through an unrestricted file upload.
 
 ![Image of AttackDefense 2018](/uploads/adrce5/image8.png)
 
@@ -36,11 +36,11 @@ By going to the following link, I was able to retrieve the exact version of this
 
 ![Image of AttackDefense 2018](/uploads/adrce5/image7.png)
 
-Funny enough this version of WeBid (1.1.1) is so broken, that the well known ```@GetSploitBot``` telegram bot cannot list all the exploits for all the existing vulnerabilities:
+Funnily enough, this version of WeBid (1.1.1) is so broken that the well known ```@GetSploitBot``` Telegram bot cannot list all the exploits for all the existing vulnerabilities:
 
 ![Image of AttackDefense 2018](/uploads/adrce5/image5.png)
 
-I decided to use an Unrestricted File Upload Exploit in order to obtain a Remote Code Execution Vulnerability. Here is the example PHP exploit that I used in order to obtain an interactive web shell:
+I decided to use an unrestricted file upload exploit in order to obtain Remote Code Execution. Here is the example PHP exploit that I used in order to obtain an interactive web shell:
 
 - [https://vulners.com/zdt/1337DAY-ID-23323](https://vulners.com/zdt/1337DAY-ID-23323
 )

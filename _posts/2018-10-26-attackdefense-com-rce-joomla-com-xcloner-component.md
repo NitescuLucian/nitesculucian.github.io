@@ -3,14 +3,14 @@ layout: post
 title: AttackDefense.com [RCE] - Joomla com_xcloner Component
 date: 2018-10-26 11:40 -0300
 categories: [AttackDefense.com, ctf, writeups, RCE]
-tags: [ writeups, CTF,  challange, AttackDefense.com]
+tags: [ writeups, CTF,  challenge, AttackDefense.com]
 ---
 
 ![Image of AttackDefense 2018](/uploads/Screenshot from 2018-10-26 17-44-27.png)
 
 ### Mission
 
-A version of Joomla com_xcloner Component is vulnerable to remote code execution attack. Your task is to find and exploit this vulnerability.
+A version of the Joomla com_xcloner component is vulnerable to a remote code execution attack. Your task is to find and exploit this vulnerability.
 
 The following username and password may be used to explore the application and create regular users if required to exploit authenticated access vulnerabilities:
 
@@ -23,11 +23,11 @@ Category: Real World Webapps > Remote Code Execution
 
 ### Solution
 
-First I was provided with the following Joomla website:
+First, I was provided with the following Joomla website:
 
 ![Image of AttackDefense 2018](/uploads/adrce1-image4.png)
 
-By using the username and password that were given to me at the start of this challenge, I have obtained access to the Joomla Control Panel:
+By using the username and password that were given to me at the start of this challenge, I obtained access to the Joomla Control Panel:
 
 ![Image of AttackDefense 2018](/uploads/adrce1-image2.png)
 
@@ -35,7 +35,7 @@ There I was able to discover the installed version of Joomla Core:
 
 ![Image of AttackDefense 2018](/uploads/adrce1-image6.png)
 
-Even if I tried multiple known remote code execution exploits for Joomla Core version 1.6.0, I was unable to get any command execution on the target website. Therefore, I took in account the following provided information: 
+Even though I tried multiple known remote code execution exploits for Joomla Core version 1.6.0, I was unable to get any command execution on the target website. Therefore, I took into account the following provided information: 
 
 ``` Joomla com_xcloner Component ```
 

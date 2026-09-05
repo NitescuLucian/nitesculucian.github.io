@@ -3,7 +3,7 @@ layout: post
 title: "[DCTF 2017] Working Junks Writeup"
 date: 2018-07-15 11:49 -0300
 categories: [dctf, writeups]
-tags: [ DCTF, DefCamp, '2017', writeups, CTF,  challange]
+tags: [ DCTF, DefCamp, '2017', writeups, CTF,  challenge]
 ---
 ### Description:
 https://snag.gy/1hqQnF.jpg 
@@ -16,18 +16,18 @@ Lucian Nitescu
 
 ### Solution:  
 
-First of all the above given description is a reference to the junk (the ship/boat) and the red line below is a reference to the "in reverse". 
+First of all, the description given above is a reference to the junk (the ship/boat), and the red line below is a reference to "in reverse". 
 
 ![alt text](https://raw.githubusercontent.com/CCSIR/dctf-2017/master/quals/revexp/Working_Junks/img/1.png "The description")
 
-The challenge start with:
+The challenge starts with:
 
 ```terminal
 mehuser:~$ file e
 e: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 2.6.32, BuildID[sha1]=20712db5ad286fbbcfe0005d23d8cbcc3965cffa, not stripped
 ```
 
-After we run this 64-bit ELF we got three things (hints):
+After we run this 64-bit ELF we get three things (hints):
 
 ```terminal
 mehuser:~$ chmod +x ./e
@@ -63,10 +63,10 @@ X5O!P
 ```
 1. We have junk, intended junk.
 2. We have strings in reverse.
-3. We have an eicar code missing characters because of "\" (you can check with strings also)
+3. We have an EICAR string that is missing characters because of "\" (you can also check this with strings).
 
 
-Reverse everything in python with this script:
+Reverse everything in Python with this script:
 
 ```python
 # 1.py
@@ -91,7 +91,7 @@ DECIMAL       HEXADECIMAL     DESCRIPTION
 11576         0x2D38          PNG image, 862 x 171, 8-bit/color RGB, non-interlaced
 ```
 
-So we got to extract a PNG file that was stored in a string (reversed hex dump of the PNG file) in the first place.
+So we managed to extract a PNG file that was stored as a string (a reversed hex dump of the PNG file) in the first place.
 
 ![alt text](https://raw.githubusercontent.com/CCSIR/dctf-2017/master/quals/revexp/Working_Junks/img/4.png "The flag")
 

@@ -3,7 +3,7 @@ layout: post
 title: "[DCTF Quals 2018] Lucky"
 date: 2018-10-06 16:52 -0300
 categories: [dctf, writeups]
-tags: [ DCTF, DefCamp, '2018', writeups, CTF,  challange]
+tags: [ DCTF, DefCamp, '2018', writeups, CTF,  challenge]
 ---
 
 ![Image of DCTF Quals 2018](/uploads/Screenshot%20from%202018-10-01%2016-37-21.png)
@@ -20,7 +20,7 @@ Bin: [Lucky Binary](/uploads/lucky)
 Lucian Nitescu
 
 ### Stats: 
-50 point / 139 solvers
+50 points / 139 solvers
 
 ### Solution:  
 
@@ -42,7 +42,7 @@ Wow that is wrong!
 $ 
 ```
 
-Using the provided binary file we can send a long string as name and obtain a buffer overflow error (```Segmentation fault (core dumped)```):
+Using the provided binary file we can send a long string as the name and trigger a buffer overflow error (```Segmentation fault (core dumped)```):
 
 ```terminal
 $ ./lucky 
@@ -186,7 +186,7 @@ LABEL_15:
 ```
 
 
-After observing the decompiled binary we can observe the buffer overflow occures after 700 bytes and overwrites the seed value (```srand()```) of the random function (```rand()```). Using the following simple script an attacker can deduct all the random values:
+Looking at the decompiled binary, we can observe that the buffer overflow occurs after 700 bytes and overwrites the seed value (```srand()```) of the random function (```rand()```). Using the following simple script, an attacker can deduce all the random values:
 
 ```c++
 #include <stdio.h>

@@ -7,16 +7,16 @@ tags: [ Midland, CT590, frequency extender, RX/TX, unlock, hack, tutorial, solut
 
 ![Image of Midland CT590](/uploads/midlandct590.jpg)
 
-Recently I have bought a MIDLAND CT590 VHF/UHF (C1317) which is a portable radio station for radio amateurs.
+Recently I bought a MIDLAND CT590 VHF/UHF (C1317), which is a portable radio station for radio amateurs.
 
-By itself the radio station supports the following frequencies: 
+Out of the box, the radio station supports the following frequencies: 
 
 ```
 144-146MHz VHF 
 430-440MHz UHF
 ```
 
-Personally, I needed this radio station to talk with other PMR radios which are on 446.XXX frequency. Therefore I had to unlock my radio station (remove the limitations) to be allowed to speak on 446 bands. Unfortunately enough, the radio station had no public tutorial so I decided to do one:
+Personally, I needed this radio station to talk to other PMR radios, which are on the 446.XXX frequencies. Therefore I had to unlock my radio station (remove the limitations) in order to be allowed to transmit on the 446 band. Unfortunately, there was no public tutorial for this radio station, so I decided to write one:
 
 After sending an email to Midland, they provided me with the following steps:
 
@@ -42,12 +42,12 @@ premere il tasto “menu” per poter inserire la cifra successiva.
 
 ### English Version
 
-To unlock MIDLAND CT590 it is necessary to follow the next steps:
+To unlock the MIDLAND CT590, it is necessary to follow these steps:
 
 RX/TX unlock:
 
 - Press "1" and turn on the radio at the same time---then the LCD will show "Set"
-- For Extend the band to 136-174 and 400-520, Press "Menu"---input "1"---Press "Menu"---input "3"--
+- To extend the band to 136-174 and 400-520, Press "Menu"---input "1"---Press "Menu"---input "3"--
 -Press "Menu"---input "6"---Press "Menu"---input "1"---Press "Menu"---input "7"---Press Menu---
 input "4"---Press Menu---input "4"---Press Menu---input "0"---Press Menu---input "0"---Press Menu-
 --input "5"---Press "Menu"---input "2"---Press "Menu"---input "0"

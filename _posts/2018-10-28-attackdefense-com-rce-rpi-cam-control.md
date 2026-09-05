@@ -3,7 +3,7 @@ layout: post
 title: AttackDefense.com [RCE] - RPi Cam Control
 date: 2018-10-28 18:27 -0300
 categories: [AttackDefense.com, ctf, writeups, RCE]
-tags: [ writeups, CTF,  challange, AttackDefense.com]
+tags: [ writeups, CTF,  challenge, AttackDefense.com]
 ---
 
 ![Image of AttackDefense 2018](/uploads/Screenshot from 2018-10-26 17-44-27.png)
@@ -24,7 +24,7 @@ Category: Real World Webapps > Remote Code Execution
 
 ### Solution
 
-On this challenge, I received unauthenticated access to a camera control interface presenting multiple actions buttons.
+On this challenge, I received unauthenticated access to a camera control interface presenting multiple action buttons.
 
 ![Image of AttackDefense 2018](/uploads/Screenshot from 2018-10-28 23-31-29.png)
 

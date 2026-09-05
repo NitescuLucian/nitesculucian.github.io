@@ -3,16 +3,16 @@ layout: post
 title: AttackDefense.com [RCE] - osCommerce
 date: 2018-10-26 13:57 -0300
 categories: [AttackDefense.com, ctf, writeups, RCE]
-tags: [ writeups, CTF,  challange, AttackDefense.com]
+tags: [ writeups, CTF,  challenge, AttackDefense.com]
 ---
 
 ![Image of AttackDefense 2018](/uploads/Screenshot from 2018-10-26 17-44-27.png)
 
 ### Mission
 
-A version of osCommerce is vulnerable to a remote code execution attack. Exploiting this flaw does not require any valid accounts on the system. A attacker can remotely exploit the system and run arbitrary commands on the system as the web server user.
+A version of osCommerce is vulnerable to a remote code execution attack. Exploiting this flaw does not require any valid accounts on the system. An attacker can remotely exploit the system and run arbitrary commands on it as the web server user.
 
-Your task is to find this vulnerability and gain remote code exploitation!   
+Your task is to find this vulnerability and gain remote code execution!   
 
 Level difficulty: Intermediate
 
@@ -20,21 +20,21 @@ Category: Real World Webapps > Remote Code Execution
 
 ### Solution
 
-Also, on this challenge, I got a real copy of a```osCommerce``` application deploy, an online shop. 
+On this challenge as well, I got a real copy of an ```osCommerce``` deployment, an online shop. 
 
 ![Image of AttackDefense 2018](/uploads/adrce3/image1.png)
 
 From the previous challenge (AttackDefense.com [RCE] - ApPHP MicroBlog) I got the simplest idea of testing for installation files and folders in order to gain more information about the target.
 
-By accessing [http://cmngb11ivpcr7if1cc227nrzp.public1.attackdefenselabs.com/install/](http://cmngb11ivpcr7if1cc227nrzp.public1.attackdefenselabs.com/install/) I obtain the following:
+By accessing [http://cmngb11ivpcr7if1cc227nrzp.public1.attackdefenselabs.com/install/](http://cmngb11ivpcr7if1cc227nrzp.public1.attackdefenselabs.com/install/), I obtained the following:
 
 ![Image of AttackDefense 2018](/uploads/adrce3/image8.png)
 
-Knowing the version of the application I decided to search for a publicly available exploit. I found an interesting one at this [link](https://www.exploit-db.com/exploits/44374/).
+Knowing the version of the application, I decided to search for a publicly available exploit. I found an interesting one at this [link](https://www.exploit-db.com/exploits/44374/).
 
 ![Image of AttackDefense 2018](/uploads/adrce3/image10.png)
 
-After taking a look at the exploit code I decided to adapt it to my needs:
+After taking a look at the exploit code, I decided to adapt it to my needs:
 
 ![Image of AttackDefense 2018](/uploads/adrce3/image2.png)
 
@@ -49,13 +49,13 @@ lucian@local:~/Downloads$
 
 ![Image of AttackDefense 2018](/uploads/adrce3/image5.png)
 
-At this point, we got a remote code execution using a PHP Object Injection vector of attack.
+At this point, we got remote code execution using a PHP Object Injection attack vector.
 
-In order to obtain a reverse shell for this exploit you have to make a few changes to the exploit script. 
+In order to obtain a reverse shell with this exploit, you have to make a few changes to the exploit script. 
 
 ![Image of AttackDefense 2018](/uploads/adrce3/image4.png)
 
-The exploit code will like that:
+The exploit code will then look like this:
 
 ```python
 

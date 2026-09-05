@@ -3,7 +3,7 @@ layout: post
 title: "[NeverLAN 2019] - Things are not always what they seem"
 date: 2019-02-04 19:08 -0300
 categories: [neverlan, ctf, writeups]
-tags: ['2019', writeups, CTF, capture, flag,  challange, neverlan]
+tags: ['2019', writeups, CTF, capture, flag,  challenge, neverlan]
 ---
 
 ![Image of NeverLAN CTF 2019](/uploads/Screenshot from 2019-02-02 12-35-09.png)
@@ -18,7 +18,7 @@ Lucian Nitescu, as part of [jmp 0xc0ffee](https://club.securityespresso.org/) te
 
 ### Solution:
 
-This challenge was to easy an required only to access the view source of the current web page.
+This challenge was too easy and only required viewing the source of the current web page.
 
 view-source:[https://challenges.neverlanctf.com:1165/hello.html](https://challenges.neverlanctf.com:1165/hello.html)
 

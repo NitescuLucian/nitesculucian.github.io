@@ -5,11 +5,11 @@ categories: [cheatsheet, offensive_security]
 tags: [ offensive security, cheat sheet, reverse shell, backdoor, bash, perl, python, PHP]
 ---
 
-This list represent an comprehensive cheat sheet of shells and other related stuff.
+This list is a comprehensive cheat sheet of shells and other related material.
 
 
 ## Listening
-To setup a listening netcat instance, enter the following:
+To set up a listening netcat instance, enter the following:
 
 ```terminal
 sudo nc -nvlp 80

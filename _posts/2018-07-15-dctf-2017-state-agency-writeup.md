@@ -3,7 +3,7 @@ layout: post
 title: "[DCTF 2017] State Agency Writeup"
 date: 2018-07-15 11:37 -0300
 categories: [dctf, writeups]
-tags: [ DCTF, DefCamp, '2017', writeups, CTF,  challange]
+tags: [ DCTF, DefCamp, '2017', writeups, CTF,  challenge]
 ---
 ### Description:
 This state agency has some secrets. Exfiltrate those.
@@ -13,7 +13,7 @@ http://state-agency.tux.ro/
 Lucian Nitescu
 
 ### Stats: 
-382 point / 5 solvers
+382 points / 5 solvers
 
 ### Solution:  
 
@@ -30,11 +30,11 @@ ibGljcHVibGljcHVibGlj") we get the same response as before. The only input is th
 
 ![alt text](https://raw.githubusercontent.com/CCSIR/dctf-2017/master/finals/web/state-agency/img/3.png "3")
 
-The answer is a hint to an SQL injection challenge and also when we arrive on 5885 we get:
+The answer is a hint towards an SQL injection challenge, and when we arrive on 5885 we also get:
 
 ![alt text](https://raw.githubusercontent.com/CCSIR/dctf-2017/master/finals/web/state-agency/img/4.png "4")
 
-If we will perform an basic SQL injection in the subdomain name we will get:
+If we perform a basic SQL injection in the subdomain name, we get:
 
 ```http
 GET / HTTP/1.1
@@ -48,7 +48,7 @@ Upgrade-Insecure-Requests: 1
 
 ![alt text](https://raw.githubusercontent.com/CCSIR/dctf-2017/master/finals/web/state-agency/img/5.png "5")
 
-The only way to bypass the "WAF" is to avoid certain requests. Also if you obtain in your response "DCTF", "{" or "}" your request will be blocked and you will receive "the Private data exfiltration attempt blocked" response. One way of extracting the flag is to extract characters as such:
+The only way to bypass the "WAF" is to avoid certain requests. Also, if your response contains "DCTF", "{" or "}", your request will be blocked and you will receive the "Private data exfiltration attempt blocked" response. One way of extracting the flag is to extract it character by character, like this:
 
 HTTP Request:
 
@@ -78,4 +78,4 @@ Upgrade-Insecure-Requests: 1
 
 Flag Response: DCT
 
-Until you will get that the flag is: DCTF{8bd68b9d0b517ae71d32c62d7d00cbf27822d5014d1a8483684e19fbea99c44f}
+Repeat until you get the whole flag: DCTF{8bd68b9d0b517ae71d32c62d7d00cbf27822d5014d1a8483684e19fbea99c44f}

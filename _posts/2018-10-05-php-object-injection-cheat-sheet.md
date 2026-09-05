@@ -14,7 +14,7 @@ PHP Object Injection is an application level vulnerability that could allow an a
 
 The vulnerability occurs when __user-supplied input is not properly sanitized__  before being passed to the __unserialize() PHP function__. 
 
-In order to successfully exploit a PHP Object Injection vulnerability two conditions must be met:
+In order to successfully exploit a PHP Object Injection vulnerability, two conditions must be met:
 
 - The application must have a class which implements a __PHP magic method__ (such as __wakeup or __destruct) that can be used to carry out malicious attacks, or to start a "POP chain".
 - All of the classes used during the attack must be declared when the vulnerable unserialize() is being called, otherwise object autoloading must be supported for such classes.
@@ -41,7 +41,7 @@ $user_data = unserialize($_GET['data']);
 | CubeCart  | 5.2.0   | http://karmainsecurity.com/KIS-2013-02                                                          |
 | Drupal    | 7.34    | https://websec.wordpress.com/2015/01/09/drupal-7-34-admin-php-object-injection/                 |
 | vBulletin | 5.1.0   | https://blog.sucuri.net/2014/03/security-exploit-patched-on-vbulletin-php-object-injection.html |
-| Tuelap    | 7.6-4   | http://karmainsecurity.com/KIS-2014-13                                                          |
+| Tuleap    | 7.6-4   | http://karmainsecurity.com/KIS-2014-13                                                          |
 | Moodle    | 2.5.0   | http://disse.cting.org/2013/09/16/2013-09-16-moodle-2-5-0-1-badges-external-object-injection    |
 | WHMCS     | 5.2.12  | http://security-geeks.blogspot.com/2013/11/whmcs-5112-php-object-injectoin.html                 |
 
@@ -218,7 +218,7 @@ class Example3
 print urlencode(serialize(new Example3));
 ```
 
-## Others exploits
+## Other exploits
 
 #### Reverse Shell
 
@@ -277,7 +277,7 @@ O:32:"Monolog\Handler\SyslogUdpHandler":1:{s:9:"*socket";O:29:"Monolog\Handler\B
 
 ## Thanks to
 
-This article is composed of information found on the folowing links (+ plus some minor additions). I use this article to quick observe or demonstrate situations and as a personal reference to all the infromation needed in exploiting the PHP Object Injection Vulnerability.
+This article is composed of information found at the following links (plus some minor additions). I use this article to quickly review or demonstrate situations, and as a personal reference for all the information needed to exploit the PHP Object Injection vulnerability.
 
 [https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/PHP%20serialization](https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/PHP%20serialization)
 

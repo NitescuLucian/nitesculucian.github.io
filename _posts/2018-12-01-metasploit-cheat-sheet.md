@@ -8,10 +8,10 @@ tags: [ offensive security, cheat sheet, reverse shell, backdoor, bash, perl, py
 
 ![Image of Metasploit Cheat Sheet](/uploads/msflogo.png)
 
-A few months ago I have created a [msfvenom cheat sheet](https://nitesculucian.github.io/2018/07/24/msfvenom-cheat-sheet/) without explaining the Metasploit framework, so here it is a brief cheat sheet.
+A few months ago I created an [msfvenom cheat sheet](https://nitesculucian.github.io/2018/07/24/msfvenom-cheat-sheet/) without explaining the Metasploit framework, so here is a brief cheat sheet for it.
 
 
-Metasploit is a free tool that has built-in exploits which aids in gaining remote access to a system by exploiting a vulnerability in that server.
+Metasploit is a free tool with built-in exploits that helps you gain remote access to a system by exploiting a vulnerability on that server.
 
 ### General Information
 
@@ -43,9 +43,9 @@ Metasploit is a free tool that has built-in exploits which aids in gaining remot
 
 ### Using the Database
 
-The DB saves data found during exploitation. Auxiliary scan results, hashdumps, and credentials show up in the DB.
+The DB saves data found during exploitation. Auxiliary scan results, hashdumps and credentials all show up in the DB.
 
-- First Time Setup (Run from linux command line.)
+- First Time Setup (run from the Linux command line)
 
 Command|Description
 -----|-----
@@ -63,7 +63,7 @@ vulns|Show all vulns found
 
 ### Meterpreter Session Commands
 
-The Meterpreter is a payload within the Metasploit Framework that provides control over an exploited target system, running as a DLL loaded inside of any process on a target machine. 
+Meterpreter is a payload within the Metasploit Framework that provides control over an exploited target system, running as a DLL loaded inside any process on the target machine. 
 
 Command|Description
 -----|-----

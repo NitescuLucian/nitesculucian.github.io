@@ -3,14 +3,14 @@ layout: post
 title: AttackDefense.com [RCE] - ApPHP MicroBlog
 date: 2018-10-26 12:33 -0300
 categories: [AttackDefense.com, ctf, writeups, RCE]
-tags: [ writeups, CTF,  challange, AttackDefense.com]
+tags: [ writeups, CTF,  challenge, AttackDefense.com]
 ---
 
 ![Image of AttackDefense 2018](/uploads/Screenshot from 2018-10-26 17-44-27.png)
 
 ### Mission
 
-This version of ApPHP MicroBlog is vulnerable to remote code execution attack. Your task is to find and exploit this vulnerability.
+This version of ApPHP MicroBlog is vulnerable to a remote code execution attack. Your task is to find and exploit this vulnerability.
 
 Level difficulty: Intermediate
 
@@ -18,34 +18,34 @@ Category: Real World Webapps > Remote Code Execution
 
 ### Solution
 
-In this challenge, I have a copy of a full but old version of a blog engine that later on I have discovered to be a real engine. For sure Real World Webapps category has multiple real-world applications!
+In this challenge, I got a copy of a complete but old version of a blog engine, which I later discovered to be a real engine. The Real World Webapps category certainly does contain multiple real-world applications!
 
 ![Image of AttackDefense 2018](/uploads/adrce2/image6.png)
 
-First I was a bit attracted to this little error:
+First, I was drawn to this little error:
 
 ![Image of AttackDefense 2018](/uploads/adrce2/image11.png)
 
-Funny enough this gave me inspiration for the next challenge (AttackDefense.com [RCE] - osCommerce) but did not help to solve this one as the install.php was nowhere to find.
+Funnily enough, this gave me the inspiration for the next challenge (AttackDefense.com [RCE] - osCommerce), but it did not help me solve this one, as install.php was nowhere to be found.
 
 ![Image of AttackDefense 2018](/uploads/adrce2/image1.png)
 
-After a bit of manual crawling I discovered the Admin Login page as such:
+After a bit of manual crawling, I discovered the Admin Login page:
 
 ![Image of AttackDefense 2018](/uploads/adrce2/image10.png)
 
 ![Image of AttackDefense 2018](/uploads/adrce2/image8.png)
 
 
-I also have to admit that I tried both Local and Remote File Inclusion Vulnerabilities but with no luck what so ever:
+I also have to admit that I tried both Local and Remote File Inclusion vulnerabilities, but with no luck whatsoever:
 
 ![Image of AttackDefense 2018](/uploads/adrce2/image4.png)
 
-Using the same password and username as in the previous challenge (AttackDefense.com [RCE] - Joomla com_xcloner Component) I obtained access on the first attempt in the blog control panel.
+Using the same username and password as in the previous challenge (AttackDefense.com [RCE] - Joomla com_xcloner Component), I obtained access to the blog control panel on the first attempt.
 
 ![Image of AttackDefense 2018](/uploads/adrce2/image5.png)
 
-After several attempts to execute PHP code within the already existing articles (I was thinking at template tags), I decided to search for multiple exploits for the given blog website and lucky enough I found this exploit interesting:
+After several attempts to execute PHP code inside the already existing articles (I was thinking of template tags), I decided to search for exploits for this blog engine, and luckily enough I found this interesting one:
 
 ![Image of AttackDefense 2018](/uploads/adrce2/image7.png)
 
@@ -117,7 +117,7 @@ styles
 wysiwyg
 ```
 
-And of course we got a terminal shell under the ```www-data``` user:
+And of course, we got a terminal shell as the ```www-data``` user:
 
 ![Image of AttackDefense 2018](/uploads/adrce2/image9.png)
 

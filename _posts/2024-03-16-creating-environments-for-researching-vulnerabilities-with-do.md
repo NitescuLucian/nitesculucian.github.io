@@ -8,23 +8,23 @@ pin: false
 hidden: false
 ---
 
-In cybersecurity, staying one step ahead of potential threats is crucial. This proactive approach is beneficial and necessary for bug bounty hunters, security researchers, and IT professionals who strive to safeguard digital assets from vulnerabilities. One effective way to achieve this is by setting up an environment tailored for researching known vulnerabilities. Such an environment allows us to explore using tools like Nuclei templates for vulnerability scanning and facilitates automation, enhancing efficiency and accuracy in identifying and mitigating risks.
+In cybersecurity, staying one step ahead of potential threats is crucial. This proactive approach is beneficial and necessary for bug bounty hunters, security researchers, and IT professionals who strive to safeguard digital assets from vulnerabilities. One effective way to achieve this is by setting up an environment tailored to researching known vulnerabilities. Such an environment lets us experiment with tools like Nuclei templates for vulnerability scanning, and it facilitates automation, improving both efficiency and accuracy in identifying and mitigating risks.
 
 ## Why We Need Such an Environment
 
-Establishing a dedicated environment for vulnerability research is the primary purpose of simulating real-world scenarios where vulnerabilities exist. Such an environment helps us use Nuclei templates and derivate them, which are pre-defined, community-curated templates for various vulnerability checks. This makes the research process more streamlined and comprehensive without looking for the needle in the haystack on a bug bounty program or an actual live penetration testing scope. 
+The primary purpose of establishing a dedicated environment for vulnerability research is to simulate real-world scenarios where vulnerabilities exist. Such an environment helps us use Nuclei templates — pre-defined, community-curated templates for various vulnerability checks — and derive our own from them. This makes the research process more streamlined and comprehensive, without having to look for the needle in the haystack on a bug bounty program or an actual live penetration testing scope. 
 
-## What is the Digital Ocean?
+## What is Digital Ocean?
 
 Digital Ocean is a cloud infrastructure provider that offers simplicity, scalability, and reliability for developers and businesses. Users can quickly deploy, manage, and scale applications with its intuitive platform. Digital Ocean provides various services, including Droplets (virtual private servers), managed databases, and object storage solutions, making it a versatile choice for hosting a wide range of applications and environments.
 
-If you want to jump in this tutorial and set up your environment, here is a 200$ referral link for your new digital ocean account:
+If you want to jump into this tutorial and set up your environment, here is a $200 referral link for your new Digital Ocean account:
 
 [![DigitalOcean Referral Badge](https://web-platforms.sfo2.cdn.digitaloceanspaces.com/WWW/Badge%201.svg)](https://www.digitalocean.com/?refcode=69a748f0c7fb&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge)
 
 ## Configuring a VPS on Digital Ocean
 
-If you know the tutorial from [https://nitesculucian.github.io/2024/03/15/get-started-with-digital-ocean-(do)-droplets-(vps)/](https://nitesculucian.github.io/2024/03/15/get-started-with-digital-ocean-(do)-droplets-(vps)/) just skip it to the next point!
+If you know the tutorial from [https://nitesculucian.github.io/2024/03/15/get-started-with-digital-ocean-(do)-droplets-(vps)/](https://nitesculucian.github.io/2024/03/15/get-started-with-digital-ocean-(do)-droplets-(vps)/) just skip ahead to the next point!
 
 Setting up a Virtual Private Server (VPS) on Digital Ocean is straightforward. After signing up using the referral link, you can create a Droplet, which is Digital Ocean's term for a VPS. During the creation process, you can choose the operating system (such as Ubuntu, CentOS, or Fedora), the Droplet size based on your needs, and the data center region. For this tutorial, it's advisable to select an operating system like Ubuntu, and here are the steps:
 
@@ -40,19 +40,19 @@ Setting up a Virtual Private Server (VPS) on Digital Ocean is straightforward. A
 
 ![Ubuntu 22.04](</uploads/Screenshot from 2024-03-16 21-46-22.png>)
 
-* Chose a size on your budget and appropriate to what you need testing:
+* Choose a size that fits your budget and is appropriate for what you need to test:
 
 ![size m4tters](</uploads/Screenshot from 2024-03-16 21-47-19.png>)
 
-* Upload or select your SSH key used to connect to the VPS over the root user:
+* Upload or select the SSH key you use to connect to the VPS as the root user:
 
 ![ssh key](</uploads/Screenshot from 2024-03-16 21-48-11.png>)
 
-* Name you Droplet as you wish; I did as such:
+* Name your Droplet as you wish; here is how I did it:
 
 ![my target tld](</uploads/Screenshot from 2024-03-16 21-48-54.png>)
 
-* Press "Create Droplet" wait a few seconds, get the alocated IP address and `ssh root@<your ip address>` to get started:
+* Press "Create Droplet", wait a few seconds, get the allocated IP address and run `ssh root@<your ip address>` to get started:
 
 ![Create Droplet](</uploads/Screenshot from 2024-03-16 21-51-41.png>)
 
@@ -68,7 +68,7 @@ curl -s https://get.docker.com/ | sh
 systemctl start docker
 ```
 
-This setup enables you to quickly deploy and manage containers for different applications or environments without configuring separate virtual machines for each.
+This setup enables you to quickly deploy and manage containers for different applications or environments, without having to configure a separate virtual machine for each one.
 
 ## Utilizing Vulhub for Vulnerability Research
 
@@ -88,18 +88,18 @@ Vulhub is an open-source project hosted on GitHub (https://github.com/vulhub/vul
 
 The Apache HTTP Server Project aims to develop and maintain an open-source HTTP server for modern operating systems, including UNIX and Windows.
 
-CVE-2021-42013 is a vulnerability caused by an incomplete fix of CVE-2021-41773; an attacker could use a path traversal attack to map URLs to files outside the directories configured by Alias-like directives. This vulnerability affects Apache HTTP Server 2.4.49 and 2.4.50 and not earlier versions.
+CVE-2021-42013 is a vulnerability caused by an incomplete fix for CVE-2021-41773; an attacker could use a path traversal attack to map URLs to files outside the directories configured by Alias-like directives. This vulnerability affects Apache HTTP Server 2.4.49 and 2.4.50, but not earlier versions.
 
-By creating our docker container, as seen above, we have a test ground for this vulnerability. The httpd vulnerable container can be used for the following purposes:
-* Honeypot to collect payloads from other World Wide Web attackers by tailing into the logs of a vulnerable system.
-* Testing ground for your offensive automation and tests to fingerprint the vulnerability better or even add an intermediary Web Application Firewall (WAF) you want to bypass
-* Testing ground for your defensive capabilities and detection rules
+By creating our Docker container, as seen above, we have a testing ground for this vulnerability. The vulnerable httpd container can be used for the following purposes:
+* As a honeypot, to collect payloads from other attackers on the World Wide Web by tailing the logs of a vulnerable system.
+* As a testing ground for your offensive automation and tests, to fingerprint the vulnerability better, or even to add an intermediary Web Application Firewall (WAF) that you want to bypass.
+* As a testing ground for your defensive capabilities and detection rules.
 
-We can access our http vulnerable service by going at our Droplet public IP adress on port 8080 which can be deducted from running `docker ps` or reading the docker-compose.yml file:
+We can access our vulnerable HTTP service by going to our Droplet's public IP address on port 8080, which can be deduced by running `docker ps` or by reading the docker-compose.yml file:
 
 ![leeeroy jenkins](</uploads/Screenshot from 2024-03-16 22-52-47.png>)
 
-But is it vulnerable? How can we find this out or fingerprint? One way is to install and run `httpx` from [ProjectDiscovery](https://docs.projectdiscovery.io/tools/httpx/overview){:target="_blank"} and see the tech behind the web service:
+But is it vulnerable? How can we find that out, or fingerprint it? One way is to install and run `httpx` from [ProjectDiscovery](https://docs.projectdiscovery.io/tools/httpx/overview){:target="_blank"} and look at the technology behind the web service:
 
 ```bash
 echo http://mytarget.tld:8080/ | httpx -tech-detect | grep 2.4.50 

@@ -20,7 +20,7 @@ Source: https://www.torproject.org/
 
 # Installation and routing
 
-Personally, when I need a simple Tor Website I use a VM or a physical machine with a live booted a Linux based OS (in general the Ubuntu 16.04). This tutorial is actually for Ubuntu 16.04 in virtual box and feel free to change it to your needs.
+Personally, when I need a simple Tor website I use a VM or a physical machine with a live-booted Linux based OS (usually Ubuntu 16.04). This tutorial is written for Ubuntu 16.04 in VirtualBox, so feel free to adapt it to your needs.
 
 #### Step 1: VM and Network Interface
 
@@ -34,7 +34,7 @@ Personally, when I need a simple Tor Website I use a VM or a physical machine wi
 - sudo apt install nginx
 - sudo rm /etc/nginx/sites-available/default
 - sudo nano /etc/nginx/sites-available/default
-- Add the followings to the new ```/etc/nginx/sites-available/default``` and save:
+- Add the following to the new ```/etc/nginx/sites-available/default``` and save:
 
 ```config
 server {
@@ -53,14 +53,14 @@ server {
 
 - sudo nano /etc/apt/sources.list
 - Append and save: ```deb http://deb.torproject.org/torproject.org xenial main```
-- Go to https://www.torproject.org/docs/debian.html.en and retrive the followings:
+- Go to https://www.torproject.org/docs/debian.html.en and retrieve the following:
 
 ```bash
 gpg --keyserver keys.gnupg.net --recv A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89
 gpg --export A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | sudo apt-key add -
 ```
 
-- Proceed with the instalation:
+- Proceed with the installation:
 
 ```bash
 sudo apt update
@@ -94,7 +94,7 @@ sudo service nginx restart
 sudo service tor restart
 ```
 
-To retrive the website .onion link:
+To retrieve the website's .onion link:
 
 ```bash
 cat /var/lib/tor/hidden_service/hostname
@@ -102,4 +102,4 @@ cat /var/lib/tor/hidden_service/hostname
 
 ![Image of TheOnionRouting](/uploads/Screenshot%20from%202018-07-25%2002-01-59.png)
 
-Your websites html files can be found in ```/usr/share/nginx/html```
+Your website's HTML files can be found in ```/usr/share/nginx/html```

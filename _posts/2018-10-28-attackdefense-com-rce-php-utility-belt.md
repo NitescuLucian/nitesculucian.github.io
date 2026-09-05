@@ -3,7 +3,7 @@ layout: post
 title: AttackDefense.com [RCE] - PHP Utility Belt
 date: 2018-10-28 17:48 -0300
 categories: [AttackDefense.com, ctf, writeups, RCE]
-tags: [ writeups, CTF,  challange, AttackDefense.com]
+tags: [ writeups, CTF,  challenge, AttackDefense.com]
 ---
 
 ![Image of AttackDefense 2018](/uploads/Screenshot from 2018-10-26 17-44-27.png)
@@ -24,17 +24,17 @@ Category: Real World Webapps > Remote Code Execution
 
 ### Solution
 
-First of all, I must admit that I am doing this challenge a few hours after its initial release because I enjoyed this category.
+First of all, I must admit that I did this challenge a few hours after its initial release, because I enjoyed this category.
 
-On this challenge, I was presented with an interesting and dumb enough application that will execute my code on the first try.
+On this challenge, I was presented with an interesting and naive enough application that executed my code on the first try.
 
 ![Image of AttackDefense 2018](/uploads/Screenshot from 2018-10-28 22-58-53.png)
 
-All I did is this....
+All I did was this....
 
 ![Image of AttackDefense 2018](/uploads/Screenshot from 2018-10-28 23-00-13.png)
 
-The application already executes my code... So... More examples I suppose:
+The application already executes my code... So... more examples, I suppose:
 
 ![Image of AttackDefense 2018](/uploads/Screenshot from 2018-10-28 23-03-47.png)
 
@@ -42,7 +42,7 @@ Content of /etc/passwd:
 
 ![Image of AttackDefense 2018](/uploads/Screenshot from 2018-10-28 23-04-17.png)
 
-Unfortunately, my target application server dines access to an external resource and therefore I will not struggle to get a reverse shell.
+Unfortunately, my target application server denies access to external resources, and therefore I will not struggle to get a reverse shell.
 
 ![Image of AttackDefense 2018](/uploads/Screenshot from 2018-10-28 23-14-26.png)
 

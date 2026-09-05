@@ -6,9 +6,9 @@ categories: [my_exploits, offensive_security]
 tags: [ exploit, security, hacking, MyBB, MyBB Downloads, vulnerability, SQLi]
 ---
 
-MyBB Downloads it is a plugin (MyBB) which adds a page to download files. If enabled, regular members can add new downloads to the page after admin approval.  
+MyBB Downloads is a MyBB plugin which adds a page for downloading files. If enabled, regular members can add new downloads to the page after admin approval.  
 
-#### Intial Submissions
+#### Initial Submissions
 
 ``````
 # Exploit Title: MyBB Downloads 2.0.3 - SQL Injection

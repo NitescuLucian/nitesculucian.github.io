@@ -8,7 +8,7 @@ tags: [ exploit, rce, command injection, security, hacking, CMS, CMS Made Simple
 
 CMS Made Simple is an Open Source Content Management System. It’s built using PHP and the Smarty Engine, which keeps content, functionality, and templates separated.
 
-#### Intial Submissions
+#### Initial Submissions
 
 ```python
 # Exploit Title: CMS Made Simple 2.2.7 - Remote Code Execution

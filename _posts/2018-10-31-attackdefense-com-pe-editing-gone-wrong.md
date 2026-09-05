@@ -3,7 +3,7 @@ layout: post
 title: AttackDefense.com [PE] - Editing Gone Wrong
 date: 2018-10-31 20:11 -0300
 categories: [AttackDefense.com, ctf, writeups, PrivilegeEscalation]
-tags: [ writeups, CTF,  challange, AttackDefense.com]
+tags: [ writeups, CTF,  challenge, AttackDefense.com]
 ---
 
 ![Image of AttackDefense 2018](/uploads/Screenshot from 2018-10-26 17-44-27.png)
@@ -24,7 +24,7 @@ On this challenge, I got the web interface of a Linux terminal and I was authent
 
 ![Image of AttackDefense 2018](/uploads/adpe2/image4.png)
 
-After that, I started to fingerprint the system and find something that I can use in a privilege escalation attack.
+After that, I started to fingerprint the system in order to find something I could use in a privilege escalation attack.
 
 ![Image of AttackDefense 2018](/uploads/adpe2/image9.png)
 
@@ -32,7 +32,7 @@ After that, I started to fingerprint the system and find something that I can us
 
 ![Image of AttackDefense 2018](/uploads/adpe2/image5.png)
 
-At some point, I found my starting point for my privilege escalation attack. As you can see in the next image, my ```student``` user is allowed to run man command as sudo.
+At some point, I found the starting point for my privilege escalation attack. As you can see in the next image, my ```student``` user is allowed to run the man command with sudo.
 
 ![Image of AttackDefense 2018](/uploads/adpe2/image2.png)
 
@@ -42,7 +42,7 @@ Running man with sudo:
 
 ![Image of AttackDefense 2018](/uploads/adpe2/image1.png)
 
-Unfortunately (or lucky for us) man knows how to spawn shells using the ```!sh``` command:
+Unfortunately (or luckily for us), man knows how to spawn shells using the ```!sh``` command:
 
 ![Image of AttackDefense 2018](/uploads/adpe2/image6.png)
 

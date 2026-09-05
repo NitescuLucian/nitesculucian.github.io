@@ -3,7 +3,7 @@ layout: post
 title: "[DCTF 2017] Security CCTV Writeup"
 date: 2018-07-15 11:44 -0300
 categories: [dctf, writeups]
-tags: [ DCTF, DefCamp, '2017', writeups, CTF,  challange]
+tags: [ DCTF, DefCamp, '2017', writeups, CTF,  challenge]
 ---
 ### Description:
 We really need that token. Can you take it? https://security-cctv.dctf-f1nals-2017.def.camp/.
@@ -12,7 +12,7 @@ We really need that token. Can you take it? https://security-cctv.dctf-f1nals-20
 Lucian Nitescu
 
 ### Stats: 
-374 point / 7 solvers
+374 points / 7 solvers
 
 ### Solution:  
 
@@ -20,13 +20,13 @@ The challenge started with this page:
 
 ![alt text](https://raw.githubusercontent.com/CCSIR/dctf-2017/master/finals/misc/security-cctv/img/1.png "1")
 
-There you can observe the QR code an his reflection on the laptop:
+There you can observe the QR code and its reflection on the laptop:
 
 ![alt text](https://raw.githubusercontent.com/CCSIR/dctf-2017/master/finals/misc/security-cctv/img/2.png "2")
 
-And also you can observe the time and date (Date: 2017-11-13 09:42:10.725649) which will be changed at every minute with the photo itself. On the server side there is a cron job of a python script which will generate a random QR code which will be inserted in the "frame" image.
+You can also observe the time and date (Date: 2017-11-13 09:42:10.725649), which changes every minute along with the photo itself. On the server side there is a cron job running a Python script that generates a random QR code, which is then inserted into the "frame" image.
 
-Using the following python script we can extract the QR code from the image and retrive the token.
+Using the following Python script we can extract the QR code from the image and retrieve the token.
 
 ```python
 import pyqrcode
@@ -241,7 +241,7 @@ Final QR:
 
 ![alt text](https://raw.githubusercontent.com/CCSIR/dctf-2017/master/finals/misc/security-cctv/img/5.png "5")
 
-Execution of the python script:
+Execution of the Python script:
 
 ```terminal
 lucian@nitescu:~/security-cctv$ python sol.py 
@@ -249,6 +249,6 @@ BMQQGBMIBKCIAIJLBOKNIKAACQPPKAJGNCKNBNBHOIJQQPHAHCLPJQHIBJIIQCNKIJJBBNKLJGAQJLHK
 lucian@nitescu:~/security-cctv$ 
 ```
 
-After entering the token in less than a minute we get the flag.
+After entering the token in less than a minute, we get the flag.
 
 DCTF{44c5e6a2ef50636b1d5ad1023bb2c63a5ed62d40549d9edb537c54b4cb72b37e}

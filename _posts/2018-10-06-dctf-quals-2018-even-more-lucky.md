@@ -3,7 +3,7 @@ layout: post
 title: "[DCTF Quals 2018] Even more lucky?"
 date: 2018-10-06 18:38 -0300
 categories: [dctf, writeups]
-tags: [ DCTF, DefCamp 2018, writeups, CTF capture, flag,  challange]
+tags: [ DCTF, DefCamp 2018, writeups, CTF capture, flag,  challenge]
 ---
 
 ![Image of DCTF Quals 2018](/uploads/Screenshot%20from%202018-10-01%2016-37-21.png)
@@ -20,7 +20,7 @@ Bin: [Even more lucky binary](/uploads/lucky2)
 Lucian Nitescu
 
 ### Stats: 
-50 point / 119 solvers
+50 points / 119 solvers
 
 ### Solution:  
 
@@ -139,7 +139,7 @@ LABEL_9:
 }
 ```
 
-This time the seed fed into srand() is time(NULL) / 10. The C library function time_t time(time_t *seconds) returns the time since the Epoch (00:00:00 UTC, January 1, 1970), measured in seconds. If seconds is not NULL, the return value is also stored in variable seconds. We can use the current system time output in order to exploit the vulnerability.
+This time the seed fed into srand() is time(NULL) / 10. The C library function time_t time(time_t *seconds) returns the time since the Epoch (00:00:00 UTC, January 1, 1970), measured in seconds. If seconds is not NULL, the return value is also stored in the variable seconds. We can use the current system time in order to exploit the vulnerability.
 
 Get the seed value and the random numbers with:
 ```c++

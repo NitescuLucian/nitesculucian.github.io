@@ -3,37 +3,37 @@ layout: post
 title: AttackDefense.com [MSF] - Meterpreter Basics
 date: 2018-12-02 18:49 -0300
 categories: [AttackDefense.com, writeups, offensive_security]
-tags: [ writeups, CTF,  challange, AttackDefense.com, msf]
+tags: [ writeups, CTF,  challenge, AttackDefense.com, msf]
 ---
 
 ![Image of AttackDefense 2018](/uploads/Screenshot from 2018-10-26 17-44-27.png)
 
 ### Mission
 
-The target server as described below is running a vulnerable web server. You have to exploit the vulnerability and get a meterpreter session on the server.  Then, you have to perform the following tasks to complete the challenge!
+The target server described below is running a vulnerable web server. You have to exploit the vulnerability and get a meterpreter session on the server. Then, you have to perform the following tasks to complete the challenge!
  
 Tasks:
 
-- Check the present working directory on remote (exploited) machine.
-- List the files present in present working directory of the remote machine.
-- Check the present working directory on local (attacker) machine.
-- List the files present in present working directory of the local machine.
-- Get the flag value present in /app/flag1 file.
+- Check the present working directory on the remote (exploited) machine.
+- List the files present in the present working directory of the remote machine.
+- Check the present working directory on the local (attacker) machine.
+- List the files present in the present working directory of the local machine.
+- Get the flag value present in the /app/flag1 file.
 - Change the flag value present in /app/flag1, so that no one else can get the right flag.
 - Change the present working directory to a suspiciously named directory in /app and read the flag from a hidden file present in that directory.
-- Get the flag5.zip to local machine, open it using password 56784. The information given in the extracted file will give clue about the location of the another flag.
+- Get flag5.zip onto the local machine and open it using the password 56784. The information given in the extracted file will give a clue about the location of another flag.
 - Delete the .zip file from the directory.
-- Print checksum of file mentioned in the extracted file (Refer to Q8).
+- Print the checksum of the file mentioned in the extracted file (refer to Q8).
 - Check the PATH environment variable on the remote machine.
-- There is a file with string “ckdo” in its name in one of the places included in PATH variable. Print the flag hidden in that file.
-- Change to tools directory on the local machine.
-- Upload a PHP webshell to app directory of the remote machine.
+- There is a file with the string “ckdo” in its name in one of the places included in the PATH variable. Print the flag hidden in that file.
+- Change to the tools directory on the local machine.
+- Upload a PHP webshell to the app directory of the remote machine.
  
 Instructions: 
 
 - This lab is dedicated to you! No other users are on this network :) 
 - Once you start the lab, you will have access to a root terminal of a Kali instance
-- Your Kali has an interface with IP address 192.X.Y.Z. Run "ip addr" to know the values of X and Y.
+- Your Kali has an interface with IP address 192.X.Y.Z. Run "ip addr" to find out the values of X and Y.
 - The target server should be located at the IP address 192.X.Y.3. 
 - Do not attack the gateway located at IP address 192.X.Y.1 
 - postgresql is not running by default so Metasploit may give you an error about this when starting
@@ -44,16 +44,16 @@ Category: Metasploit > Meterpreter
 
 ### Solution
 
-On this atypical lab I was provided with a Linux environment with root access and with two separated tasks:
+In this atypical lab I was provided with a Linux environment with root access, and with two separate tasks:
 
-- Obtain access with a meterpreter session to another host.
+- Obtain access to another host through a meterpreter session.
 - Run multiple commands by following several tasks in order to retrieve flags and understand how Metasploit works.
 
 I started by understanding the current system network connections:
 
 ![Image of AttackDefense 2018](/uploads/msf1/image3.png)
 
-I decided to target the 192.247.240.0/24 internal network as such:
+I decided to target the 192.247.240.0/24 internal network as follows:
 
 ```terminal
 root@attackdefense:~# nmap -sP 192.247.240.2/24 -T4
@@ -61,7 +61,7 @@ root@attackdefense:~# nmap -sP 192.247.240.2/24 -T4
 
 ![Image of AttackDefense 2018](/uploads/msf1/image19.png)
 
-On this internal network, I discovered a particular 192.247.240.3 host on which I executed a ```nmap``` scan in order to retrieve all (```-p-```) open ports.
+On this internal network, I discovered the host 192.247.240.3, on which I executed an ```nmap``` scan in order to retrieve all (```-p-```) open ports.
 
 ```terminal
 root@attackdefense:~# nmap -A -p- -T4 192.247.240.3 -v
@@ -146,7 +146,7 @@ Nmap done: 1 IP address (1 host up) scanned in 9.74 seconds
 root@attackdefense:~#
 ```
 
-As we can see port 80 is open therefore I decided to run a basic Nikto scan:
+As we can see, port 80 is open, therefore I decided to run a basic Nikto scan:
 
 ```terminal
 root@attackdefense:~# nikto -host 192.247.240.3:80
@@ -186,7 +186,7 @@ root@attackdefense:~# nikto -host 192.247.240.3:80
 root@attackdefense:~#
 ```
 
-The Nikto scan did not return something interesting therefore I decided to move to a more advanced web scanner such as Arachni: 
+The Nikto scan did not return anything interesting, therefore I decided to move to a more advanced web scanner, such as Arachni: 
 
 ```
 root@attackdefense:~# arachni http://192.247.240.3:80
@@ -196,11 +196,11 @@ The output:
 
 ![Image of AttackDefense 2018](/uploads/msf1/image18.png)
 
-At this point I realized there might be a known vulnerable application called ```xoda``` so I asked ```msfconsole``` to see if there is a publicly known exploit:
+At this point I realized there might be a known vulnerable application called ```xoda```, so I asked ```msfconsole``` whether there is a publicly known exploit:
 
 ![Image of AttackDefense 2018](/uploads/msf1/image1.png)
 
-Using the ```exploit/unix/webapp/xoda_file_upload``` exploit in msfconsole command line interface:
+Using the ```exploit/unix/webapp/xoda_file_upload``` exploit in the msfconsole command line interface:
 
 ![Image of AttackDefense 2018](/uploads/msf1/image10.png)
 
@@ -214,23 +214,23 @@ Running the exploit against the target and obtaining the meterpreter session as 
 
 Let’s proceed with the meterpreter specific tasks:
 
-- Check the present working directory on remote (exploited) machine.
+- Check the present working directory on the remote (exploited) machine.
 
 ![Image of AttackDefense 2018](/uploads/msf1/image15.png)
 
-- List the files present in present working directory of the remote machine.
+- List the files present in the present working directory of the remote machine.
 
 ![Image of AttackDefense 2018](/uploads/msf1/image4.png)
 
-- Check the present working directory on local (attacker) machine.
+- Check the present working directory on the local (attacker) machine.
 
 ![Image of AttackDefense 2018](/uploads/msf1/image11.png)
 
-- List the files present in present working directory of the local machine.
+- List the files present in the present working directory of the local machine.
 
 ![Image of AttackDefense 2018](/uploads/msf1/image2.png)
 
-- Get the flag value present in /app/flag1 file.
+- Get the flag value present in the /app/flag1 file.
 
 ![Image of AttackDefense 2018](/uploads/msf1/image8.png)
 
@@ -248,7 +248,7 @@ Let’s proceed with the meterpreter specific tasks:
 
 ![Image of AttackDefense 2018](/uploads/msf1/image27.png)
 
-- Get the flag5.zip to local machine, open it using password 56784. The information given in the extracted file will give clue about the location of the another flag.
+- Get flag5.zip onto the local machine and open it using the password 56784. The information given in the extracted file will give a clue about the location of another flag.
 
 
 ![Image of AttackDefense 2018](/uploads/msf1/image26.png)
@@ -263,7 +263,7 @@ Let’s proceed with the meterpreter specific tasks:
 
 ![Image of AttackDefense 2018](/uploads/msf1/image9.png)
 
-- Print checksum of file mentioned in the extracted file (Refer to Q8).
+- Print the checksum of the file mentioned in the extracted file (refer to Q8).
 
 ![Image of AttackDefense 2018](/uploads/msf1/image16.png)
 
@@ -271,15 +271,15 @@ Let’s proceed with the meterpreter specific tasks:
 
 ![Image of AttackDefense 2018](/uploads/msf1/image13.png)
 
-- There is a file with string “ckdo” in its name in one of the places included in PATH variable. Print the flag hidden in that file.
+- There is a file with the string “ckdo” in its name in one of the places included in the PATH variable. Print the flag hidden in that file.
 
 ![Image of AttackDefense 2018](/uploads/msf1/image21.png)
 
-- Change to tools directory on the local machine.
+- Change to the tools directory on the local machine.
 
 ![Image of AttackDefense 2018](/uploads/msf1/image23.png)
 
-- Upload a PHP webshell to app directory of the remote machine.
+- Upload a PHP webshell to the app directory of the remote machine.
 
 
 ![Image of AttackDefense 2018](/uploads/msf1/image6.png)
@@ -291,6 +291,6 @@ root@attackdefense:~# cp /usr/share/webshells/php/php-backdoor.php tools/
 
 ![Image of AttackDefense 2018](/uploads/msf1/image17.png)
 
-The above-presented lab can be considered a good introduction on using meterpreter sessions and to ECCPT or OSCP like labs.
+The lab presented above can be considered a good introduction both to using meterpreter sessions and to eCPPT- or OSCP-like labs.
 
 ![Image of AttackDefense 2018](/uploads/msf1/image24.png)
