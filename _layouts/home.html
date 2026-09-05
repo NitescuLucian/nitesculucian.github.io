@@ -120,39 +120,6 @@ refactor: true
 {% if paginator.total_pages > 1 %}
   {% include post-paginator.html %}
 {% endif %}
-{% if page.url == '/' %}
-  <!-- Code to execute if the current URL is the root -->
-  <!-- The paginator for post list on Homepage. -->
-
-  <nav aria-label="Page Navigation">
-    <ul class="pagination align-items-center mt-4 mb-0">
-      <!-- Left arrow disabled since we're hardcoding pages 1-5 -->
-      <li class="page-item disabled">
-        <a class="page-link" href="#" aria-label="Previous">
-          <i class="fas fa-angle-left"></i>
-        </a>
-      </li>
-
-      <!-- Page numbers hardcoded for pages 1 through 5 -->
-      {% for i in (1..5) %}
-        <li class="page-item {% if i == 1 %} active{% endif %}">
-          <a class="page-link" href="{% if i != 1 %}/page{{ i }}{% else %}{{ '/' | relative_url }}{% endif %}">
-            {{ i }}
-          </a>
-        </li>
-      {% endfor %}
-
-      <!-- Right arrow -->
-      <!-- Assuming after page 5, there's no "next" page in the hardcode scenario -->
-      <li class="page-item enabled">
-        <a class="page-link" href="/page2" aria-label="Next">
-          <i class="fas fa-angle-right"></i>
-        </a>
-      </li>
-    </ul>
-  </nav>
-  <!-- .pagination -->
-{% endif %}
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-WYKB73DYES"></script>
 <script>
