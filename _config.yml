@@ -213,6 +213,8 @@ exclude:
   - LICENSE
   - rollup.config.js
   - package*.json
+  - docker-compose.yml
+  - _config.dev.yml
 
 jekyll-archives:
   enabled: [categories, tags]
